@@ -1,6 +1,552 @@
+// "use client";
+
+// import { useState } from "react";
+// import Link from "next/link";
+// import { useRouter } from "next/navigation";
+// import { cn } from "@/lib/utils";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import { Badge } from "@/components/ui/badge";
+// import {
+//   Search,
+//   FileText,
+//   GitFork,
+//   ShieldCheck,
+//   ArrowRight,
+//   ChevronDown,
+//   Network,
+//   Clock3,
+//   DatabaseZap,
+//   Mail,
+// } from "lucide-react";
+// import { FaGithub as Github, FaXTwitter as Twitter } from "react-icons/fa6";
+
+// // ---------------------------------------------------------------------------
+// // Dati statici
+// // ---------------------------------------------------------------------------
+
+
+
+// const QUICK_SEARCHES = [
+//   "Casi aperti",
+//   "Atti pubblici",
+//   "Mappa dei luoghi",
+// ] as const;
+
+// type Feature = {
+//   icon: React.ElementType;
+//   title: string;
+//   description: string;
+// };
+
+// const FEATURES: Feature[] = [
+//   {
+//     icon: Clock3,
+//     title: "Timeline Cronologica",
+//     description:
+//       "Riscopri i fatti in ordine sequenziale, con filtri avanzati sulle fonti e sui gradi di attendibilità.",
+//   },
+//   {
+//     icon: DatabaseZap,
+//     title: "Piattaforma OSINT",
+//     description:
+//       "Crowdsourcing di documenti pubblici, validati dalla redazione prima di entrare nel dossier.",
+//   },
+//   {
+//     icon: GitFork,
+//     title: "La Lavagna dell'Investigatore",
+//     description:
+//       "Collega indizi, luoghi e soggetti coinvolti nel tuo spazio di lavoro riservato, come su una vera board investigativa.",
+//   },
+// ];
+
+// type CaseStatus = "In Analisi" | "Archiviato";
+
+// type CaseItem = {
+//   code: string;
+//   title: string;
+//   status: CaseStatus;
+//   description: string;
+//   atti: number;
+//   connessioni: number;
+//   href: string;
+// };
+
+// const FEATURED_CASES: CaseItem[] = [
+//   {
+//     code: "CASE_014",
+//     title: "Caso Garlasco",
+//     status: "Archiviato",
+//     description:
+//       "Ricostruzione cronologica degli atti processuali e delle perizie tecniche depositate nei vari gradi di giudizio.",
+//     atti: 342,
+//     connessioni: 58,
+//     href: "/cases/garlasco",
+//   },
+//   {
+//     code: "CASE_027",
+//     title: "Caso Pietracatella",
+//     status: "In Analisi",
+//     description:
+//       "Dossier aperto su un caso irrisolto in un piccolo comune del Molise, ricostruito attraverso atti e testimonianze pubbliche.",
+//     atti: 128,
+//     connessioni: 24,
+//     href: "/cases/pietracatella",
+//   },
+//   {
+//     code: "CASE_031",
+//     title: "Dossier Appalto Nord-Est",
+//     status: "In Analisi",
+//     description:
+//       "Analisi incrociata di appalti pubblici e società collegate, per mappare una rete di controllo poco trasparente.",
+//     atti: 96,
+//     connessioni: 31,
+//     href: "/cases/appalto-nord-est",
+//   },
+// ];
+
+// // ---------------------------------------------------------------------------
+// // Componenti UI ausiliari
+// // ---------------------------------------------------------------------------
+
+// function Eyebrow({
+//   children,
+//   className,
+// }: {
+//   children: React.ReactNode;
+//   className?: string;
+// }) {
+//   return (
+//     <div
+//       className={cn(
+//         "inline-flex items-center gap-2 rounded-sm border border-amber-900/50 bg-red-950/20 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.2em] text-amber-500",
+//         className,
+//       )}
+//     >
+//       <span className="h-1.5 w-1.5 rounded-full bg-amber-500 motion-safe:animate-pulse" />
+//       {children}
+//     </div>
+//   );
+// }
+
+// function GrainOverlay() {
+//   return (
+//     <div
+//       aria-hidden="true"
+//       className="pointer-events-none fixed inset-0 z-50 opacity-[0.035] mix-blend-soft-light"
+//       style={{
+//         backgroundImage:
+//           "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+//       }}
+//     />
+//   );
+// }
+
+// function CaseThreadLines() {
+//   return (
+//     <svg
+//       aria-hidden="true"
+//       viewBox="0 0 1200 500"
+//       className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.35]"
+//       preserveAspectRatio="xMidYMid slice"
+//     >
+//       <g fill="none" stroke="#dc2626" strokeWidth="1" strokeDasharray="4 6">
+//         <path d="M 120 90 Q 400 40 620 160 T 1080 120" />
+//         <path d="M 90 340 Q 320 260 560 320 T 1000 260" />
+//         <path d="M 240 60 L 560 320" />
+//         <path d="M 900 90 L 620 160" />
+//         <path d="M 1080 120 L 1000 260" />
+//       </g>
+//       <g fill="#dc2626">
+//         <circle cx="120" cy="90" r="3.5" />
+//         <circle cx="620" cy="160" r="3.5" />
+//         <circle cx="1080" cy="120" r="3.5" />
+//         <circle cx="90" cy="340" r="3.5" />
+//         <circle cx="560" cy="320" r="3.5" />
+//         <circle cx="1000" cy="260" r="3.5" />
+//         <circle cx="240" cy="60" r="3.5" />
+//         <circle cx="900" cy="90" r="3.5" />
+//       </g>
+//     </svg>
+//   );
+// }
+
+// function StatusBadge({ status }: { status: CaseStatus }) {
+//   const isOpen = status === "In Analisi";
+//   return (
+//     <Badge
+//       variant="outline"
+//       className={cn(
+//         "gap-1.5 border font-mono text-[11px] font-normal uppercase tracking-wider",
+//         isOpen
+//           ? "border-amber-900/60 bg-red-950/30 text-amber-400"
+//           : "border-zinc-700 bg-zinc-900 text-zinc-400",
+//       )}
+//     >
+//       <span
+//         className={cn(
+//           "h-1.5 w-1.5 rounded-full",
+//           isOpen ? "bg-amber-500 motion-safe:animate-pulse" : "bg-zinc-500",
+//         )}
+//       />
+//       {status}
+//     </Badge>
+//   );
+// }
+
+// // ---------------------------------------------------------------------------
+// // Main Page Component
+// // ---------------------------------------------------------------------------
+
+// export default function LandingPage() {
+//   const router = useRouter();
+//   const [searchQuery, setSearchQuery] = useState("");
+
+//   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     if (!searchQuery.trim()) return;
+//     router.push(`/casi?q=${encodeURIComponent(searchQuery.trim())}`);
+//   };
+
+//   return (
+//     <div className="relative min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-amber-900 selection:text-white">
+//       <GrainOverlay />
+
+//       {/* HERO SECTION */}
+//       <section
+//         id="hero"
+//         className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 pt-24 sm:px-6 lg:px-8"
+//       >
+//         <div
+//           aria-hidden="true"
+//           className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:64px_64px] opacity-40"
+//         />
+//         <div
+//           aria-hidden="true"
+//           className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-amber-900/10 blur-[120px]"
+//         />
+//         <CaseThreadLines />
+
+//         <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center text-center">
+//           <Eyebrow>Dati verificati · Fonti pubbliche</Eyebrow>
+
+//           <h1 className="mt-6 max-w-3xl text-balance font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-zinc-50 sm:text-5xl md:text-6xl">
+//             Il Data Journalism incontra la{" "}
+//             <span className="text-amber-500">cronaca nera.</span>
+//           </h1>
+
+//           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-zinc-400 sm:text-lg">
+//             Analisi di dati, atti pubblici e connessioni temporali per
+//             ricostruire i fatti in modo oggettivo e verificato.
+//           </p>
+
+//           {/* Form di ricerca attivo */}
+//           <div className="mt-10 w-full max-w-xl">
+//             <form
+//               onSubmit={handleSearchSubmit}
+//               className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/70 p-1.5 shadow-[0_0_0_1px_rgba(0,0,0,0.2)] backdrop-blur focus-within:border-amber-800/70 focus-within:ring-1 focus-within:ring-amber-800/50"
+//             >
+//               <Search className="ml-2.5 h-4 w-4 shrink-0 text-zinc-500" />
+//               <Input
+//                 type="search"
+//                 value={searchQuery}
+//                 onChange={(e) => setSearchQuery(e.target.value)}
+//                 placeholder="Cerca un caso, una prova o un nome..."
+//                 className="border-0 bg-transparent font-mono text-sm text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+//               />
+//               <Button
+//                 type="submit"
+//                 size="sm"
+//                 className="shrink-0 gap-1.5 bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500"
+//               >
+//                 Indaga
+//                 <ArrowRight className="h-3.5 w-3.5" />
+//               </Button>
+//             </form>
+
+//             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+//               {QUICK_SEARCHES.map((tag) => (
+//                 <Link
+//                   key={tag}
+//                   href={`/casi?tag=${encodeURIComponent(tag)}`}
+//                   className="rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-xs text-zinc-500 transition-colors hover:border-amber-900/60 hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+//                 >
+//                   {tag}
+//                 </Link>
+//               ))}
+//             </div>
+//           </div>
+
+//           <div className="relative mt-14 flex h-[350px] w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50">
+//             <p className="px-6 text-center font-mono text-xs uppercase tracking-widest text-zinc-600">
+//               [ 🕸️ SPAZIO RISERVATO ALL&apos;ANIMAZIONE GRAFICA INTERATTIVA
+//               (Canvas/Network Graph) ]
+//             </p>
+//           </div>
+//         </div>
+
+//         <Link
+//           href="#features"
+//           aria-label="Scorri per scoprire di più"
+//           className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 rounded-sm text-zinc-600 transition-colors hover:text-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+//         >
+//           <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
+//             Scopri di più
+//           </span>
+//           <ChevronDown className="h-4 w-4 motion-safe:animate-bounce motion-reduce:animate-none" />
+//         </Link>
+//       </section>
+
+//       {/* FEATURE HIGHLIGHTS */}
+//       <section
+//         id="features"
+//         className="relative border-t border-zinc-900 px-4 py-24 sm:px-6 lg:px-8"
+//       >
+//         <div className="mx-auto max-w-6xl">
+//           <div className="mx-auto max-w-2xl text-center">
+//             <Eyebrow className="mx-auto">Strumenti della redazione</Eyebrow>
+//             <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+//               Un metodo, non solo una notizia.
+//             </h2>
+//             <p className="mt-4 text-zinc-400">
+//               Ogni dossier nasce da fonti tracciabili e viene ricostruito con
+//               strumenti pensati per la verifica, non per il sensazionalismo.
+//             </p>
+//           </div>
+
+//           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+//             {FEATURES.map((feature) => {
+//               const Icon = feature.icon;
+//               return (
+//                 <Card
+//                   key={feature.title}
+//                   className="group relative border-zinc-800 bg-zinc-900/40 transition-colors hover:border-amber-900/50 hover:bg-zinc-900/70"
+//                 >
+//                   <CardHeader>
+//                     <div className="flex h-10 w-10 items-center justify-center rounded-md border border-zinc-800 bg-zinc-950 text-zinc-400 transition-colors group-hover:border-amber-900/60 group-hover:text-amber-500">
+//                       <Icon className="h-5 w-5" strokeWidth={1.75} />
+//                     </div>
+//                     <CardTitle className="mt-4 text-lg font-medium text-zinc-100">
+//                       {feature.title}
+//                     </CardTitle>
+//                   </CardHeader>
+//                   <CardContent>
+//                     <CardDescription className="text-sm leading-relaxed text-zinc-400">
+//                       {feature.description}
+//                     </CardDescription>
+//                   </CardContent>
+//                 </Card>
+//               );
+//             })}
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* CASI IN EVIDENZA */}
+//       <section
+//         id="casi"
+//         className="relative border-t border-zinc-900 px-4 py-24 sm:px-6 lg:px-8"
+//       >
+//         <div className="mx-auto max-w-6xl">
+//           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+//             <div>
+//               <Eyebrow>Dossier aperti</Eyebrow>
+//               <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+//                 Casi in evidenza
+//               </h2>
+//             </div>
+//             <p className="max-w-sm text-sm text-zinc-500">
+//               Una selezione dei fascicoli attualmente più consultati sulla
+//               piattaforma.
+//             </p>
+//           </div>
+
+//           <div className="mt-12 grid gap-6 lg:grid-cols-3">
+//             {FEATURED_CASES.map((item) => (
+//               <Card
+//                 key={item.code}
+//                 className="relative flex flex-col justify-between border-zinc-800 bg-zinc-900/40 transition-colors hover:border-amber-900/50 hover:bg-zinc-900/70"
+//               >
+//                 <span className="absolute -top-3 right-5 -rotate-3 rounded-sm border border-zinc-700 bg-zinc-950 px-2 py-0.5 font-mono text-[10px] tracking-widest text-zinc-500">
+//                   {item.code}
+//                 </span>
+
+//                 <div>
+//                   <CardHeader>
+//                     <div className="flex items-center justify-between gap-3">
+//                       <CardTitle className="text-lg font-medium text-zinc-100">
+//                         {item.title}
+//                       </CardTitle>
+//                     </div>
+//                     <div className="pt-1">
+//                       <StatusBadge status={item.status} />
+//                     </div>
+//                   </CardHeader>
+//                   <CardContent>
+//                     <CardDescription className="text-sm leading-relaxed text-zinc-400">
+//                       {item.description}
+//                     </CardDescription>
+//                   </CardContent>
+//                 </div>
+
+//                 <CardFooter className="flex items-center justify-between border-t border-zinc-800/80 pt-4">
+//                   <div className="flex items-center gap-4 text-xs text-zinc-500">
+//                     <span className="flex items-center gap-1.5">
+//                       <FileText className="h-3.5 w-3.5" />
+//                       {item.atti} atti
+//                     </span>
+//                     <span className="flex items-center gap-1.5">
+//                       <GitFork className="h-3.5 w-3.5" />
+//                       {item.connessioni} connessioni
+//                     </span>
+//                   </div>
+//                   <Link
+//                     href={item.href}
+//                     className="flex items-center gap-1 rounded-sm text-xs font-medium text-amber-500 transition-colors hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+//                   >
+//                     Apri
+//                     <ArrowRight className="h-3 w-3" />
+//                   </Link>
+//                 </CardFooter>
+//               </Card>
+//             ))}
+//           </div>
+
+//           <div className="mt-10 flex justify-center">
+//             <Button
+//               asChild
+//               variant="outline"
+//               className="border-zinc-700 bg-transparent text-zinc-300 hover:border-amber-800 hover:bg-red-950/20 hover:text-amber-400"
+//             >
+//               <Link href="/casi">
+//                 Visualizza tutti i casi
+//                 <ArrowRight className="ml-1.5 h-4 w-4" />
+//               </Link>
+//             </Button>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* CTA FINALE */}
+//       <section className="relative border-t border-zinc-900 px-4 py-24 sm:px-6 lg:px-8">
+//         <div className="mx-auto max-w-4xl">
+//           <div className="relative overflow-hidden rounded-2xl border border-amber-900/40 bg-gradient-to-b from-red-950/20 via-zinc-900/60 to-zinc-950 px-6 py-14 text-center sm:px-14">
+//             <span className="absolute left-4 top-4 h-4 w-4 border-l border-t border-amber-800/60" />
+//             <span className="absolute right-4 top-4 h-4 w-4 border-r border-t border-amber-800/60" />
+//             <span className="absolute bottom-4 left-4 h-4 w-4 border-b border-l border-amber-800/60" />
+//             <span className="absolute bottom-4 right-4 h-4 w-4 border-b border-r border-amber-800/60" />
+
+//             <Eyebrow className="mx-auto">Accesso ricercatori</Eyebrow>
+//             <h2 className="mx-auto mt-5 max-w-lg font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+//               Entra nella Control Room
+//             </h2>
+//             <p className="mx-auto mt-4 max-w-md text-sm text-zinc-400 sm:text-base">
+//               Registrati per salvare le tue analisi, seguire i dossier attivi e
+//               collaborare con la redazione nel tuo spazio di lavoro personale.
+//             </p>
+
+//             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+//               <Button
+//                 asChild
+//                 size="lg"
+//                 className="w-full bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500 sm:w-auto"
+//               >
+//                 <Link href="/registrati">Richiedi Accesso</Link>
+//               </Button>
+//               <Button
+//                 asChild
+//                 size="lg"
+//                 variant="outline"
+//                 className="w-full border-zinc-700 bg-transparent text-zinc-200 hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
+//               >
+//                 <Link href="/login">Ho già un account</Link>
+//               </Button>
+//             </div>
+
+//             <div className="mt-8 flex items-center justify-center gap-2 text-xs text-zinc-500">
+//               <ShieldCheck className="h-3.5 w-3.5 text-zinc-600" />
+//               Ogni richiesta di accesso è verificata manualmente dalla
+//               redazione.
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+
+//       {/* FOOTER */}
+//       <footer className="border-t border-zinc-900 px-4 py-10 sm:px-6 lg:px-8">
+//         <div className="mx-auto flex max-w-6xl flex-col gap-6">
+//           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+//             <Link href="/" className="flex items-center gap-2">
+//               <span className="flex h-7 w-7 items-center justify-center rounded-sm border border-zinc-800 bg-zinc-900">
+//                 <Network className="h-3.5 w-3.5 text-amber-500" />
+//               </span>
+//               <span className="font-mono text-xs font-semibold tracking-[0.15em] text-zinc-400">
+//                 THE JOURNAL
+//               </span>
+//             </Link>
+
+//             <div className="flex items-center gap-5 text-sm text-zinc-500">
+//               <Link href="/privacy" className="hover:text-zinc-300">
+//                 Privacy
+//               </Link>
+//               <Link href="/termini" className="hover:text-zinc-300">
+//                 Termini
+//               </Link>
+//               <Link href="/contatti" className="hover:text-zinc-300">
+//                 Contatti
+//               </Link>
+//             </div>
+
+//             <div className="flex items-center gap-4 text-zinc-500">
+//               <Link
+//                 href="https://github.com"
+//                 aria-label="GitHub"
+//                 className="hover:text-zinc-300"
+//               >
+//                 <Github className="h-4 w-4" />
+//               </Link>
+//               <Link
+//                 href="https://twitter.com"
+//                 aria-label="Twitter / X"
+//                 className="hover:text-zinc-300"
+//               >
+//                 <Twitter className="h-4 w-4" />
+//               </Link>
+//               <Link
+//                 href="mailto:redazione@thejournal.example"
+//                 aria-label="Email"
+//                 className="hover:text-zinc-300"
+//               >
+//                 <Mail className="h-4 w-4" />
+//               </Link>
+//             </div>
+//           </div>
+
+//           <div className="border-t border-zinc-900 pt-6">
+//             <p className="max-w-3xl text-xs leading-relaxed text-zinc-600">
+//               {`© ${new Date().getFullYear()} The Journal — DataInquest. Tutti i diritti riservati.
+//               I contenuti pubblicati si basano su fonti pubbliche, atti giudiziari e documenti
+//               verificabili. The Journal non si sostituisce all&apos;autorità giudiziaria e presume
+//               l&apos;innocenza di ogni soggetto coinvolto fino a condanna definitiva.`}
+//             </p>
+//           </div>
+//         </div>
+//       </footer>
+//     </div>
+//   );
+// }
+
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -22,103 +568,19 @@ import {
   ShieldCheck,
   ArrowRight,
   ChevronDown,
-  Menu,
-  X,
   Network,
   Clock3,
   DatabaseZap,
   Mail,
+  type LucideIcon,
 } from "lucide-react";
 import { FaGithub as Github, FaXTwitter as Twitter } from "react-icons/fa6";
 
-// ---------------------------------------------------------------------------
-// Dati statici
-// ---------------------------------------------------------------------------
+// Importa l'hook useLanguage (adegua il path se diverso)
+import { useLanguage } from "@/context/maincontext";
 
-const NAV_LINKS = [
-  { label: "Casi", href: "/casi" },
-  { label: "Mappa", href: "/mappa" },
-  { label: "Metodologia OSINT", href: "/metodologia-osint" },
-  { label: "About", href: "/about" },
-] as const;
-
-const QUICK_SEARCHES = [
-  "Casi aperti",
-  "Atti pubblici",
-  "Mappa dei luoghi",
-] as const;
-
-type Feature = {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-};
-
-const FEATURES: Feature[] = [
-  {
-    icon: Clock3,
-    title: "Timeline Cronologica",
-    description:
-      "Riscopri i fatti in ordine sequenziale, con filtri avanzati sulle fonti e sui gradi di attendibilità.",
-  },
-  {
-    icon: DatabaseZap,
-    title: "Piattaforma OSINT",
-    description:
-      "Crowdsourcing di documenti pubblici, validati dalla redazione prima di entrare nel dossier.",
-  },
-  {
-    icon: GitFork,
-    title: "La Lavagna dell'Investigatore",
-    description:
-      "Collega indizi, luoghi e soggetti coinvolti nel tuo spazio di lavoro riservato, come su una vera board investigativa.",
-  },
-];
-
-type CaseStatus = "In Analisi" | "Archiviato";
-
-type CaseItem = {
-  code: string;
-  title: string;
-  status: CaseStatus;
-  description: string;
-  atti: number;
-  connessioni: number;
-  href: string;
-};
-
-const FEATURED_CASES: CaseItem[] = [
-  {
-    code: "CASE_014",
-    title: "Caso Garlasco",
-    status: "Archiviato",
-    description:
-      "Ricostruzione cronologica degli atti processuali e delle perizie tecniche depositate nei vari gradi di giudizio.",
-    atti: 342,
-    connessioni: 58,
-    href: "/casi/garlasco",
-  },
-  {
-    code: "CASE_027",
-    title: "Caso Pietracatella",
-    status: "In Analisi",
-    description:
-      "Dossier aperto su un caso irrisolto in un piccolo comune del Molise, ricostruito attraverso atti e testimonianze pubbliche.",
-    atti: 128,
-    connessioni: 24,
-    href: "/casi/pietracatella",
-  },
-  {
-    code: "CASE_031",
-    title: "Dossier Appalto Nord-Est",
-    status: "In Analisi",
-    description:
-      "Analisi incrociata di appalti pubblici e società collegate, per mappare una rete di controllo poco trasparente.",
-    atti: 96,
-    connessioni: 31,
-    href: "/casi/appalto-nord-est",
-  },
-];
+// Mappatura icone per le 3 feature
+const FEATURE_ICONS: LucideIcon[] = [Clock3, DatabaseZap, GitFork];
 
 // ---------------------------------------------------------------------------
 // Componenti UI ausiliari
@@ -186,14 +648,18 @@ function CaseThreadLines() {
   );
 }
 
-function StatusBadge({ status }: { status: CaseStatus }) {
-  const isOpen = status === "In Analisi";
+function StatusBadge({ status }: { status: string }) {
+  const isInProgress =
+    status.toLowerCase().includes("analisi") ||
+    status.toLowerCase().includes("review") ||
+    status.toLowerCase().includes("corso");
+
   return (
     <Badge
       variant="outline"
       className={cn(
         "gap-1.5 border font-mono text-[11px] font-normal uppercase tracking-wider",
-        isOpen
+        isInProgress
           ? "border-amber-900/60 bg-red-950/30 text-amber-400"
           : "border-zinc-700 bg-zinc-900 text-zinc-400",
       )}
@@ -201,7 +667,7 @@ function StatusBadge({ status }: { status: CaseStatus }) {
       <span
         className={cn(
           "h-1.5 w-1.5 rounded-full",
-          isOpen ? "bg-amber-500 motion-safe:animate-pulse" : "bg-zinc-500",
+          isInProgress ? "bg-amber-500 motion-safe:animate-pulse" : "bg-zinc-500",
         )}
       />
       {status}
@@ -215,16 +681,11 @@ function StatusBadge({ status }: { status: CaseStatus }) {
 
 export default function LandingPage() {
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [scrolled, setScrolled] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Recupera il dizionario della lingua corrente tramite useLanguage
+  const { t } = useLanguage();
+  const { hero, features, cases, cta, footer } = t.landing;
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -235,93 +696,6 @@ export default function LandingPage() {
   return (
     <div className="relative min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-amber-900 selection:text-white">
       <GrainOverlay />
-
-      {/* HEADER / NAVBAR */}
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-40 transition-colors duration-300",
-          scrolled
-            ? "border-b border-zinc-800/80 bg-zinc-950/85 backdrop-blur-md"
-            : "border-b border-transparent bg-transparent",
-        )}
-      >
-        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-          >
-            <span className="relative flex h-8 w-8 items-center justify-center rounded-sm border border-amber-900/60 bg-red-950/20">
-              <Network className="h-4 w-4 text-amber-500" strokeWidth={2.25} />
-            </span>
-            <span className="font-mono text-sm font-semibold tracking-[0.15em] text-zinc-50">
-              THE JOURNAL
-              <span className="ml-1.5 text-amber-500">_</span>
-            </span>
-          </Link>
-
-          <div className="hidden items-center gap-8 md:flex">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-sm text-sm text-zinc-400 transition-colors hover:text-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="hidden md:block">
-            <Button
-              asChild
-              size="sm"
-              variant="outline"
-              className="border-zinc-700 bg-transparent text-zinc-200 hover:border-amber-800 hover:bg-red-950/20 hover:text-amber-400"
-            >
-              <Link href="/login">Area Riservata</Link>
-            </Button>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setMobileOpen((v) => !v)}
-            aria-label={mobileOpen ? "Chiudi il menu" : "Apri il menu"}
-            aria-expanded={mobileOpen}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-zinc-800 text-zinc-300 md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-          >
-            {mobileOpen ? (
-              <X className="h-4 w-4" />
-            ) : (
-              <Menu className="h-4 w-4" />
-            )}
-          </button>
-        </nav>
-
-        {mobileOpen && (
-          <div className="border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-md md:hidden">
-            <div className="flex flex-col gap-1 px-4 py-4 sm:px-6">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-sm px-2 py-2.5 text-sm text-zinc-300 hover:bg-zinc-900 hover:text-zinc-50"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Button
-                asChild
-                size="sm"
-                variant="outline"
-                className="mt-2 w-full border-zinc-700 bg-transparent text-zinc-200 hover:border-amber-800 hover:bg-red-950/20 hover:text-amber-400"
-              >
-                <Link href="/login">Area Riservata</Link>
-              </Button>
-            </div>
-          </div>
-        )}
-      </header>
 
       {/* HERO SECTION */}
       <section
@@ -339,16 +713,15 @@ export default function LandingPage() {
         <CaseThreadLines />
 
         <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center text-center">
-          <Eyebrow>Dati verificati · Fonti pubbliche</Eyebrow>
+          <Eyebrow>{hero.eyebrow}</Eyebrow>
 
           <h1 className="mt-6 max-w-3xl text-balance font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-zinc-50 sm:text-5xl md:text-6xl">
-            Il Data Journalism incontra la{" "}
-            <span className="text-amber-500">cronaca nera.</span>
+            {hero.titleStart}{" "}
+            <span className="text-amber-500">{hero.titleHighlight}</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-zinc-400 sm:text-lg">
-            Analisi di dati, atti pubblici e connessioni temporali per
-            ricostruire i fatti in modo oggettivo e verificato.
+            {hero.description}
           </p>
 
           {/* Form di ricerca attivo */}
@@ -362,7 +735,7 @@ export default function LandingPage() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cerca un caso, una prova o un nome..."
+                placeholder={hero.searchPlaceholder}
                 className="border-0 bg-transparent font-mono text-sm text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0"
               />
               <Button
@@ -370,13 +743,13 @@ export default function LandingPage() {
                 size="sm"
                 className="shrink-0 gap-1.5 bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500"
               >
-                Indaga
+                {hero.searchButton}
                 <ArrowRight className="h-3.5 w-3.5" />
               </Button>
             </form>
 
             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              {QUICK_SEARCHES.map((tag) => (
+              {hero.quickSearches.map((tag) => (
                 <Link
                   key={tag}
                   href={`/casi?tag=${encodeURIComponent(tag)}`}
@@ -390,19 +763,18 @@ export default function LandingPage() {
 
           <div className="relative mt-14 flex h-[350px] w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50">
             <p className="px-6 text-center font-mono text-xs uppercase tracking-widest text-zinc-600">
-              [ 🕸️ SPAZIO RISERVATO ALL&apos;ANIMAZIONE GRAFICA INTERATTIVA
-              (Canvas/Network Graph) ]
+              {hero.canvasPlaceholder}
             </p>
           </div>
         </div>
 
         <Link
           href="#features"
-          aria-label="Scorri per scoprire di più"
+          aria-label={hero.scrollMore}
           className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 rounded-sm text-zinc-600 transition-colors hover:text-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
-            Scopri di più
+            {hero.scrollMore}
           </span>
           <ChevronDown className="h-4 w-4 motion-safe:animate-bounce motion-reduce:animate-none" />
         </Link>
@@ -415,19 +787,16 @@ export default function LandingPage() {
       >
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow className="mx-auto">Strumenti della redazione</Eyebrow>
+            <Eyebrow className="mx-auto">{features.eyebrow}</Eyebrow>
             <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
-              Un metodo, non solo una notizia.
+              {features.title}
             </h2>
-            <p className="mt-4 text-zinc-400">
-              Ogni dossier nasce da fonti tracciabili e viene ricostruito con
-              strumenti pensati per la verifica, non per il sensazionalismo.
-            </p>
+            <p className="mt-4 text-zinc-400">{features.description}</p>
           </div>
 
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((feature) => {
-              const Icon = feature.icon;
+            {features.items.map((feature, idx) => {
+              const Icon = FEATURE_ICONS[idx % FEATURE_ICONS.length];
               return (
                 <Card
                   key={feature.title}
@@ -461,19 +830,16 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <Eyebrow>Dossier aperti</Eyebrow>
+              <Eyebrow>{cases.eyebrow}</Eyebrow>
               <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
-                Casi in evidenza
+                {cases.title}
               </h2>
             </div>
-            <p className="max-w-sm text-sm text-zinc-500">
-              Una selezione dei fascicoli attualmente più consultati sulla
-              piattaforma.
-            </p>
+            <p className="max-w-sm text-sm text-zinc-500">{cases.description}</p>
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {FEATURED_CASES.map((item) => (
+            {cases.items.map((item) => (
               <Card
                 key={item.code}
                 className="relative flex flex-col justify-between border-zinc-800 bg-zinc-900/40 transition-colors hover:border-amber-900/50 hover:bg-zinc-900/70"
@@ -504,18 +870,18 @@ export default function LandingPage() {
                   <div className="flex items-center gap-4 text-xs text-zinc-500">
                     <span className="flex items-center gap-1.5">
                       <FileText className="h-3.5 w-3.5" />
-                      {item.atti} atti
+                      {item.atti} {cases.documentsLabel}
                     </span>
                     <span className="flex items-center gap-1.5">
                       <GitFork className="h-3.5 w-3.5" />
-                      {item.connessioni} connessioni
+                      {item.connessioni} {cases.connectionsLabel}
                     </span>
                   </div>
                   <Link
                     href={item.href}
                     className="flex items-center gap-1 rounded-sm text-xs font-medium text-amber-500 transition-colors hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
                   >
-                    Apri
+                    {cases.openButton}
                     <ArrowRight className="h-3 w-3" />
                   </Link>
                 </CardFooter>
@@ -530,7 +896,7 @@ export default function LandingPage() {
               className="border-zinc-700 bg-transparent text-zinc-300 hover:border-amber-800 hover:bg-red-950/20 hover:text-amber-400"
             >
               <Link href="/casi">
-                Visualizza tutti i casi
+                {cases.viewAllButton}
                 <ArrowRight className="ml-1.5 h-4 w-4" />
               </Link>
             </Button>
@@ -547,13 +913,12 @@ export default function LandingPage() {
             <span className="absolute bottom-4 left-4 h-4 w-4 border-b border-l border-amber-800/60" />
             <span className="absolute bottom-4 right-4 h-4 w-4 border-b border-r border-amber-800/60" />
 
-            <Eyebrow className="mx-auto">Accesso ricercatori</Eyebrow>
+            <Eyebrow className="mx-auto">{cta.eyebrow}</Eyebrow>
             <h2 className="mx-auto mt-5 max-w-lg font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
-              Entra nella Control Room
+              {cta.title}
             </h2>
             <p className="mx-auto mt-4 max-w-md text-sm text-zinc-400 sm:text-base">
-              Registrati per salvare le tue analisi, seguire i dossier attivi e
-              collaborare con la redazione nel tuo spazio di lavoro personale.
+              {cta.description}
             </p>
 
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -562,7 +927,7 @@ export default function LandingPage() {
                 size="lg"
                 className="w-full bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500 sm:w-auto"
               >
-                <Link href="/registrati">Richiedi Accesso</Link>
+                <Link href="/registrati">{cta.registerButton}</Link>
               </Button>
               <Button
                 asChild
@@ -570,14 +935,13 @@ export default function LandingPage() {
                 variant="outline"
                 className="w-full border-zinc-700 bg-transparent text-zinc-200 hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
               >
-                <Link href="/login">Ho già un account</Link>
+                <Link href="/login">{cta.loginButton}</Link>
               </Button>
             </div>
 
             <div className="mt-8 flex items-center justify-center gap-2 text-xs text-zinc-500">
               <ShieldCheck className="h-3.5 w-3.5 text-zinc-600" />
-              Ogni richiesta di accesso è verificata manualmente dalla
-              redazione.
+              {cta.securityNotice}
             </div>
           </div>
         </div>
@@ -598,13 +962,13 @@ export default function LandingPage() {
 
             <div className="flex items-center gap-5 text-sm text-zinc-500">
               <Link href="/privacy" className="hover:text-zinc-300">
-                Privacy
+                {footer.privacy}
               </Link>
               <Link href="/termini" className="hover:text-zinc-300">
-                Termini
+                {footer.terms}
               </Link>
               <Link href="/contatti" className="hover:text-zinc-300">
-                Contatti
+                {footer.contacts}
               </Link>
             </div>
 
@@ -633,13 +997,13 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="border-t border-zinc-900 pt-6">
+          <div className="border-t border-zinc-900 pt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <p className="max-w-3xl text-xs leading-relaxed text-zinc-600">
-              {`© ${new Date().getFullYear()}} The Journal — DataInquest. Tutti i diritti riservati.
-              I contenuti pubblicati si basano su fonti pubbliche, atti giudiziari e documenti
-              verificabili. The Journal non si sostituisce all&apos;autorità giudiziaria e presume
-              l&apos;innocenza di ogni soggetto coinvolto fino a condanna definitiva.`}
+              © {new Date().getFullYear()} The Journal — DataInquest. {footer.disclaimer}
             </p>
+            <span className="text-xs text-zinc-600 whitespace-nowrap">
+              {footer.rights}
+            </span>
           </div>
         </div>
       </footer>
