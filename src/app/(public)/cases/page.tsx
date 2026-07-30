@@ -291,7 +291,7 @@ export default function CasiPage() {
   const selectedCase = CASES.find((c) => c.id === selectedId) ?? CASES[0];
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Barra superiore minimale */}
 
 
@@ -323,7 +323,7 @@ export default function CasiPage() {
         {/* --------------------------------------------------------- */}
         {/* PREVIEW — dettaglio del caso selezionato                   */}
         {/* --------------------------------------------------------- */}
-        <main className="flex-1 px-4 py-10 sm:px-8 lg:h-[calc(100vh-3.5rem)] lg:overflow-y-auto lg:px-12 lg:py-14">
+        <div className="flex-1 px-4 py-10 sm:px-8 lg:h-[calc(100vh-3.5rem)] lg:overflow-y-auto lg:px-12 lg:py-14">
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedCase.id}
@@ -403,8 +403,8 @@ export default function CasiPage() {
               </div>
             </motion.div>
           </AnimatePresence>
-        </main>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

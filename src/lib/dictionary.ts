@@ -116,6 +116,97 @@ export const dictionary = {
       rights: "Tutti i diritti riservati.",
     },
   },
+  about: {
+    hero: {
+      eyebrow: "Il Progetto",
+      titleStart: "Oltre il rumore mediatico,",
+      titleHighlight: "solo i dati contano.",
+      description: "The Journal nasce dall'esigenza di riportare la cronaca nera e investigativa su un binario di oggettività. Viviamo in un'era in cui i casi giudiziari vengono trasformati in spettacoli televisivi. Noi crediamo in un approccio diverso: analitico, documentato e basato sui dati.",
+    },
+    mission: {
+      eyebrow: "La Nostra Missione",
+      title: "Ricostruire la verità attraverso le fonti aperte.",
+      p1: "Troppo spesso, i dettagli fondamentali di un'inchiesta si perdono in migliaia di pagine di atti giudiziari inaccessibili al grande pubblico, sostituiti da narrazioni emotive e parziali.",
+      p2: "Noi di The Journal applichiamo le metodologie dell'Open Source Intelligence (OSINT) e dello sviluppo software per digitalizzare, indicizzare e collegare i frammenti di informazione sparsi in sentenze, perizie e documenti pubblici.",
+      p3: "Creiamo timeline interattive e network graph che permettono a giornalisti, ricercatori e cittadini di esplorare le connessioni spaziali e temporali di un caso, rimuovendo il rumore di fondo e concentrandoci sull'unica cosa che conta: le prove.",
+      graphHeader: "OSINT Relational Graph // Case #07",
+      graphNodesLabel: "4 Nodi / 3 Evidenze",
+      nodeEvidence: "Reperto #A12",
+      nodeCentral: "Timeline Evento",
+      nodeCentralDate: "13 Aug 2007 - 09:12",
+      nodeSignal: "Segnalazione #304",
+      nodeAct: "Atto Giudiziario #712",
+      statDocuments: "Documenti",
+      statConnections: "Connessioni",
+      statSources: "Fonti Verificate",
+    },
+    pillars: {
+      eyebrow: "Metodologia",
+      title: "I tre pilastri del nostro lavoro",
+      items: [
+        {
+          title: "Data Journalism",
+          description: "Raccogliamo, puliamo e incrociamo migliaia di dati pubblici. Dai tabulati alle perizie, trasformiamo fascicoli complessi in database interrogabili e strutturati.",
+        },
+        {
+          title: "Connessioni OSINT",
+          description: "Utilizziamo tecniche di Open Source Intelligence per mappare relazioni, movimenti e discrepanze. Ogni nodo del nostro grafo rappresenta un fatto documentato.",
+        },
+        {
+          title: "Oggettività Assoluta",
+          description: "Nessun parere personale, nessuna speculazione. Presentiamo i fatti nudi e crudi. Il nostro obiettivo non è emettere sentenze, ma fornire gli strumenti per comprendere.",
+        },
+      ],
+    },
+    cta: {
+      title: "Esplora i dossier pubblici",
+      description: "Accedi all'archivio completo dei casi analizzati. Consulta le timeline, verifica i documenti e traccia le connessioni.",
+      archiveButton: "Vai all'Archivio",
+      contactButton: "Contatta la Redazione",
+      securityNotice: "Tutti i dati provengono da fonti giudiziarie pubbliche.",
+    },
+  },
+  osint: {
+    hero: {
+      eyebrow: "Metodologia & Protocolli",
+      titleStart: "Dalle fonti aperte al",
+      titleHighlight: "dato strutturato.",
+      description: "Come raccogliamo, verifichiamo e colleghiamo le informazioni. Il nostro processo garantisce la tracciabilità di ogni singolo nodo e la riproducibilità delle analisi.",
+    },
+    pipeline: {
+      eyebrow: "Workflow Analitico",
+      title: "La Pipeline di Analisi OSINT",
+      step1Title: "1. Acquisizione & Utilizzo dei Dati",
+      step1Desc: "Estrazione di dati da atti giudiziari scritti, repository pubblici, tabulati e metadati. Sanitizzazione dei formati e applicazione di OCR avanzato per la digitalizzazione dei documenti cartacei.",
+      step2Title: "2. Verificazione & Triangolazione",
+      step2Desc: "Ogni fatto o timestamp deve essere confermato da almeno due fonti indipendenti o da un atto ufficiale prima di essere validato nel database.",
+      step3Title: "3. Normalizzazione & Grafici",
+      step3Desc: "Mappatura di entità (persone, luoghi, reperti, orari) ed estrazione delle relazioni sintattiche e semantiche per la generazione di grafici di rete.",
+    },
+    standards: {
+      eyebrow: "Standard di Trasparenza",
+      title: "Principi di Integrità dei Dati",
+      items: [
+        {
+          title: "Catena di Custodia Digitale",
+          description: "Ogni documento archiviato presenta un hash crittografico per garantire che l'atto non sia mai stato manipolato dopo l'acquisizione.",
+        },
+        {
+          title: "Integrazione Geospaziale",
+          description: "Correlazione delle testimonianze e dei dati cellulari con mappe ad alta risoluzione per verificare la congruenza temporale e spaziale.",
+        },
+        {
+          title: "Accesso Pubblico alle Fonti",
+          description: "Nessun dato viene pubblicato senza il riferimento esplicito al fascicolo o alla fonte primaria da cui è stato estratto.",
+        },
+      ],
+    },
+    cta: {
+      title: "Esplora l'applicazione dei nostri protocolli",
+      description: "Consulta i dossier analizzati attraverso la nostra metodologia.",
+      button: "Sfoglia i Casi",
+    },
+  },
   },
   EN: {
     nav: {
@@ -233,8 +324,101 @@ export const dictionary = {
         "Published content is based on public sources, judicial documents, and verifiable records. The Journal does not replace judicial authorities and presumes the innocence of any individual until proven guilty.",
       rights: "All rights reserved.",
     },
-  }
   },
+    about: {
+    hero: {
+      eyebrow: "The Project",
+      titleStart: "Beyond media hype,",
+      titleHighlight: "only data matters.",
+      description: "The Journal was born from the need to bring investigative and crime journalism back to objectivity. We live in an era where judicial cases are turned into TV spectacles. We believe in a different approach: analytical, documented, and data-driven.",
+    },
+    mission: {
+      eyebrow: "Our Mission",
+      title: "Reconstructing truth through open sources.",
+      p1: "All too often, key investigative details get lost in thousands of pages of court files inaccessible to the general public, replaced by emotional and biased narratives.",
+      p2: "At The Journal, we apply Open Source Intelligence (OSINT) methodologies and software engineering to digitize, index, and connect scattered fragments of information across rulings, expert reports, and public records.",
+      p3: "We create interactive timelines and network graphs that enable journalists, researchers, and citizens to explore the spatial and temporal connections of a case, filtering out background noise and focusing on what truly matters: evidence.",
+      graphHeader: "OSINT Relational Graph // Case #07",
+      graphNodesLabel: "4 Nodes / 3 Evidences",
+      nodeEvidence: "Exhibits #A12",
+      nodeCentral: "Event Timeline",
+      nodeCentralDate: "13 Aug 2007 - 09:12",
+      nodeSignal: "Tip-off #304",
+      nodeAct: "Court Document #712",
+      statDocuments: "Documents",
+      statConnections: "Connections",
+      statSources: "Verified Sources",
+    },
+    pillars: {
+      eyebrow: "Methodology",
+      title: "The three pillars of our work",
+      items: [
+        {
+          title: "Data Journalism",
+          description: "We collect, clean, and cross-reference thousands of public records. From phone logs to expert analyses, we turn complex files into searchable and structured databases.",
+        },
+        {
+          title: "OSINT Connections",
+          description: "We use Open Source Intelligence techniques to map relationships, movements, and discrepancies. Every node in our graph represents a documented fact.",
+        },
+        {
+          title: "Absolute Objectivity",
+          description: "No personal opinions, no speculation. We present raw, hard facts. Our goal is not to pass judgment, but to provide the tools to understand.",
+        },
+      ],
+    },
+    cta: {
+      title: "Explore Public Dossiers",
+      description: "Access the full archive of analyzed cases. Inspect timelines, verify documents, and trace connections.",
+      archiveButton: "Go to Archive",
+      contactButton: "Contact Editorial Team",
+      securityNotice: "All data originates from public judicial records.",
+    },
+  },
+  osint: {
+    hero: {
+      eyebrow: "Methodology & Protocols",
+      titleStart: "From open sources to",
+      titleHighlight: "structured data.",
+      description: "How we collect, verify, and connect information. Our process guarantees the traceability of every single node and the reproducibility of our analyses.",
+    },
+    pipeline: {
+      eyebrow: "Analytical Workflow",
+      title: "The OSINT Analysis Pipeline",
+      step1Title: "1. Acquisition & Ingestion",
+      step1Desc: "Data extraction from court filings, public repositories, phone records, and metadata. Format sanitization and advanced OCR for paper document digitization.",
+      step2Title: "2. Verification & Triangulation",
+      step2Desc: "Every fact or timestamp must be cross-verified by at least two independent sources or an official document before validation into the database.",
+      step3Title: "3. Normalization & Graphing",
+      step3Desc: "Entity mapping (people, locations, exhibits, timestamps) and semantic extraction to generate relational network graphs.",
+    },
+    standards: {
+      eyebrow: "Transparency Standards",
+      title: "Data Integrity Principles",
+      items: [
+        {
+          title: "Digital Chain of Custody",
+          description: "Every archived document features a cryptographic hash ensuring it hasn't been altered post-acquisition.",
+        },
+        {
+          title: "Geospatial Integration",
+          description: "Cross-referencing witness accounts and cell tower data with high-res maps to verify spatial-temporal plausibility.",
+        },
+        {
+          title: "Public Source Accessibility",
+          description: "No data is published without explicit reference to the court file or primary source from which it was extracted.",
+        },
+      ],
+    },
+    cta: {
+      title: "Explore our protocols in action",
+      description: "Inspect active dossiers analyzed through our methodology.",
+      button: "Browse Cases",
+    },
+  },
+},
+
 } as const;
+
 
 export type Language = "IT" | "EN";
