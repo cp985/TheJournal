@@ -207,6 +207,29 @@ export const dictionary = {
       button: "Sfoglia i Casi",
     },
   },
+  map: {
+    sidebar: {
+      badge: "Anteprima Mappa OSINT",
+      title: "Geolocalizzazione & CELLE",
+      subtitle: "Seleziona un dossier per esplorare le coordinate e la sequenza cronologica dei rilievi.",
+      publicNotice: "Modalità Pubblica: 12 nodi chiave visualizzati su 142 totali.",
+      unlockBtn: "Sblocca Tutti i Nodi",
+      caseSelectorLabel: "Dossier Disponibili",
+    },
+    nodeDetails: {
+      title: "Rilievo Selezionato",
+      emptyState: "Clicca su un marker sulla mappa o su un evento per analizzare i metadati.",
+      typeLabel: "Tipologia",
+      timeLabel: "Timestamp",
+      coordsLabel: "Coordinate",
+      sourceLabel: "Atto di Riferimento",
+    },
+    mapControls: {
+      timeFilterTitle: "Timeline Rilievi",
+      lockedFeature: "La triangolazione automatica delle celle è riservata agli utenti registrati.",
+    },
+  },
+
   },
   EN: {
     nav: {
@@ -416,6 +439,29 @@ export const dictionary = {
       button: "Browse Cases",
     },
   },
+  map: {
+    sidebar: {
+      badge: "OSINT Map Preview",
+      title: "Geolocation & Cell Towers",
+      subtitle: "Select a dossier to explore coordinates and chronological events.",
+      publicNotice: "Public Mode: 12 key nodes displayed out of 142 total.",
+      unlockBtn: "Unlock All Nodes",
+      caseSelectorLabel: "Available Dossiers",
+    },
+    nodeDetails: {
+      title: "Selected Evidence",
+      emptyState: "Click a marker on the map or an event to inspect metadata.",
+      typeLabel: "Type",
+      timeLabel: "Timestamp",
+      coordsLabel: "Coordinates",
+      sourceLabel: "Reference File",
+    },
+    mapControls: {
+      timeFilterTitle: "Timeline Events",
+      lockedFeature: "Automated cell tower triangulation is restricted to registered users.",
+    },
+  },
+
 },
 
 } as const;
