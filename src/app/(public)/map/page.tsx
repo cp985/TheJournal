@@ -212,29 +212,37 @@ import {
   Position,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { FolderArchive, FileText, Image as ImageIcon, Search, ChevronRight, Pin } from "lucide-react";
+import {
+  FolderArchive,
+  Image as ImageIcon,
+  Search,
+  ChevronRight,
+  Pin,
+  ChevronLeft,
+  PanelLeftClose,
+  PanelLeftOpen,
+  X,
+} from "lucide-react";
 
-// --- 1. NODI STILE "POST-IT" E "FOTO SCENARIO" ---
+// --- 1. NODI STILE "POST-IT" E "POLAROID" ---
 
-// Nodo "Post-It" (Cartella / Nota Principale)
 const PostItNode = ({ data }: { data: any }) => (
-  <div className="relative w-56 rotate-[-1deg] rounded-sm bg-amber-100 p-4 text-zinc-900 shadow-[8px_12px_20px_rgba(0,0,0,0.6)] transition-transform hover:scale-105 hover:z-20">
-    {/* Spillo / Puntina da disegno in cima */}
+  <div className="relative w-48 sm:w-56 rotate-[-1deg] rounded-sm bg-amber-100 p-3 sm:p-4 text-zinc-900 shadow-[8px_12px_20px_rgba(0,0,0,0.6)] transition-transform hover:scale-105 hover:z-20">
     <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-red-700 drop-shadow-md">
-      <Pin className="h-6 w-6 fill-red-700" />
+      <Pin className="h-5 w-5 sm:h-6 sm:w-6 fill-red-700" />
     </div>
 
     <Handle type="target" position={Position.Top} className="!bg-red-800 !w-3 !h-3" />
     
     <div className="pt-2">
-      <span className="font-mono text-[10px] uppercase tracking-widest text-amber-800/80 font-bold block border-b border-amber-300 pb-1">
+      <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-amber-800/80 font-bold block border-b border-amber-300 pb-1">
         {data.label}
       </span>
-      <h4 className="mt-1 font-serif text-base font-bold text-zinc-900 leading-tight">
+      <h4 className="mt-1 font-serif text-sm sm:text-base font-bold text-zinc-900 leading-tight">
         {data.title}
       </h4>
       {data.description && (
-        <p className="mt-2 font-mono text-xs text-zinc-700 leading-relaxed">
+        <p className="mt-1.5 font-mono text-[11px] sm:text-xs text-zinc-700 leading-relaxed">
           {data.description}
         </p>
       )}
@@ -244,19 +252,17 @@ const PostItNode = ({ data }: { data: any }) => (
   </div>
 );
 
-// Nodo "Polaroid" (Foto / Prova Visiva)
 const PolaroidNode = ({ data }: { data: any }) => (
-  <div className="relative w-52 rotate-[2deg] rounded-sm bg-zinc-100 p-3 pt-3 pb-5 shadow-[10px_14px_24px_rgba(0,0,0,0.7)] transition-transform hover:scale-105 hover:z-20">
-    {/* Pezzo di Nastro Adesivo trasparente in alto */}
-    <div className="absolute -top-3 left-1/3 h-5 w-16 bg-amber-200/40 backdrop-blur-xs border border-amber-300/30 rotate-[-5deg] shadow-sm" />
+  <div className="relative w-44 sm:w-52 rotate-[2deg] rounded-sm bg-zinc-100 p-2.5 sm:p-3 pt-3 pb-4 sm:pb-5 shadow-[10px_14px_24px_rgba(0,0,0,0.7)] transition-transform hover:scale-105 hover:z-20">
+    <div className="absolute -top-3 left-1/3 h-4 sm:h-5 w-12 sm:w-16 bg-amber-200/40 backdrop-blur-xs border border-amber-300/30 rotate-[-5deg] shadow-sm" />
 
     <Handle type="target" position={Position.Top} className="!bg-zinc-800" />
     
-    <div className="h-32 w-full bg-zinc-900 rounded-xs overflow-hidden flex items-center justify-center border border-zinc-300">
-      <ImageIcon className="h-10 w-10 text-zinc-600" />
+    <div className="h-28 sm:h-32 w-full bg-zinc-900 rounded-xs overflow-hidden flex items-center justify-center border border-zinc-300">
+      <ImageIcon className="h-8 w-8 sm:h-10 sm:w-10 text-zinc-600" />
     </div>
     
-    <p className="mt-3 font-mono text-xs text-zinc-800 font-semibold text-center leading-tight">
+    <p className="mt-2.5 font-mono text-[11px] sm:text-xs text-zinc-800 font-semibold text-center leading-tight">
       {data.caption}
     </p>
 
@@ -269,7 +275,7 @@ const nodeTypes = {
   polaroid: PolaroidNode,
 };
 
-// --- 2. DATI MOCK DEI CASI PER LA SIDEBAR ---
+// --- 2. DATI MOCK DEI CASI ---
 const CASES_DATA = [
   {
     id: "case-1",
@@ -280,24 +286,24 @@ const CASES_DATA = [
       {
         id: "1",
         type: "postit",
-        position: { x: 300, y: 80 },
+        position: { x: 250, y: 50 },
         data: { label: "Fascicolo Principale", title: "Operazione Nebbia", description: "Indagine su frodi e comunicazioni criptate." },
       },
       {
         id: "2",
         type: "postit",
-        position: { x: 100, y: 300 },
+        position: { x: 50, y: 260 },
         data: { label: "Sospetto #1", title: "Marco V.", description: "Avvistato nei pressi del molo 4 alle ore 23:15." },
       },
       {
         id: "3",
         type: "polaroid",
-        position: { x: 480, y: 280 },
+        position: { x: 420, y: 240 },
         data: { caption: "Targa Auto Sospetta (Enhance x4)" },
       },
     ],
     edges: [
-      { id: "e1-2", source: "1", target: "2", style: { stroke: "#b91c1c", strokeWidth: 3 } }, // Filo Rosso
+      { id: "e1-2", source: "1", target: "2", style: { stroke: "#b91c1c", strokeWidth: 3 } },
       { id: "e1-3", source: "1", target: "3", style: { stroke: "#b91c1c", strokeWidth: 3 } },
     ],
   },
@@ -310,7 +316,7 @@ const CASES_DATA = [
       {
         id: "1",
         type: "postit",
-        position: { x: 250, y: 100 },
+        position: { x: 200, y: 80 },
         data: { label: "Fascicolo #109", title: "Il Silenzio del Molo", description: "Rilievo impronte e tabulati della notte di pioggia." },
       },
     ],
@@ -318,9 +324,11 @@ const CASES_DATA = [
   },
 ];
 
-// --- 3. COMPONENTE PRINCIPALE CON SIDEBAR ---
-export  function InvestigationBoard() {
+// --- 3. COMPONENTE BOARD CON SIDEBAR RESPONSIVE ---
+export function InvestigationBoard() {
   const [selectedCaseId, setSelectedCaseId] = useState("case-1");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default chiusa su mobile per mostrare subito la mappa
+
   const activeCase = CASES_DATA.find((c) => c.id === selectedCaseId) || CASES_DATA[0];
 
   const [nodes, setNodes] = useState<Node[]>(activeCase.nodes);
@@ -335,23 +343,49 @@ export  function InvestigationBoard() {
     []
   );
 
-  // Cambio di caso dalla Sidebar
   const handleSelectCase = (caseItem: typeof CASES_DATA[0]) => {
     setSelectedCaseId(caseItem.id);
     setNodes(caseItem.nodes);
     setEdges(caseItem.edges);
+    setIsSidebarOpen(false); // Chiude la sidebar su mobile quando viene scelto un caso
   };
 
   return (
-    <div className="flex h-screen w-full bg-zinc-950 pt-16 overflow-hidden">
+    <div className="relative flex h-screen w-full bg-zinc-950  overflow-hidden">
       
-      {/* 📁 SIDEBAR A SINISTRA (LISTA CASI) */}
-      <aside className="w-80 border-r border-zinc-800/80 bg-zinc-950/95 p-4 flex flex-col z-30 shadow-2xl backdrop-blur-md">
-        <div className="flex items-center gap-2 mb-6 px-2">
-          <FolderArchive className="h-5 w-5 text-amber-500" />
-          <h2 className="font-serif text-base font-bold text-zinc-100 tracking-wider uppercase">
-            Archivio Casi
-          </h2>
+      {/* 🟢 OVERLAY PER MOBILE (Sfondo scuro quando la sidebar è aperta) */}
+      {isSidebarOpen && (
+        <div
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 z-30 bg-black/70 backdrop-blur-xs md:hidden"
+          aria-hidden="true"
+        />
+      )}
+
+      {/* 📁 SIDEBAR CASI (Drawer Flessibile) */}
+      <aside
+        className={`fixed md:relative inset-y-0 left-0 z-40 flex w-80 flex-col border-r border-zinc-800/80 bg-zinc-950/98 p-4 shadow-2xl backdrop-blur-md transition-all duration-300 ease-in-out ${
+          isSidebarOpen
+            ? "translate-x-0 md:ml-0"
+            : "-translate-x-full md:-ml-80"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-6 px-1 pt-12 md:pt-0">
+          <div className="flex items-center gap-2">
+            <FolderArchive className="h-5 w-5 text-amber-500" />
+            <h2 className="font-serif text-base font-bold text-zinc-100 tracking-wider uppercase">
+              Archivio Casi
+            </h2>
+          </div>
+
+          {/* Tasto per richiudere la sidebar */}
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="rounded-md p-1.5 text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100"
+            title="Chiudi archivio"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
         </div>
 
         {/* Cerca Caso */}
@@ -364,7 +398,7 @@ export  function InvestigationBoard() {
           />
         </div>
 
-        {/* Lista dei Casi */}
+        {/* Lista Casi */}
         <div className="flex-1 space-y-2 overflow-y-auto pr-1">
           {CASES_DATA.map((c) => {
             const isSelected = c.id === selectedCaseId;
@@ -388,7 +422,7 @@ export  function InvestigationBoard() {
                   {c.title}
                 </h3>
                 <div className="mt-2 flex items-center text-xs text-zinc-500 font-mono">
-                  <span>Apri tabellone</span>
+                  <span>Carica sulla board</span>
                   <ChevronRight className="h-3 w-3 ml-auto" />
                 </div>
               </button>
@@ -397,9 +431,20 @@ export  function InvestigationBoard() {
         </div>
       </aside>
 
-      {/* 🪵 TABELLONE SCRIVANIA / BOARD INFINITO (A DESTRA) */}
+      {/* 🪵 TABELLONE SCRIVANIA (A TUTTO SCHERMO) */}
       <main className="flex-1 h-full relative bg-[#1c130d] bg-[radial-gradient(#2d1e15_1px,transparent_1px)] [background-size:16px_16px]">
-        {/* Effetto ombra vignettatura sui bordi per dare profondità da tavolo */}
+        {/* Pulsante Fluttuante per aprire l'Archivio Casi quando la sidebar è chiusa */}
+        {!isSidebarOpen && (
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="absolute top-4 left-4 z-20 flex items-center gap-2 rounded-lg border border-amber-900/60 bg-zinc-950/90 px-3 py-2 text-xs font-mono font-medium text-amber-400 shadow-xl backdrop-blur-md transition-all hover:bg-zinc-900 hover:border-amber-500"
+          >
+            <FolderArchive className="h-4 w-4 text-amber-500" />
+            <span>Archivio Casi</span>
+          </button>
+        )}
+
+        {/* Effetto ombra vignettatura */}
         <div className="absolute inset-0 pointer-events-none z-10 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]" />
 
         <ReactFlow
@@ -413,7 +458,7 @@ export  function InvestigationBoard() {
           proOptions={{ hideAttribution: true }}
         >
           <Controls 
-            className="!bg-zinc-900 !border-zinc-800 !fill-zinc-400 [&>button]:!border-b-zinc-800 [&>button]:!bg-zinc-900 [&>button:hover]:!bg-zinc-800"
+            className="!bg-zinc-400 !border-zinc-800 !fill-zinc-400 [&>button]:!border-b-zinc-800 [&>button]:!bg-zinc-400 [&>button:hover]:!bg-zinc-500"
           />
         </ReactFlow>
       </main>
@@ -424,10 +469,7 @@ export  function InvestigationBoard() {
 
 export default function MapPage() {
   return (
-    // Con h-screen, w-screen e inset-0 occupa tutto lo schermo sovrapponendosi
-    // all'eventuale padding del layout, senza bisogno di "use client" nel layout.
     <div className="fixed inset-0 z-0 h-screen w-screen overflow-hidden bg-zinc-950">
-      {/* Componente della mappa */}
       <InvestigationBoard />
     </div>
   );
