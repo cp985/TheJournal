@@ -136,12 +136,12 @@ export default function LandingPage() {
 
   // Recupera il dizionario della lingua corrente tramite useLanguage
   const { t } = useLanguage();
-  const { hero, features, cases, cta, footer } = t.landing;
+  const { hero, features, cases, cta } = t.landing;
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-    router.push(`/casi?q=${encodeURIComponent(searchQuery.trim())}`);
+    router.push(`/cases?q=${encodeURIComponent(searchQuery.trim())}`);
   };
 
   return (
