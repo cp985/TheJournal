@@ -118,7 +118,9 @@ function StatusBadge({ status }: { status: string }) {
       <span
         className={cn(
           "h-1.5 w-1.5 rounded-full",
-          isInProgress ? "bg-amber-500 motion-safe:animate-pulse" : "bg-zinc-500",
+          isInProgress
+            ? "bg-amber-500 motion-safe:animate-pulse"
+            : "bg-zinc-500",
         )}
       />
       {status}
@@ -213,6 +215,16 @@ export default function LandingPage() {
           </div>
 
           <div className="relative mt-14 flex h-[350px] w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover scale-105 opacity-50"
+            >
+              <source src="/assets/hero-video.mp4" type="video/mp4" />
+            </video>
+
             <p className="px-6 text-center font-mono text-xs uppercase tracking-widest text-zinc-600">
               {hero.canvasPlaceholder}
             </p>
@@ -286,7 +298,9 @@ export default function LandingPage() {
                 {cases.title}
               </h2>
             </div>
-            <p className="max-w-sm text-sm text-zinc-500">{cases.description}</p>
+            <p className="max-w-sm text-sm text-zinc-500">
+              {cases.description}
+            </p>
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -397,8 +411,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-
     </main>
   );
 }
