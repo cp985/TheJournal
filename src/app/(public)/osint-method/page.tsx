@@ -101,7 +101,7 @@ export default function OsintMethodologyPage() {
         <p className="mt-2 text-sm text-zinc-400">{cta.description}</p>
         <div className="mt-6">
           <Button asChild className="bg-amber-600 hover:bg-amber-700 text-white">
-            <Link href="/casi">
+            <Link href="/cases">
               {cta.button} <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

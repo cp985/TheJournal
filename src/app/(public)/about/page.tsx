@@ -210,7 +210,7 @@ export default function AboutPage() {
                 size="lg"
                 className="w-full bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500 sm:w-auto"
               >
-                <Link href="/casi">
+                <Link href="/cases">
                   {cta.archiveButton}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>

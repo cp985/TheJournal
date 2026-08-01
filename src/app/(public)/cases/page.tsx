@@ -395,7 +395,7 @@ export default function CasiPage() {
                   size="lg"
                   className="gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-400 focus-visible:ring-amber-400"
                 >
-                  <Link href={`/casi/${selectedCase.slug}`}>
+                  <Link href={`/cases/${selectedCase.slug}`}>
                     Esamina Dossier Completo
                     <ArrowRight className="h-4 w-4" />
                   </Link>
