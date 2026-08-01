@@ -41,7 +41,7 @@ export default function HeroVideoSection() {
   return (
     <div
       ref={containerRef}
-      className="relative flex h-[85vh] min-h-[600px] w-full items-center justify-center overflow-hidden bg-zinc-950"
+      className="relative flex  h-[85vh] min-h-[600px] w-full border-2 border-amber-800 items-center justify-center overflow-hidden bg-zinc-950"
     >
       {/* VIDEO SFONDO */}
       <video
@@ -50,7 +50,7 @@ export default function HeroVideoSection() {
         playsInline
         /* Abbiamo rimosso 'autoPlay' e 'loop' */
         onEnded={() => setVideoFinished(true)} // Si attiva all'ultimo frame
-        className="absolute inset-0 h-full w-full object-cover scale-105 opacity-40 transition-opacity duration-1000"
+        className="absolute inset-0 h-full w-full object-cover scale-105 opacity-90  transition-opacity duration-1000"
       >
         <source src="/assets/hero-video.mp4" type="video/mp4" />
       </video>

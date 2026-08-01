@@ -120,7 +120,7 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col pt-16">
+      <body className="min-h-full flex flex-col pt-16 bg-zinc-950">
         <LanguageProvider>
           <Navbar />
           {children}
