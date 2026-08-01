@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import HeroVideoSection  from "@/components/layout/herovideo";
+import LandingFeauture from "@/components/layout/landingFeauture";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -21,17 +23,12 @@ import {
   GitFork,
   ShieldCheck,
   ArrowRight,
-  ChevronDown,
-  Clock3,
-  DatabaseZap,
-  type LucideIcon,
+
 } from "lucide-react";
 
 // Importa l'hook useLanguage (adegua il path se diverso)
 import { useLanguage } from "@/context/maincontext";
 
-// Mappatura icone per le 3 feature
-const FEATURE_ICONS: LucideIcon[] = [Clock3, DatabaseZap, GitFork];
 
 // ---------------------------------------------------------------------------
 // Componenti UI ausiliari
@@ -205,7 +202,7 @@ export default function LandingPage() {
               {hero.quickSearches.map((tag) => (
                 <Link
                   key={tag}
-                  href={`/casi?tag=${encodeURIComponent(tag)}`}
+                  href={`/cases?tag=${encodeURIComponent(tag)}`}
                   className="rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-xs text-zinc-500 transition-colors hover:border-amber-900/60 hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
                 >
                   {tag}
@@ -215,75 +212,18 @@ export default function LandingPage() {
           </div>
 
           <div className="relative mt-14 flex h-[350px] w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 h-full w-full object-cover scale-105 opacity-50"
-            >
-              <source src="/assets/hero-video.mp4" type="video/mp4" />
-            </video>
+       
+       
+        <HeroVideoSection />
 
-            <p className="px-6 text-center font-mono text-xs uppercase tracking-widest text-zinc-600">
-              {hero.canvasPlaceholder}
-            </p>
           </div>
         </div>
 
-        <Link
-          href="#features"
-          aria-label={hero.scrollMore}
-          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-1.5 rounded-sm text-zinc-600 transition-colors hover:text-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
-            {hero.scrollMore}
-          </span>
-          <ChevronDown className="h-4 w-4 motion-safe:animate-bounce motion-reduce:animate-none" />
-        </Link>
       </section>
 
       {/* FEATURE HIGHLIGHTS */}
-      <section
-        id="features"
-        className="relative border-t border-zinc-900 px-4 py-24 sm:px-6 lg:px-8"
-      >
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto max-w-2xl text-center">
-            <Eyebrow className="mx-auto">{features.eyebrow}</Eyebrow>
-            <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
-              {features.title}
-            </h2>
-            <p className="mt-4 text-zinc-400">{features.description}</p>
-          </div>
 
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {features.items.map((feature, idx) => {
-              const Icon = FEATURE_ICONS[idx % FEATURE_ICONS.length];
-              return (
-                <Card
-                  key={feature.title}
-                  className="group relative border-zinc-800 bg-zinc-900/40 transition-colors hover:border-amber-900/50 hover:bg-zinc-900/70"
-                >
-                  <CardHeader>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-md border border-zinc-800 bg-zinc-950 text-zinc-400 transition-colors group-hover:border-amber-900/60 group-hover:text-amber-500">
-                      <Icon className="h-5 w-5" strokeWidth={1.75} />
-                    </div>
-                    <CardTitle className="mt-4 text-lg font-medium text-zinc-100">
-                      {feature.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-sm leading-relaxed text-zinc-400">
-                      {feature.description}
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <LandingFeauture />
 
       {/* CASI IN EVIDENZA */}
       <section
@@ -392,7 +332,7 @@ export default function LandingPage() {
                 size="lg"
                 className="w-full bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500 sm:w-auto"
               >
-                <Link href="/registrati">{cta.registerButton}</Link>
+                <Link href="/login?action=signup">{cta.registerButton}</Link>
               </Button>
               <Button
                 asChild

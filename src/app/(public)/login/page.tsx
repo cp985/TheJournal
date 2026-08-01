@@ -2,8 +2,9 @@
 
 
 
-import * as React from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -134,16 +135,30 @@ function PasswordField({
 // ---------------------------------------------------------------------------
 
 export default function LoginPage() {
-  const { t } = useLanguage(); // Aggancio al contesto della lingua
-  const [isSignUp, setIsSignUp] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const params=useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const isSignUp = params.get("action") === "signup"
+  const { t } = useLanguage(); 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  function handleModeChange(next: boolean) {
-    setIsSignUp(next);
-    setShowPassword(false);
-    setShowConfirmPassword(false);
+
+
+ function handleModeChange(next: boolean) {
+  setShowPassword(false);
+  setShowConfirmPassword(false);
+
+  const newParams = new URLSearchParams(params.toString());
+
+  if (next) {
+    newParams.set("action", "signup");
+  } else {
+    newParams.delete("action");
   }
+
+  router.replace(`${pathname}?${newParams.toString()}`, { scroll: false });
+}
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 pt-8 sm:px-6">

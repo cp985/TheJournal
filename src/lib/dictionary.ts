@@ -25,9 +25,7 @@ export const dictionary = {
         "Analisi di dati, atti pubblici e connessioni temporali per ricostruire i fatti in modo oggettivo e verificato.",
       searchPlaceholder: "Cerca un caso, una prova o un nome...",
       searchButton: "Indaga",
-      canvasPlaceholder:
-        "[ 🕸️ SPAZIO RISERVATO ALL'ANIMAZIONE GRAFICA INTERATTIVA (Canvas/Network Graph) ]",
-      scrollMore: "Scopri di più",
+      canvasPlaceholder:"Ogni indizio è un frammento isolato. Uniamo le nostre informazioni a quelle degli altri detective. Solo ricomponendo il puzzle possiamo portare alla luce la verità sui casi irrisolti.",
       quickSearches: ["Casi aperti", "Atti pubblici", "Mappa dei luoghi"],
     },
     features: {
@@ -286,8 +284,7 @@ export const dictionary = {
         "Data analysis, public court documents, and chronological timelines to reconstruct facts objectively and accurately.",
       searchPlaceholder: "Search for a case, evidence, or name...",
       searchButton: "Investigate",
-      canvasPlaceholder:
-        "[ 🕸️ RESERVED SPACE FOR INTERACTIVE GRAPHIC ANIMATION (Canvas/Network Graph) ]",
+      canvasPlaceholder:"Every clue is an isolated fragment. We combine our information with that of other detectives. Only by piecing together the puzzle can we uncover the truth about unsolved cases. ",
       scrollMore: "Learn more",
       quickSearches: ["Open cases", "Public records", "Locations map"],
     },
