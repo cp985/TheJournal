@@ -2,8 +2,9 @@
 
 
 
-import { useState } from "react";
+import { useState , Suspense} from "react";
 import Link from "next/link";
+import LoadingSkeleton from "@/components/layout/loading";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -134,7 +135,7 @@ function PasswordField({
 // Pagina
 // ---------------------------------------------------------------------------
 
-export default function LoginPage() {
+ function LoginComponent() {
   const params=useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -161,13 +162,14 @@ export default function LoginPage() {
 }
 
   return (
+  
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 pt-8 sm:px-6">
       {/* Background Section (Mantenuta la tua correzione di prima) */}
       <div className="fixed inset-0 -z-10 overflow-hidden bg-zinc-950">
         <Image
           fill
           priority
-          alt=""
+          alt="background image" 
           src="/assets/bg-login.webp"
           className="object-cover opacity-60 blur-[2px]"
         />
@@ -179,6 +181,8 @@ export default function LoginPage() {
       </div>
 
       <div className="relative z-10 flex w-full max-w-md flex-col items-center">
+
+        
         <Card className="w-full py-1 rounded-tl-none border-amber-600/60 border bg-zinc-950/90 shadow-2xl shadow-black/60">
           <CardContent className="px-6 py-1 pb-2 sm:px-8">
             {/* Toggle Accedi / Registrati */}
@@ -368,5 +372,14 @@ export default function LoginPage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+
+export default function LoginPage(){
+  return (
+    <Suspense fallback={<LoadingSkeleton />}>
+      <LoginComponent />
+    </Suspense>
   );
 }
