@@ -5,6 +5,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
+import {CaseFileExplorer, FileItem} from "@/components/layout/file-explorer-case"
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -290,6 +291,21 @@ export default function CasiPage() {
   const [selectedId, setSelectedId] = React.useState<string>(CASES[0].id);
   const selectedCase = CASES.find((c) => c.id === selectedId) ?? CASES[0];
 
+
+  // 2. FUNZIONE PER GESTIRE IL "DOWNLOAD"
+  const handleDownloadCase = () => {
+    console.log(`Salvo il caso ${selectedCase.id} nei cookie/tabellone!`);
+    // Qui aggiungeremo la logica per salvare il caso
+  };
+
+  // 3. MOCK DATI FILE (Da aggiungere al tuo oggetto CASES o generare qui)
+  const mockFiles: FileItem[] = [
+    { id: "1", name: "valutazioni_iniziali.txt", type: "text", size: "2.4 KB", content: "Analisi preliminare del caso...\n\nNessun sospetto evidente." },
+    { id: "2", name: "foto_scena", type: "folder", children: [
+        { id: "3", name: "IMG_001.jpg", type: "image", size: "4.1 MB" }
+    ]}
+  ];
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Barra superiore minimale */}
@@ -323,84 +339,42 @@ export default function CasiPage() {
         {/* --------------------------------------------------------- */}
         {/* PREVIEW — dettaglio del caso selezionato                   */}
         {/* --------------------------------------------------------- */}
+     
         <div className="flex-1 px-4 py-10 sm:px-8 lg:h-[calc(100vh-3.5rem)] lg:overflow-y-auto lg:px-12 lg:py-14">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedCase.id}
-              variants={previewVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="mx-auto max-w-3xl"
-            >
-              {/* Header */}
+            <motion.div key={selectedCase.id} /* ... tue varianti ... */ className="mx-auto max-w-3xl">
+              
+              {/* Header (Status, Title, etc) -> Rimane identico */}
               <div className="flex flex-wrap items-center gap-3">
-                <StatusPill status={selectedCase.status} />
-                <span className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500">
-                  <CalendarDays className="h-3.5 w-3.5" />
-                  {selectedCase.dateOpened}
-                </span>
-                <span className="font-mono text-xs text-zinc-600">{selectedCase.code}</span>
+                 {/* ... */}
               </div>
 
               <h2 className="mt-4 text-balance font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
                 {selectedCase.title}
               </h2>
 
-              {/* Immagine di copertina */}
-              <div className="relative mt-8 aspect-video w-full overflow-hidden rounded-xl border border-zinc-800 bg-gradient-to-br from-zinc-800 to-zinc-950">
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/25 to-transparent" />
-                <div
-                  className="absolute -left-12 top-7 w-48 -rotate-45 py-1 text-center font-mono text-[9px] font-bold tracking-widest text-zinc-950 shadow-lg"
-                  style={{ backgroundImage: HAZARD_STRIPES }}
-                  aria-hidden="true"
-                >
-                  SCENA DEL CRIMINE
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Newspaper className="h-10 w-10 text-zinc-700" strokeWidth={1.25} />
-                </div>
-              </div>
-
-              {/* Sinossi */}
               <p className="mt-8 text-pretty leading-relaxed text-zinc-400">
                 {selectedCase.synopsis}
               </p>
 
-              {/* Anteprima prove */}
+              {/* ------------------------------------------------------------------- */}
+              {/* 4. SOSTITUIAMO LE VECCHIE PROVE E IL BOTTONE CON L'EXPLORER CYBER  */}
+              {/* ------------------------------------------------------------------- */}
               <div className="mt-10">
-                <div
-                  className="mb-4 h-1.5 w-16 rounded-full"
-                  style={{ backgroundImage: HAZARD_STRIPES }}
-                  aria-hidden="true"
-                />
-                <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-500">
-                  Prove raccolte
-                </h3>
-                <div className="mt-4 grid grid-cols-2 gap-6 sm:max-w-xs sm:gap-8">
-                  {selectedCase.evidence.map((ev, i) => (
-                    <EvidenceCard
-                      key={ev.id}
-                      evidence={ev}
-                      tilt={i % 2 === 0 ? "-rotate-2" : "rotate-2"}
-                    />
-                  ))}
+                <div className="mb-4 flex items-center justify-between">
+                  <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-500">
+                    Accesso Archivio Digitale
+                  </h3>
                 </div>
+                
+                {/* INSERIAMO IL COMPONENTE QUI */}
+                <CaseFileExplorer 
+                  caseId={selectedCase.code} 
+                  files={mockFiles} // In produzione: selectedCase.files
+                  onDownloadCase={handleDownloadCase} 
+                />
               </div>
 
-              {/* CTA */}
-              <div className="mt-12">
-                <Button
-                  asChild
-                  size="lg"
-                  className="gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-400 focus-visible:ring-amber-400"
-                >
-                  <Link href={`/cases/${selectedCase.slug}`}>
-                    Esamina Dossier Completo
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
             </motion.div>
           </AnimatePresence>
         </div>

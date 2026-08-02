@@ -150,8 +150,9 @@ export default function LandingPage() {
       {/* HERO SECTION */}
       <section
         id="hero"
-        className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 pt-24 sm:px-6 lg:px-8"
-      >
+        className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 pt-10 sm:px-6 lg:px-8"
+      >  
+       <HeroVideoSection />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:64px_64px] opacity-40"
@@ -174,49 +175,9 @@ export default function LandingPage() {
             {hero.description}
           </p>
 
-          {/* Form di ricerca attivo */}
-          <div className="mt-10 w-full max-w-xl">
-            <form
-              onSubmit={handleSearchSubmit}
-              className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/70 p-1.5 shadow-[0_0_0_1px_rgba(0,0,0,0.2)] backdrop-blur focus-within:border-amber-800/70 focus-within:ring-1 focus-within:ring-amber-800/50"
-            >
-              <Search className="ml-2.5 h-4 w-4 shrink-0 text-zinc-500" />
-              <Input
-                type="search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={hero.searchPlaceholder}
-                className="border-0 bg-transparent font-mono text-sm text-zinc-100 placeholder:text-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0"
-              />
-              <Button
-                type="submit"
-                size="sm"
-                className="shrink-0 gap-1.5 bg-amber-600 text-white hover:bg-amber-700 focus-visible:ring-amber-500"
-              >
-                {hero.searchButton}
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Button>
-            </form>
+      
 
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              {hero.quickSearches.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/cases?tag=${encodeURIComponent(tag)}`}
-                  className="rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-xs text-zinc-500 transition-colors hover:border-amber-900/60 hover:text-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative mt-14 flex h-[350px] w-full items-center justify-center overflow-hidden rounded-xl border border-dashed border-zinc-800 bg-zinc-900/50">
-       
-       
-        <HeroVideoSection />
-
-          </div>
+   
         </div>
 
       </section>
