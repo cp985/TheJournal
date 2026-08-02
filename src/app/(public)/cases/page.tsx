@@ -398,10 +398,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CaseFileExplorer, FileItem } from "@/components/layout/file-explorer-case";
 import { cn } from "@/lib/utils";
-import { Film, Newspaper, FileLock2 } from "lucide-react";
+import { Film,  } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // Tipi dal Database (Allineati a Prisma)
@@ -533,7 +533,6 @@ function FilmFrame({
   isSelected: boolean;
   onSelect: () => void;
 }) {
-  // Generiamo il codice del frame dinamicamente in base all'indice (es. #001)
   const computedFrameCode = `#${String(index + 1).padStart(3, "0")}`;
 
   return (
@@ -592,8 +591,6 @@ export default function CasiPage() {
   // Stato per i casi salvati in memoria locale
   const [savedCases, setSavedCases] = React.useState<string[]>([]);
 
-  // Al caricamento, leggiamo il localStorage
-// Al caricamento, leggiamo il localStorage
   React.useEffect(() => {
     const loadSavedCases = () => {
       const stored = localStorage.getItem("active_cases");

@@ -130,18 +130,12 @@ function StatusBadge({ status }: { status: string }) {
 // ---------------------------------------------------------------------------
 
 export default function LandingPage() {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Recupera il dizionario della lingua corrente tramite useLanguage
   const { t } = useLanguage();
-  const { hero, features, cases, cta } = t.landing;
+  const { hero, cases, cta } = t.landing;
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    router.push(`/cases?q=${encodeURIComponent(searchQuery.trim())}`);
-  };
+
 
   return (
     <main className="relative min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-amber-900 selection:text-white">
@@ -150,7 +144,7 @@ export default function LandingPage() {
       {/* HERO SECTION */}
       <section
         id="hero"
-        className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 pt-10 sm:px-6 lg:px-8"
+        className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 pt-5 sm:px-6 lg:px-8"
       >  
        <HeroVideoSection />
         <div
@@ -261,7 +255,7 @@ export default function LandingPage() {
               variant="outline"
               className="border-zinc-700 bg-transparent text-zinc-300 hover:border-amber-800 hover:bg-red-950/20 hover:text-amber-400"
             >
-              <Link href="/casi">
+              <Link href="/cases">
                 {cases.viewAllButton}
                 <ArrowRight className="ml-1.5 h-4 w-4" />
               </Link>
