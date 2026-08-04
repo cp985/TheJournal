@@ -1,34 +1,310 @@
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import Image from "next/image";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { CaseFileExplorer} from "@/components/layout/file-explorer-case";
+// import { cn } from "@/lib/utils";
+// import { Film,  } from "lucide-react";
+// import{type DbDossier }from "@/lib/type"
+// import {getDossiers} from "@/../api/api";
+
+
+
+
+
+// const FRAME_GRADIENTS = [
+//   "bg-gradient-to-br from-zinc-800 to-zinc-950",
+//   "bg-gradient-to-br from-amber-950/30 to-zinc-950",
+//   "bg-gradient-to-br from-zinc-900 to-neutral-950",
+//   "bg-gradient-to-br from-stone-800 to-zinc-950",
+//   "bg-gradient-to-br from-zinc-800 to-neutral-950",
+// ];
+
+// // ---------------------------------------------------------------------------
+// // Componenti di supporto
+// // ---------------------------------------------------------------------------
+
+// function Sprockets({ edge }: { edge: "start" | "end" }) {
+//   const holes = Array.from({ length: 22 });
+//   return (
+//     <div
+//       aria-hidden="true"
+//       className={cn(
+//         "pointer-events-none absolute z-10 flex items-center justify-around gap-1 px-3",
+//         "inset-x-0 h-3",
+//         edge === "start" ? "top-0" : "bottom-0",
+//         "lg:inset-x-auto lg:top-0 lg:h-full lg:w-3 lg:flex-col lg:justify-around lg:py-3 lg:px-0",
+//         edge === "start" ? "lg:left-0" : "lg:right-0"
+//       )}
+//     >
+//       {holes.map((_, idx) => (
+//         <span
+//           key={idx}
+//           className="h-1.5 w-1.5 shrink-0 rounded-[2px] bg-zinc-800 ring-1 ring-inset ring-zinc-700"
+//         />
+//       ))}
+//     </div>
+//   );
+// }
+
+// function FilmFrame({
+//   data,
+//   index,
+//   isSelected,
+//   onSelect,
+// }: {
+//   data: DbDossier;
+//   index: number;
+//   isSelected: boolean;
+//   onSelect: () => void;
+// }) {
+//   const computedFrameCode = `#${String(index + 1).padStart(3, "0")}`;
+
+//   return (
+//     <button
+//       type="button"
+//       onClick={onSelect}
+//       aria-current={isSelected ? "true" : undefined}
+//       aria-label={`Apri il caso ${data.title}`}
+//       className={cn(
+//         "group relative w-60 shrink-0 rounded-md border-2 border-transparent bg-zinc-900/80 p-1.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 lg:w-full",
+//         !isSelected && "hover:border-zinc-700"
+//       )}
+//     >
+//       {isSelected && (
+//         <motion.span
+//           layoutId="active-frame-glow"
+//           transition={{ type: "spring", stiffness: 380, damping: 32 }}
+//           className="pointer-events-none absolute inset-0 rounded-md border-2 border-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+//         />
+//       )}
+
+   
+//       <div
+//         className={cn(
+//           "relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-950",
+//           FRAME_GRADIENTS[index % FRAME_GRADIENTS.length]
+//         )}
+//       >
+//         {/* Se coverUrl esiste, mostriamo l'immagine reale */}
+//         {data.coverUrl ? (
+//           <Image
+//           sizes=" ( max-width: 768px ) 100vw, 40vw"
+
+//           fill
+//             src={data.coverUrl}
+//             alt={data.title}
+//             className="h-full w-full object-cover transition-all duration-300 grayscale group-hover:grayscale-0"
+//           />
+//         ) : (
+//           /* Fallback se la copertina manca: mostra l'icona Film */
+//           <div className="absolute inset-0 flex items-center justify-center">
+//             <Film className="h-6 w-6 text-zinc-600" strokeWidth={1.5} />
+//           </div>
+//         )}
+
+//         {/* Overlay effetto vintage / vignette scuro per dare tono da dossier */}
+//         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+
+//         {isSelected && (
+//           <span className="absolute right-1.5 top-1.5 rounded-sm bg-amber-500 px-1.5 py-0.5 font-mono text-[9px] font-bold tracking-wide text-zinc-950">
+//             {data.code}
+//           </span>
+//         )}
+//       </div>
+
+//       <div className="mt-1.5 px-0.5">
+//         <span className="block truncate font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+//           KODAK 8MM · {computedFrameCode}
+//         </span>
+//         <p className="truncate text-xs text-zinc-300">{data.title}</p>
+//       </div>
+//     </button>
+//   );
+// }
+
+// // ---------------------------------------------------------------------------
+// // Pagina Principale
+// // ---------------------------------------------------------------------------
+
+// export default function CasiPage() {
+//   const [CASES, setDossiers] = useState<DbDossier[]>([]);
+//   const [selectedId, setSelectedId] = useState<string | null>(null);
+//   const [isLoading, setIsLoading] = useState<boolean>(true);
+
+//   useEffect(() => {
+//     async function fetchDossiers() {
+//       try {
+//         const caseList = await getDossiers();
+//         setDossiers(caseList);
+//         if (caseList.length > 0) {
+//           setSelectedId(caseList[0].id);
+//         }
+//       } catch (error) {
+//         console.error("Errore durante il recupero dei dossier:", error);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     }
+
+//     fetchDossiers();
+//   }, []);
+
+//   // Trova il caso selezionato o il primo disponibile se selectedId non è ancora impostato
+//   const selectedCase = CASES.find((c) => c.id === selectedId) ?? CASES[0];
+
+//   // Stato per i casi salvati in memoria locale
+//   const [savedCases, setSavedCases] = useState<string[]>([]);
+
+//   useEffect(() => {
+//     const loadSavedCases = () => {
+//       const stored = localStorage.getItem("active_cases");
+//       if (stored) {
+//         try {
+//           setSavedCases(JSON.parse(stored));
+//         } catch (e) {
+//           console.error("Errore nel parsing dei casi salvati");
+//         }
+//       }
+//     };
+
+//     loadSavedCases();
+//   }, []);
+
+//   // Schermata di caricamento / stato vuoto per evitare runtime crash
+//   if (isLoading) {
+//     return (
+//       <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
+//         <p className="font-mono text-sm uppercase tracking-widest">Caricamento dossier in corso...</p>
+//       </main>
+//     );
+//   }
+
+//   if (CASES.length === 0 || !selectedCase) {
+//     return (
+//       <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
+//         <p className="font-mono text-sm uppercase tracking-widest">Nessun dossier trovato.</p>
+//       </main>
+//     );
+//   }
+
+//   // Funzione Salva/Rimuovi Caso
+//   const handleDownloadCase = () => {
+//     let newSavedCases = [...savedCases];
+
+//     if (newSavedCases.includes(selectedCase.id)) {
+//       newSavedCases = newSavedCases.filter((id) => id !== selectedCase.id);
+//       console.log(`Rimosso il caso ${selectedCase.code} dal tabellone.`);
+//     } else {
+//       newSavedCases.push(selectedCase.id);
+//       console.log(`Salvato il caso ${selectedCase.code} nel tabellone!`);
+//     }
+
+//     setSavedCases(newSavedCases);
+//     localStorage.setItem("active_cases", JSON.stringify(newSavedCases));
+//   };
+
+
+
+//   <CaseFileExplorer
+//   caseId={selectedCase.id}
+//   files={selectedCase.evidences || []} 
+//   onDownloadCase={handleDownloadCase}
+// />
+
+//   const isCaseSaved = savedCases.includes(selectedCase.id);
+
+//   return (
+//     <main className="min-h-screen bg-zinc-950 text-zinc-100">
+//       <div className="flex flex-col lg:flex-row">
+//         {/* PELLICOLA 8MM — selettore casi */}
+//         <aside
+//           className="relative shrink-0 border-b border-zinc-900 bg-neutral-950 lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] lg:w-80 lg:overflow-y-auto lg:border-b-0 lg:border-r"
+//           aria-label="Elenco casi"
+//         >
+//           <Sprockets edge="start" />
+//           <Sprockets edge="end" />
+
+//           <div className="flex gap-4 overflow-x-auto px-4 py-5 lg:flex-col lg:gap-5 lg:overflow-x-visible lg:px-7 lg:py-8">
+//             {CASES.map((item, index) => (
+//               <FilmFrame
+//                 key={item.id}
+//                 data={item}
+//                 index={index}
+//                 isSelected={item.id === selectedCase.id}
+//                 onSelect={() => setSelectedId(item.id)}
+//               />
+//             ))}
+//           </div>
+//         </aside>
+
+//         {/* PREVIEW — dettaglio del caso selezionato */}
+//         <div className="flex-1 px-4 py-10 sm:px-8 lg:h-[calc(100vh-3.5rem)] lg:overflow-y-auto lg:px-12 lg:py-14">
+//           <AnimatePresence mode="wait">
+//             <motion.div key={selectedCase.id} className="mx-auto max-w-3xl">
+//               <div className="flex flex-wrap items-center gap-3">
+//                 <span
+//                   className={cn(
+//                     "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider",
+//                     selectedCase.status === "Open" ? "bg-amber-500 text-zinc-950" : "bg-neutral-600 text-neutral-100"
+//                   )}
+//                 >
+//                   {selectedCase.status === "Open" ? "IN CORSO" : "ARCHIVIATO"}
+//                 </span>
+//                 <span className="font-mono text-xs text-zinc-500">
+//                   AUTORE: {selectedCase.user?.username || "Sconosciuto"}
+//                 </span>
+//               </div>
+
+//               <h2 className="mt-4 text-balance font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
+//                 {selectedCase.title}
+//               </h2>
+
+//               <p className="mt-8 text-pretty leading-relaxed text-zinc-400">
+//                 {selectedCase.description}
+//               </p>
+
+//               {/* ARCHIVIO DIGITALE */}
+//               <div className="mt-10">
+//                 <div className="mb-4 flex items-center justify-between">
+//                   <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-500">
+//                     Accesso Archivio Digitale
+//                   </h3>
+//                   <button
+//                     onClick={handleDownloadCase}
+//                     className="rounded border border-zinc-700 px-3 py-1 text-xs transition-colors hover:bg-zinc-800"
+//                   >
+//                     {isCaseSaved ? "Rimuovi da Mappa" : "Carica in Mappa"}
+//                   </button>
+//                 </div>
+
+//                 <CaseFileExplorer
+//                   caseId={selectedCase.code}
+//                   files={selectedCase.evidences || []}
+//                   onDownloadCase={handleDownloadCase}
+//                 />
+//               </div>
+              
+//             </motion.div>
+//           </AnimatePresence>
+//         </div>
+//       </div>
+//     </main>
+//   );
+// }
+
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { CaseFileExplorer, FileItem } from "@/components/layout/file-explorer-case";
+import { CaseFileExplorer } from "@/components/layout/file-explorer-case";
 import { cn } from "@/lib/utils";
-import { Film,  } from "lucide-react";
-import{type DbDossier , type DbUser}from "@/lib/type"
-import {getDossiers} from "@/../api/api";
-
-
-//   title: string;
-//   description: string;
-//   status: string; // Es: "Open", "Closed"
-//   user: DbUser; 
-//   evidences: DbEvidence[]; 
-// }
-
-// ---------------------------------------------------------------------------
-// Dati Mock Formattati come risposte del DB
-// ---------------------------------------------------------------------------
-
-const mockUser: DbUser = {
-  id: "user-123",
-  username: "Agente_Rossi",
-};
-
-
-
+import { Film } from "lucide-react";
+import { type DbDossier } from "@/lib/type";
+import { getDossiers } from "@/../api/api";
+import { useLanguage } from "@/context/maincontext"; // Modifica il path se diverso
 
 const FRAME_GRADIENTS = [
   "bg-gradient-to-br from-zinc-800 to-zinc-950",
@@ -70,20 +346,26 @@ function FilmFrame({
   index,
   isSelected,
   onSelect,
+  language,
+  t,
 }: {
   data: DbDossier;
   index: number;
   isSelected: boolean;
   onSelect: () => void;
+  language: string;
+  t: any;
 }) {
   const computedFrameCode = `#${String(index + 1).padStart(3, "0")}`;
+  // Titolo dinamico dal DB basato sulla lingua selezionata
+  const frameTitle = language === "en" ? (data.title_en || data.title) : data.title;
 
   return (
     <button
       type="button"
       onClick={onSelect}
       aria-current={isSelected ? "true" : undefined}
-      aria-label={`Apri il caso ${data.title}`}
+      aria-label={`${t.casesPage.openCaseAlt} ${frameTitle}`}
       className={cn(
         "group relative w-60 shrink-0 rounded-md border-2 border-transparent bg-zinc-900/80 p-1.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 lg:w-full",
         !isSelected && "hover:border-zinc-700"
@@ -97,7 +379,6 @@ function FilmFrame({
         />
       )}
 
-   
       <div
         className={cn(
           "relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-950",
@@ -107,21 +388,20 @@ function FilmFrame({
         {/* Se coverUrl esiste, mostriamo l'immagine reale */}
         {data.coverUrl ? (
           <Image
-          sizes=" ( max-width: 768px ) 100vw, 40vw"
-
-          fill
+            sizes="(max-width: 768px) 100vw, 40vw"
+            fill
             src={data.coverUrl}
-            alt={data.title}
+            alt={frameTitle}
             className="h-full w-full object-cover transition-all duration-300 grayscale group-hover:grayscale-0"
           />
         ) : (
-          /* Fallback se la copertina manca: mostra l'icona Film */
+          /* Fallback se la copertina manca */
           <div className="absolute inset-0 flex items-center justify-center">
             <Film className="h-6 w-6 text-zinc-600" strokeWidth={1.5} />
           </div>
         )}
 
-        {/* Overlay effetto vintage / vignette scuro per dare tono da dossier */}
+        {/* Overlay effetto vintage */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
         {isSelected && (
@@ -133,9 +413,9 @@ function FilmFrame({
 
       <div className="mt-1.5 px-0.5">
         <span className="block truncate font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-          KODAK 8MM · {computedFrameCode}
+          {t.casesPage.kodakPrefix} {computedFrameCode}
         </span>
-        <p className="truncate text-xs text-zinc-300">{data.title}</p>
+        <p className="truncate text-xs text-zinc-300">{frameTitle}</p>
       </div>
     </button>
   );
@@ -146,6 +426,8 @@ function FilmFrame({
 // ---------------------------------------------------------------------------
 
 export default function CasiPage() {
+  const { t, lang } = useLanguage();
+
   const [CASES, setDossiers] = useState<DbDossier[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -168,7 +450,7 @@ export default function CasiPage() {
     fetchDossiers();
   }, []);
 
-  // Trova il caso selezionato o il primo disponibile se selectedId non è ancora impostato
+  // Trova il caso selezionato o il primo disponibile
   const selectedCase = CASES.find((c) => c.id === selectedId) ?? CASES[0];
 
   // Stato per i casi salvati in memoria locale
@@ -189,11 +471,13 @@ export default function CasiPage() {
     loadSavedCases();
   }, []);
 
-  // Schermata di caricamento / stato vuoto per evitare runtime crash
+  // Schermata di caricamento / stato vuoto
   if (isLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        <p className="font-mono text-sm uppercase tracking-widest">Caricamento dossier in corso...</p>
+        <p className="font-mono text-sm uppercase tracking-widest">
+          {t.casesPage.loading}
+        </p>
       </main>
     );
   }
@@ -201,7 +485,9 @@ export default function CasiPage() {
   if (CASES.length === 0 || !selectedCase) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        <p className="font-mono text-sm uppercase tracking-widest">Nessun dossier trovato.</p>
+        <p className="font-mono text-sm uppercase tracking-widest">
+          {t.casesPage.empty}
+        </p>
       </main>
     );
   }
@@ -222,15 +508,11 @@ export default function CasiPage() {
     localStorage.setItem("active_cases", JSON.stringify(newSavedCases));
   };
 
-  // Convertiamo le prove dal DB in un formato leggibile dall'Explorer
-  const filesPerExplorer: FileItem[] = (selectedCase.evidences || []).map((ev) => ({
-    id: ev.id,
-    name: ev.type === "PHOTO" ? `reperti_${ev.id.slice(0, 4)}.jpg` : `documento_${ev.id.slice(0, 4)}.pdf`,
-    type: ev.type === "PHOTO" ? "image" : ev.type === "DOCUMENT" ? "text" : "pdf",
-    content: ev.notes,
-  }));
-
   const isCaseSaved = savedCases.includes(selectedCase.id);
+
+  // Risoluzione dei campi in lingua per il caso selezionato
+  const activeTitle = lang.toLowerCase() === "en" ? (selectedCase.title_en || selectedCase.title) : selectedCase.title;
+  const activeDescription = lang.toLowerCase() === "en" ? (selectedCase.description_en || selectedCase.description) : selectedCase.description;
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -251,6 +533,8 @@ export default function CasiPage() {
                 index={index}
                 isSelected={item.id === selectedCase.id}
                 onSelect={() => setSelectedId(item.id)}
+                language={lang}
+                t={t}
               />
             ))}
           </div>
@@ -267,38 +551,42 @@ export default function CasiPage() {
                     selectedCase.status === "Open" ? "bg-amber-500 text-zinc-950" : "bg-neutral-600 text-neutral-100"
                   )}
                 >
-                  {selectedCase.status === "Open" ? "IN CORSO" : "ARCHIVIATO"}
+                  {selectedCase.status === "Open"
+                    ? t.casesPage.openStatus
+                    : t.casesPage.archivedStatus}
                 </span>
                 <span className="font-mono text-xs text-zinc-500">
-                  AUTORE: {selectedCase.user?.username || "Sconosciuto"}
+                  {t.casesPage.authorLabel} {selectedCase.user?.username || t.casesPage.unknownAuthor}
                 </span>
               </div>
 
               <h2 className="mt-4 text-balance font-serif text-3xl font-semibold tracking-tight text-zinc-50 sm:text-4xl">
-                {selectedCase.title}
+                {activeTitle}
               </h2>
 
               <p className="mt-8 text-pretty leading-relaxed text-zinc-400">
-                {selectedCase.description}
+                {activeDescription}
               </p>
 
               {/* ARCHIVIO DIGITALE */}
               <div className="mt-10">
                 <div className="mb-4 flex items-center justify-between">
                   <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-500">
-                    Accesso Archivio Digitale
+                    {t.casesPage.archiveAccessTitle}
                   </h3>
                   <button
                     onClick={handleDownloadCase}
                     className="rounded border border-zinc-700 px-3 py-1 text-xs transition-colors hover:bg-zinc-800"
                   >
-                    {isCaseSaved ? "Rimuovi da Mappa" : "Carica in Mappa"}
+                    {isCaseSaved
+                      ? t.casesPage.removeFromMap
+                      : t.casesPage.loadToMap}
                   </button>
                 </div>
 
                 <CaseFileExplorer
                   caseId={selectedCase.code}
-                  files={filesPerExplorer}
+                  files={selectedCase.evidences || []}
                   onDownloadCase={handleDownloadCase}
                 />
               </div>

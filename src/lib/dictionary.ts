@@ -8,15 +8,21 @@ export const dictionary = {
       login: "Area Riservata",
       casesArchive: "Archivio Casi",
     },
-    casesPage: {
-        archive: "Archivio Casi",
-      selectCase: "Seleziona un caso dalla pellicola",
-      evidenceTitle: "Prove Raccolte",
-      readDossier: "Esamina Dossier Completo",
-      statusInProgress: "IN CORSO",
-      statusArchived: "ARCHIVIATO",
-    },
-    landing: {
+casesPage: {
+  loading: "Caricamento dossier in corso...",
+  empty: "Nessun dossier trovato.",
+  kodakPrefix: "KODAK 8MM ·",
+  openStatus: "IN CORSO",
+  archivedStatus: "ARCHIVIATO",
+  authorLabel: "AUTORE:",
+  unknownAuthor: "Sconosciuto",
+  archiveAccessTitle: "Accesso Archivio Digitale",
+  removeFromMap: "Rimuovi da Mappa",
+  loadToMap: "Carica in Mappa",
+  openCaseAlt: "Apri il caso",
+},
+
+   landing: {
     hero: {
       eyebrow: "Dati verificati · Fonti pubbliche",
       titleStart: "Il Data Journalism incontra la",
@@ -267,15 +273,20 @@ export const dictionary = {
       login: "Restricted Area",
       casesArchive: "Case Archive",
     },
-    casesPage: {
-        archive: "Case Archive",
-      selectCase: "Select a case from the filmstrip",
-      evidenceTitle: "Collected Evidence",
-      readDossier: "Examine Full Dossier",
-      statusInProgress: "IN PROGRESS",
-      statusArchived: "ARCHIVED",
-    },
-    landing: {
+casesPage: {
+  loading: "Loading dossiers...",
+  empty: "No dossiers found.",
+  kodakPrefix: "KODAK 8MM ·",
+  openStatus: "IN PROGRESS",
+  archivedStatus: "ARCHIVED",
+  authorLabel: "AUTHOR:",
+  unknownAuthor: "Unknown",
+  archiveAccessTitle: "Digital Archive Access",
+  removeFromMap: "Remove from Map",
+  loadToMap: "Load to Map",
+  openCaseAlt: "Open case",
+} ,   
+landing: {
     hero: {
       eyebrow: "Verified Data · Public Sources",
       titleStart: "Data Journalism meets",
