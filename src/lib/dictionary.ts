@@ -20,6 +20,19 @@ casesPage: {
   removeFromMap: "Rimuovi da Mappa",
   loadToMap: "Carica in Mappa",
   openCaseAlt: "Apri il caso",
+  fileExplorer: {
+  back: "Indietro",
+  confidential: "RISERVATO",
+  evidencePrefix: "Reperto #",
+  previewTitle: "Anteprima File",
+  open: "Apri",
+  download: "Scarica",
+  noUrl: "Nessun URL fornito",
+  pdfNoUrl: "URL PDF non disponibile",
+  fileNotesHeader: "Note del fascicolo:",
+  emptySelection: "Seleziona un reperto dalla lista per visualizzarne l'anteprima",
+  loadToMap: "CARICA DOSSIER IN MAPPA"
+}
 },
 
    landing: {
@@ -285,6 +298,19 @@ casesPage: {
   removeFromMap: "Remove from Map",
   loadToMap: "Load to Map",
   openCaseAlt: "Open case",
+  fileExplorer: {
+  back: "Back",
+  confidential: "CONFIDENTIAL",
+  evidencePrefix: "Evidence #",
+  previewTitle: "File Preview",
+  open: "Open",
+  download: "Download",
+  noUrl: "No URL provided",
+  pdfNoUrl: "PDF URL not available",
+  fileNotesHeader: "File notes:",
+  emptySelection: "Select an evidence item from the list to preview it",
+  loadToMap: "LOAD DOSSIER TO MAP"
+}
 } ,   
 landing: {
     hero: {

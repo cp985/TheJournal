@@ -533,7 +533,7 @@ export default function CasiPage() {
                 index={index}
                 isSelected={item.id === selectedCase.id}
                 onSelect={() => setSelectedId(item.id)}
-                language={lang}
+                language={lang.toLowerCase()}
                 t={t}
               />
             ))}
