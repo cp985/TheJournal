@@ -1,7 +1,6 @@
-
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { CaseFileExplorer } from "@/components/layout/file-explorer-case";
@@ -9,9 +8,9 @@ import { cn } from "@/lib/utils";
 import { Film } from "lucide-react";
 import { type DbDossier } from "@/lib/type";
 import { getDossiers } from "@/../api/api";
-import { useLanguage } from "@/context/maincontext"; 
+import { useLanguage } from "@/context/maincontext";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import Loading from "@/components/layout/loading";
 const FRAME_GRADIENTS = [
   "bg-gradient-to-br from-zinc-800 to-zinc-950",
   "bg-gradient-to-br from-amber-950/30 to-zinc-950",
@@ -34,7 +33,7 @@ function Sprockets({ edge }: { edge: "start" | "end" }) {
         "inset-x-0 h-3",
         edge === "start" ? "top-0" : "bottom-0",
         "lg:inset-x-auto lg:top-0 lg:h-full lg:w-3 lg:flex-col lg:justify-around lg:py-3 lg:px-0",
-        edge === "start" ? "lg:left-0" : "lg:right-0"
+        edge === "start" ? "lg:left-0" : "lg:right-0",
       )}
     >
       {holes.map((_, idx) => (
@@ -64,7 +63,8 @@ function FilmFrame({
 }) {
   const computedFrameCode = `#${String(index + 1).padStart(3, "0")}`;
   // Titolo dinamico dal DB basato sulla lingua selezionata
-  const frameTitle = language === "en" ? (data.title_en || data.title) : data.title;
+  const frameTitle =
+    language === "en" ? data.title_en || data.title : data.title;
 
   return (
     <button
@@ -74,7 +74,7 @@ function FilmFrame({
       aria-label={`${t.casesPage.openCaseAlt} ${frameTitle}`}
       className={cn(
         "group relative w-60 shrink-0 rounded-md border-2 border-transparent bg-zinc-900/80 p-1.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 lg:w-full",
-        !isSelected && "hover:border-zinc-700"
+        !isSelected && "hover:border-zinc-700",
       )}
     >
       {isSelected && (
@@ -88,7 +88,7 @@ function FilmFrame({
       <div
         className={cn(
           "relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-950",
-          FRAME_GRADIENTS[index % FRAME_GRADIENTS.length]
+          FRAME_GRADIENTS[index % FRAME_GRADIENTS.length],
         )}
       >
         {/* Se coverUrl esiste, mostriamo l'immagine reale */}
@@ -131,7 +131,7 @@ function FilmFrame({
 // Pagina Principale
 // ---------------------------------------------------------------------------
 
-export default function CasiPage() {
+export function CasiPage2() {
   const { t, lang } = useLanguage();
 
   const [CASES, setDossiers] = useState<DbDossier[]>([]);
@@ -149,9 +149,9 @@ export default function CasiPage() {
         const caseList = await getDossiers();
         setDossiers(caseList);
         if (caseList.length > 0) {
-       if (codeFromUrl) {
+          if (codeFromUrl) {
             const matchedCase = caseList.find(
-              (c) => c.code.toLowerCase() === codeFromUrl.toLowerCase()
+              (c) => c.code.toLowerCase() === codeFromUrl.toLowerCase(),
             );
             if (matchedCase) {
               setSelectedId(matchedCase.id);
@@ -193,19 +193,26 @@ export default function CasiPage() {
     loadSavedCases();
   }, []);
 
-      // Aggiorna l'URL nel browser senza ricaricare la pagina
-const handleSelectCase = (item: DbDossier) => {
+  // Aggiorna l'URL nel browser senza ricaricare la pagina
+  const handleSelectCase = (item: DbDossier) => {
     setSelectedId(item.id);
-    router.push(`/cases?code=${encodeURIComponent(item.code)}`, { scroll: false });
+    router.push(`/cases?code=${encodeURIComponent(item.code)}`, {
+      scroll: false,
+    });
   };
 
   // Schermata di caricamento / stato vuoto
   if (isLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">
-        <p className="font-mono text-sm uppercase tracking-widest">
+        <span className="flex justify-center items-end gap-0.5 font-mono text-sm uppercase tracking-widest">
           {t.casesPage.loading}
-        </p>
+          <span className="flex gap-1 h-8 justify-center items-end pb-1">
+            <span className=" animate-bounce  rounded-full h-1 w-1 bg-amber-500 "></span>
+            <span className="animate-bounce rounded-full h-1 w-1 bg-amber-500 delay-150 "></span>
+            <span className="animate-bounce rounded-full h-1 w-1 bg-amber-500  delay-200 "></span>
+          </span>
+        </span>
       </main>
     );
   }
@@ -239,8 +246,14 @@ const handleSelectCase = (item: DbDossier) => {
   const isCaseSaved = savedCases.includes(selectedCase.id);
 
   // Risoluzione dei campi in lingua per il caso selezionato
-  const activeTitle = lang.toLowerCase() === "en" ? (selectedCase.title_en || selectedCase.title) : selectedCase.title;
-  const activeDescription = lang.toLowerCase() === "en" ? (selectedCase.description_en || selectedCase.description) : selectedCase.description;
+  const activeTitle =
+    lang.toLowerCase() === "en"
+      ? selectedCase.title_en || selectedCase.title
+      : selectedCase.title;
+  const activeDescription =
+    lang.toLowerCase() === "en"
+      ? selectedCase.description_en || selectedCase.description
+      : selectedCase.description;
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -276,7 +289,9 @@ const handleSelectCase = (item: DbDossier) => {
                 <span
                   className={cn(
                     "inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider",
-                    selectedCase.status === "Open" ? "bg-amber-500 text-zinc-950" : "bg-neutral-600 text-neutral-100"
+                    selectedCase.status === "Open"
+                      ? "bg-amber-500 text-zinc-950"
+                      : "bg-neutral-600 text-neutral-100",
                   )}
                 >
                   {selectedCase.status === "Open"
@@ -284,7 +299,8 @@ const handleSelectCase = (item: DbDossier) => {
                     : t.casesPage.archivedStatus}
                 </span>
                 <span className="font-mono text-xs text-zinc-500">
-                  {t.casesPage.authorLabel} {selectedCase.user?.username || t.casesPage.unknownAuthor}
+                  {t.casesPage.authorLabel}{" "}
+                  {selectedCase.user?.username || t.casesPage.unknownAuthor}
                 </span>
               </div>
 
@@ -323,5 +339,13 @@ const handleSelectCase = (item: DbDossier) => {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function CasePage() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <CasiPage2 />
+    </Suspense>
   );
 }

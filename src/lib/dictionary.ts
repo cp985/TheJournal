@@ -9,7 +9,7 @@ export const dictionary = {
       casesArchive: "Archivio Casi",
     },
 casesPage: {
-  loading: "Caricamento dossier in corso...",
+  loading: "Caricamento dossier in corso",
   empty: "Nessun dossier trovato.",
   kodakPrefix: "KODAK 8MM ·",
   openStatus: "IN CORSO",
@@ -287,7 +287,7 @@ casesPage: {
       casesArchive: "Case Archive",
     },
 casesPage: {
-  loading: "Loading dossiers...",
+  loading: "Loading dossiers",
   empty: "No dossiers found.",
   kodakPrefix: "KODAK 8MM ·",
   openStatus: "IN PROGRESS",
