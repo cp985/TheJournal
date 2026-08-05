@@ -198,24 +198,24 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 lg:grid-cols-3 ">
             {cases.items.map((item) => (
               <Card
                 key={item.code}
-                className="relative flex flex-col justify-between border-zinc-800 bg-zinc-900/40 transition-colors hover:border-amber-900/50 hover:bg-zinc-900/70"
+                className="relative flex flex-col pt-10 justify-between border-zinc-800 bg-zinc-900/40 transition-colors hover:border-amber-900/50 hover:bg-zinc-900/70"
               >
-                <span className="absolute -top-3 right-5 -rotate-3 rounded-sm border border-zinc-700 bg-zinc-950 px-2 py-0.5 font-mono text-[10px] tracking-widest text-zinc-500">
+                <span className="absolute  top-3 right-5 -rotate-3 rounded-sm border border-zinc-700 bg-zinc-900 px-2 py-0.5 font-mono text-[10px] tracking-widest text-zinc-500">
                   {item.code}
                 </span>
 
                 <div>
                   <CardHeader>
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center justify-between gap-3 ">
                       <CardTitle className="text-lg font-medium text-zinc-100">
                         {item.title}
                       </CardTitle>
                     </div>
-                    <div className="pt-1">
+                    <div className="pt-1 ">
                       <StatusBadge status={item.status} />
                     </div>
                   </CardHeader>

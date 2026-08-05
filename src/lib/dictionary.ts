@@ -83,24 +83,24 @@ casesPage: {
       viewAllButton: "Visualizza tutti i casi",
       items: [
         {
-          code: "CASE_014",
-          title: "Caso Garlasco",
+          code: "n-001",
+          title: "L'omicidio di Elisa Claps",
           status: "Archiviato",
           description:
             "Ricostruzione cronologica degli atti processuali e delle perizie tecniche depositate nei vari gradi di giudizio.",
-          atti: 342,
-          connessioni: 58,
-          href: "/cases/garlasco",
+          atti: 4,
+          connessioni: 12,
+          href: "/cases?code=n-001",
         },
         {
-          code: "CASE_027",
+          code: "n-002",
           title: "Caso Pietracatella",
           status: "In Analisi",
           description:
             "Dossier aperto su un caso irrisolto in un piccolo comune del Molise, ricostruito attraverso atti e testimonianze pubbliche.",
           atti: 128,
           connessioni: 24,
-          href: "/cases/pietracatella",
+          href: "/cases?code=n-002",
         },
         {
           code: "CASE_031",
