@@ -673,14 +673,7 @@ export function CasiPage2() {
                     <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-amber-500">
                       {t.casesPage.archiveAccessTitle}
                     </h3>
-                    <button
-                      onClick={handleDownloadCase}
-                      className="rounded border border-zinc-700 px-3 py-1 text-xs transition-colors hover:bg-zinc-800"
-                    >
-                      {isCaseSaved
-                        ? t.casesPage.removeFromMap
-                        : t.casesPage.loadToMap}
-                    </button>
+     
                   </div>
 
                   <CaseFileExplorer
@@ -706,16 +699,16 @@ export function CasiPage2() {
                 </div>
 
                 <h2 className="font-mono text-xl font-bold uppercase tracking-wider text-zinc-200">
-                  Archivio Generale Casi
+                 {t.casesPage.pageDefault.title}
                 </h2>
 
                 <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-400">
-                  Seleziona un dossier dalla pellicola per consultare i dettagli della scheda, i reperti archiviati e la documentazione.
+                {t.casesPage.pageDefault.description}
                 </p>
 
                 <div className="mt-6 flex items-center gap-2 rounded-md border border-zinc-800 bg-zinc-950 px-3 py-1.5 text-xs font-mono text-zinc-500">
                   <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-                  <span>{CASES.length} Dossier archiviati nel sistema</span>
+                  <span>{CASES.length} {t.casesPage.pageDefault.numbeerOfDossiers}</span>
                 </div>
               </motion.div>
             )}

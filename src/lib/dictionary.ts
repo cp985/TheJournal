@@ -32,6 +32,12 @@ casesPage: {
   fileNotesHeader: "Note del fascicolo:",
   emptySelection: "Seleziona un reperto dalla lista per visualizzarne l'anteprima",
   loadToMap: "CARICA DOSSIER IN MAPPA"
+},
+pageDefault:{
+title:"Archivio Generale Casi",
+description: "Seleziona un dossier dalla pellicola per consultare i dettagli della scheda, i reperti archiviati e la documentazione.",
+numbeerOfDossiers:"Dossier archiviati nel sistema ",
+
 }
 },
 
@@ -310,6 +316,12 @@ casesPage: {
   fileNotesHeader: "File notes:",
   emptySelection: "Select an evidence item from the list to preview it",
   loadToMap: "LOAD DOSSIER TO MAP"
+},
+pageDefault:{
+title:"General Cases Archive",
+description: "Select a dossier to explore details and documents.",
+numbeerOfDossiers:"Dossiers archived ",
+
 }
 } ,   
 landing: {
