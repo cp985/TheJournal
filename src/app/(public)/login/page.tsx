@@ -1,8 +1,6 @@
 "use client";
 
-
-
-import { useState , Suspense} from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import LoadingSkeleton from "@/components/layout/loading";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -12,6 +10,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useActionState } from "react";
+import { userSignUp } from "@/../api/api";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Lock,
@@ -37,6 +37,8 @@ interface TextFieldProps {
   icon: React.ElementType;
   type?: string;
   autoComplete?: string;
+  defaultValue?: string;
+  required?: boolean;
 }
 
 function TextField({
@@ -46,6 +48,8 @@ function TextField({
   icon: Icon,
   type = "text",
   autoComplete,
+  defaultValue,
+  required,
 }: TextFieldProps) {
   return (
     <div className="space-y-1.5">
@@ -63,6 +67,8 @@ function TextField({
           type={type}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          defaultValue={defaultValue}
+          required={required}
           className="border-zinc-800 bg-zinc-900/60 pl-9 text-zinc-100 placeholder:text-zinc-600 focus-visible:border-amber-700 focus-visible:ring-amber-600/40"
         />
       </div>
@@ -80,6 +86,8 @@ interface PasswordFieldProps {
   rightSlot?: React.ReactNode;
   ariaShowText: string;
   ariaHideText: string;
+  defaultValue?: string;
+  required?: boolean;
 }
 
 function PasswordField({
@@ -92,6 +100,8 @@ function PasswordField({
   rightSlot,
   ariaShowText,
   ariaHideText,
+  defaultValue,
+  required,
 }: PasswordFieldProps) {
   return (
     <div className="space-y-1.5">
@@ -112,6 +122,8 @@ function PasswordField({
           type={visible ? "text" : "password"}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          defaultValue={defaultValue}
+          required={required}
           className="border-zinc-800 bg-zinc-900/60 pl-9 pr-10 text-zinc-100 placeholder:text-zinc-600 focus-visible:border-amber-700 focus-visible:ring-amber-600/40"
         />
         <button
@@ -135,41 +147,56 @@ function PasswordField({
 // Pagina
 // ---------------------------------------------------------------------------
 
- function LoginComponent() {
-  const params=useSearchParams();
+function LoginComponent() {
+  const params = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const isSignUp = params.get("action") === "signup"
-  const { t } = useLanguage(); 
+  const isSignUp = params.get("action") === "signup";
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  function handleModeChange(next: boolean) {
+    setShowPassword(false);
+    setShowConfirmPassword(false);
 
+    const newParams = new URLSearchParams(params.toString());
 
- function handleModeChange(next: boolean) {
-  setShowPassword(false);
-  setShowConfirmPassword(false);
+    if (next) {
+      newParams.set("action", "signup");
+    } else {
+      newParams.delete("action");
+    }
 
-  const newParams = new URLSearchParams(params.toString());
-
-  if (next) {
-    newParams.set("action", "signup");
-  } else {
-    newParams.delete("action");
+    router.replace(`${pathname}?${newParams.toString()}`, { scroll: false });
   }
 
-  router.replace(`${pathname}?${newParams.toString()}`, { scroll: false });
-}
+  //login/signup hsndling
+
+  const initialState = {
+    success: false,
+    message: "",
+    errors: {},
+    data: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  };
+  const [formData, setFormData, isPending] = useActionState(
+    userSignUp,
+    initialState,
+  );
 
   return (
-  
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 pt-8 sm:px-6">
       {/* Background Section (Mantenuta la tua correzione di prima) */}
       <div className="fixed inset-0 -z-10 overflow-hidden bg-zinc-950">
         <Image
           fill
           priority
-          alt="background image" 
+          alt="background image"
           src="/assets/bg-login.webp"
           className="object-cover opacity-60 blur-[2px]"
         />
@@ -181,8 +208,6 @@ function PasswordField({
       </div>
 
       <div className="relative z-10 flex w-full max-w-md flex-col items-center">
-
-        
         <Card className="w-full py-1 rounded-tl-none border-amber-600/60 border bg-zinc-950/90 shadow-2xl shadow-black/60">
           <CardContent className="px-6 py-1 pb-2 sm:px-8">
             {/* Toggle Accedi / Registrati */}
@@ -246,7 +271,11 @@ function PasswordField({
             </AnimatePresence>
 
             {/* Form */}
-            <form onSubmit={(e) => e.preventDefault()} className="mt-8">
+            <form
+              action={setFormData}
+              key={formData.success ? "success" : "default"}
+              className="mt-8"
+            >
               <motion.div layout className="flex flex-col gap-4">
                 <AnimatePresence initial={false}>
                   {isSignUp && (
@@ -264,6 +293,8 @@ function PasswordField({
                         placeholder={t.login.usernamePlaceholder}
                         icon={User}
                         autoComplete="username"
+                        required
+                        defaultValue={formData.data?.username || ""}
                       />
                     </motion.div>
                   )}
@@ -276,10 +307,14 @@ function PasswordField({
                   placeholder={t.login.emailPlaceholder}
                   icon={Mail}
                   autoComplete="email"
+                  required
+                  defaultValue={formData.data?.email || ""}
                 />
 
                 <PasswordField
                   id="password"
+                  required
+                  defaultValue={formData.data?.password || ""}
                   label={t.login.passwordLabel}
                   placeholder={t.login.passwordPlaceholder}
                   visible={showPassword}
@@ -302,7 +337,7 @@ function PasswordField({
                 <AnimatePresence initial={false}>
                   {isSignUp && (
                     <motion.div
-                      key="confirm-password"
+                      key="confirmPassword"
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
@@ -311,7 +346,9 @@ function PasswordField({
                     >
                       <div className="flex flex-col gap-3">
                         <PasswordField
-                          id="confirm-password"
+                          id="confirmPassword"
+                          required
+                          defaultValue={formData.data?.confirmPassword || ""}
                           label={t.login.confirmPasswordLabel}
                           placeholder={t.login.passwordPlaceholder}
                           visible={showConfirmPassword}
@@ -347,12 +384,33 @@ function PasswordField({
 
               <Button
                 type="submit"
+                disabled={isPending}
                 size="lg"
-                className="mt-8 w-full gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-600 focus-visible:ring-amber-500"
+                className={cn("mt-8 w-full gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-600 focus-visible:ring-amber-500",{
+                  "pointer-events-none bg-muted": isPending
+                })}
               >
                 {isSignUp ? t.login.btnSignUp : t.login.btnLogin}
-                <ArrowRight className="h-4 w-4" />
+                {isPending ? <div className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin" ></div> : <ArrowRight className="h-4 w-4" />}
               </Button>
+
+              {formData.errors || formData.message  ? (
+                <div className={cn("mt-4 text-sm",{
+                   "text-rose-400": !formData.success,
+                   "text-amber-500": formData.success
+                })}>
+                  <ul>
+                    {formData.errors?.email && <li>{formData.errors.email}</li>}
+                    {formData.errors?.password && (
+                      <li>{formData.errors.password}</li>
+                    )}
+                    {formData.errors?.confirmPassword && (
+                      <li>{formData.errors.confirmPassword}</li>
+                    )}
+                    {formData.message && <li>{formData.message}</li>}
+                  </ul>
+                </div>
+              ) : null}
             </form>
 
             {/* Trust line */}
@@ -375,8 +433,7 @@ function PasswordField({
   );
 }
 
-
-export default function LoginPage(){
+export default function LoginPage() {
   return (
     <Suspense fallback={<LoadingSkeleton />}>
       <LoginComponent />
