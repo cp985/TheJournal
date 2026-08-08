@@ -5,6 +5,8 @@ export type DossierStatus = "Open" | "Archived" | "Closed";
 export interface DbUser {
   id: string;
   username: string | null;
+  email: string | null;
+  role: Role;
 }
 
 export interface DbEvidence {

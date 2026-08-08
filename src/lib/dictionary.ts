@@ -38,7 +38,13 @@ title:"Archivio Generale Casi",
 description: "Seleziona un dossier dalla pellicola per consultare i dettagli della scheda, i reperti archiviati e la documentazione.",
 numbeerOfDossiers:"Dossier archiviati nel sistema ",
 
-}
+},
+ctaLogin:{
+title:"Area riservata",
+description1:"Stai consultando la versione dimostrativa (3 Dossier).",
+description2:"per sbloccare l'archivio completo.",
+button:"Accedi",
+},
 },
 
    landing: {
@@ -321,8 +327,13 @@ pageDefault:{
 title:"General Cases Archive",
 description: "Select a dossier to explore details and documents.",
 numbeerOfDossiers:"Dossiers archived ",
-
-}
+},
+ctaLogin:{
+title:"Restricted Area",
+description1:"Now you can only explore the public archive (3 dossiers). ",
+description2:"to access the full archive.",
+button:"Login",
+},
 } ,   
 landing: {
     hero: {
@@ -570,5 +581,4 @@ landing: {
 } as const;
 
 //commit env
-const dd = 1;
 export type Language = "IT" | "EN";
