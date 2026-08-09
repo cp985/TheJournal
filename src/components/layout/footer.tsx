@@ -51,10 +51,10 @@ export default function Footer() {
             <Link href="/privacy" className="hover:text-zinc-300">
               {footer.privacy}
             </Link>
-            <Link href="/termini" className="hover:text-zinc-300">
+            <Link href="/terms-and-conditions" className="hover:text-zinc-300">
               {footer.terms}
             </Link>
-            <Link href="/contatti" className="hover:text-zinc-300">
+            <Link href="/contact" className="hover:text-zinc-300">
               {footer.contacts}
             </Link>
           </div>

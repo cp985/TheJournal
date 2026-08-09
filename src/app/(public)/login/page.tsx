@@ -371,7 +371,7 @@ function LoginComponent() {
                         <p className="text-[11px] leading-relaxed text-zinc-600">
                           {t.login.termsPrefix}
                           <Link
-                            href="/termini"
+                            href="/terms-and-conditions"
                             className="text-zinc-400 underline underline-offset-2 hover:text-amber-500"
                           >
                             {t.login.termsLink}

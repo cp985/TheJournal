@@ -304,8 +304,109 @@ button:"Accedi",
     ["user-logged-in"]: "Login completato con successo!",
 
   },
+  },
+    terms: {
+    backToLogin: "← Torna al login",
+    title: "Termini e Condizioni di Servizio",
+    lastUpdated: "Ultimo aggiornamento",
+    lastUpdatedDate: "9 Agosto 2026",
+    sections: {
+      acceptanceTitle: "1. Accettazione dei Termini",
+      acceptanceBody: "Accedendo o utilizzando il nostro servizio, l'utente accetta di essere vincolato dai presenti Termini e Condizioni. Se non si accettano tutti i termini, non è consentito accedere o utilizzare la piattaforma.",
+      accountTitle: "2. Creazione dell'Account e Sicurezza",
+      accountBody: "Per accedere a determinate funzionalità è necessario registrare un account. L'utente si impegna a:",
+      accountPoints: [
+        "Fornire informazioni accurate, aggiornate e complete.",
+        "Mantenere la riservatezza delle credenziali di accesso.",
+        "Notificare tempestivamente qualsiasi utilizzo non autorizzato del proprio profilo."
+      ],
+      usageTitle: "3. Uso Consentito e Restrizioni",
+      usageBody: "È severamente vietato utilizzare il servizio per scopi illeciti o non autorizzati. È proibito:",
+      usagePoints: [
+        "Tentare di bypassare le misure di sicurezza o accedere ad account altrui.",
+        "Interferire con il corretto funzionamento dei server e delle API.",
+        "Estrarre dati mediante strumenti automatizzati (scraping) senza autorizzazione."
+      ],
+      intellectualTitle: "4. Proprietà Intellettuale",
+      intellectualBody: "Tutti i diritti sul codice sorgente, il design, il marchio, il logo e i contenuti presenti sulla piattaforma appartengono esclusivamente ai rispettivi proprietari. È vietata la riproduzione non autorizzata.",
+      limitationTitle: "5. Limitazione di Responsabilità",
+      limitationBody: "Il servizio è fornito \"così com'è\" (\"as is\") e \"secondo disponibilità\". Non garantiamo l'assenza di interruzioni temporanee o errori nel sistema e non saremo responsabili per eventuali perdite dirette o indirette di dati.",
+      suspensionTitle: "6. Sospensione dell'Account",
+      suspensionBody: "Ci riserviamo il diritto di sospendere o cancellare definitivamente un account in qualsiasi momento e senza preavviso in caso di violazione dei presenti Termini.",
+      contactTitle: "7. Contatti e Chiarimenti",
+      contactBody: "Per qualsiasi domanda o dubbio relativo ai presenti Termini di Servizio, puoi contattarci all'indirizzo email dedicato al supporto."
+    },
+    rightsReserved: "Tutti i diritti riservati.",
+    privacyPolicy: "Privacy Policy"
+  },
+  privacy: {
+    backToLogin: "← Torna al login",
+    title: "Informativa sulla Privacy",
+    lastUpdated: "Ultimo aggiornamento",
+    lastUpdatedDate: "9 Agosto 2026",
+    sections: {
+      introTitle: "1. Introduzione",
+      introBody: "La tua privacy è fondamentale per noi. Questa Informativa descrive come raccogliamo, utilizziamo, conserviamo e proteggiamo i tuoi dati personali quando utilizzi i nostri servizi.",
+      collectedTitle: "2. Dati che Raccogliamo",
+      collectedBody: "Raccogliamo solo i dati strettamente necessari per fornire e migliorare il servizio:",
+      collectedPoints: [
+        "Dati di registrazione: indirizzo email, username e password crittografata.",
+        "Dati di utilizzo: indirizzi IP, tipo di browser e log di sistema per motivi di sicurezza.",
+        "Preferenze di sessione e lingua memorizzate localmente."
+      ],
+      purposeTitle: "3. Finalità del Trattamento",
+      purposeBody: "I tuoi dati vengono elaborati esclusivamente per le seguenti finalità:",
+      purposePoints: [
+        "Consentire l'autenticazione e la gestione del tuo account.",
+        "Garantire la sicurezza e prevenire attività fraudolente o accessi non autorizzati.",
+        "Rispondere alle tue richieste di supporto tecnico."
+      ],
+      sharingTitle: "4. Condivisione dei Dati e Terze Parti",
+      sharingBody: "Non vendiamo né cediamo i tuoi dati personali a terzi per scopi commerciali. I dati possono essere trattati solo da fornitori di servizi infrastrutturali (hosting e database) vincolati alla riservatezza.",
+      securityTitle: "5. Sicurezza dei Dati",
+      securityBody: "Adottiamo misure di sicurezza avanzate, tra cui la crittografia delle password tramite algoritmo bcrypt e connessioni protette via HTTPS, per impedire l'accesso non autorizzato o la perdita dei dati.",
+      rightsTitle: "6. I Tuoi Diritti (GDPR)",
+      rightsBody: "In conformità con la normativa vigente, hai il diritto di accedere, rettificare o richiedere la cancellazione permanente del tuo account e di tutti i dati ad esso associati in qualsiasi momento.",
+      contactTitle: "7. Contatti per la Privacy",
+      contactBody: "Per esercitare i tuoi diritti o per qualsiasi richiesta relativa al trattamento dei dati, puoi contattare il nostro responsabile della protezione dati via email."
+    },
+    rightsReserved: "Tutti i diritti riservati.",
+    termsOfService: "Termini e Condizioni"
+  },
+  contact: {
+    backToLogin: "← Torna al login",
+    systemStatus: "CANALE CIFRATO ATTIUVO :: NODO_01",
+    title: "Canale di Contatto",
+    subtitle: "Invia una trasmissione diretta al team di supporto o agli amministratori di sistema.",
+    form: {
+      nameLabel: "IDENTIFICATIVO / NOME",
+      namePlaceholder: "es. Agent Smith",
+      emailLabel: "INDIRIZZO EMAIL",
+      emailPlaceholder: "agent@agency.org",
+      subjectLabel: "OGGETTO TRANSMISSIONE",
+      subjectPlaceholder: "Seleziona una categoria",
+      subjects: {
+        general: "Info Generali / Supporto",
+        bug: "Segnalazione Bug / Anomalia",
+        security: "Vulnerabilità di Sicurezza",
+        account: "Problema di Accesso Account"
+      },
+      messageLabel: "MESSAGGIO CIFRATO",
+      messagePlaceholder: "Scrivi qui i dettagli della tua segnalazione...",
+      submitButton: "INVIA TRASMISSIONE",
+      submitting: "CIFRATURA IN CORSO...",
+      successMessage: "Trasmissione inviata con successo. ID Ticket: #TRX-985",
+      errorMessage: "Errore di trasmissione. Riprova più tardi."
+    },
+    infoBox: {
+      title: "PROTOCOLLO DI RISPOSTA",
+      responseTime: "Tempo stimato di risposta: < 24 ore.",
+      encryptionNote: "Tutti i messaggi sono protetti da cifratura end-to-end sulla nostra rete.",
+      directEmail: "EMAIL DIRETTA",
+      pgpKey: "CHIAVE PGP IMPRONTA"
+    },
+    rightsReserved: "Tutti i diritti riservati."
   }
-  
 
   },
   EN: {
@@ -612,7 +713,110 @@ landing: {
     ["user-logged-in"]: "Log in completed successfully!",
 
   }
+  },
+  terms: {
+    backToLogin: "← Back to login",
+    title: "Terms and Conditions of Service",
+    lastUpdated: "Last updated",
+    lastUpdatedDate: "August 9, 2026",
+    sections: {
+      acceptanceTitle: "1. Acceptance of Terms",
+      acceptanceBody: "By accessing or using our service, you agree to be bound by these Terms and Conditions. If you do not agree to all of these terms, you are not permitted to access or use the platform.",
+      accountTitle: "2. Account Creation and Security",
+      accountBody: "To access certain features, you must register an account. You agree to:",
+      accountPoints: [
+        "Provide accurate, current, and complete information.",
+        "Maintain the confidentiality of your login credentials.",
+        "Promptly notify us of any unauthorized use of your account."
+      ],
+      usageTitle: "3. Permitted Use and Restrictions",
+      usageBody: "Using the service for illegal or unauthorized purposes is strictly prohibited. You are prohibited from:",
+      usagePoints: [
+        "Attempting to bypass security measures or access other users' accounts.",
+        "Interfering with the proper operation of servers and APIs.",
+        "Extracting data using automated tools (scraping) without permission."
+      ],
+      intellectualTitle: "4. Intellectual Property",
+      intellectualBody: "All rights to the source code, design, branding, logo, and content on the platform belong exclusively to their respective owners. Unauthorized reproduction is prohibited.",
+      limitationTitle: "5. Limitation of Liability",
+      limitationBody: "The service is provided \"as is\" and \"as available\". We do not guarantee uninterrupted or error-free system performance and will not be liable for any direct or indirect loss of data.",
+      suspensionTitle: "6. Account Suspension",
+      suspensionBody: "We reserve the right to suspend or permanently terminate an account at any time without prior notice in the event of a violation of these Terms.",
+      contactTitle: "7. Contact and Inquiries",
+      contactBody: "For any questions or concerns regarding these Terms of Service, you can reach us via our dedicated support email."
+    },
+    rightsReserved: "All rights reserved.",
+    privacyPolicy: "Privacy Policy"
+  },
+  privacy: {
+    backToLogin: "← Back to login",
+    title: "Privacy Policy",
+    lastUpdated: "Last updated",
+    lastUpdatedDate: "August 9, 2026",
+    sections: {
+      introTitle: "1. Introduction",
+      introBody: "Your privacy is fundamental to us. This Policy outlines how we collect, use, store, and protect your personal data when you use our services.",
+      collectedTitle: "2. Data We Collect",
+      collectedBody: "We only collect data strictly necessary to provide and improve our service:",
+      collectedPoints: [
+        "Registration data: email address, username, and encrypted password.",
+        "Usage data: IP addresses, browser type, and system logs for security purposes.",
+        "Session and language preferences stored locally."
+      ],
+      purposeTitle: "3. Purpose of Processing",
+      purposeBody: "Your data is processed exclusively for the following purposes:",
+      purposePoints: [
+        "To enable authentication and manage your account.",
+        "To ensure security and prevent fraudulent activity or unauthorized access.",
+        "To respond to your technical support requests."
+      ],
+      sharingTitle: "4. Data Sharing and Third Parties",
+      sharingBody: "We do not sell or trade your personal data to third parties for commercial purposes. Data is processed only by infrastructure providers (hosting and database) bound by strict confidentiality.",
+      securityTitle: "5. Data Security",
+      securityBody: "We implement advanced security measures, including password encryption using the bcrypt algorithm and HTTPS connections, to prevent unauthorized access or data loss.",
+      rightsTitle: "6. Your Rights (GDPR)",
+      rightsBody: "Under applicable regulations, you have the right to access, rectify, or request the permanent deletion of your account and associated data at any time.",
+      contactTitle: "7. Privacy Contacts",
+      contactBody: "To exercise your rights or for any inquiries regarding data processing, you can contact our privacy lead via email."
+    },
+    rightsReserved: "All rights reserved.",
+    termsOfService: "Terms and Conditions"
+  },
+  contact: {
+    backToLogin: "← Back to login",
+    systemStatus: "ENCRYPTED CHANNEL ACTIVE :: NODE_01",
+    title: "Contact Channel",
+    subtitle: "Send a direct transmission to the support team or system administrators.",
+    form: {
+      nameLabel: "IDENTIFIER / NAME",
+      namePlaceholder: "e.g. Agent Smith",
+      emailLabel: "EMAIL ADDRESS",
+      emailPlaceholder: "agent@agency.org",
+      subjectLabel: "TRANSMISSION SUBJECT",
+      subjectPlaceholder: "Select a category",
+      subjects: {
+        general: "General Info / Support",
+        bug: "Bug / Anomaly Report",
+        security: "Security Vulnerability",
+        account: "Account Access Issue"
+      },
+      messageLabel: "ENCRYPTED MESSAGE",
+      messagePlaceholder: "Write the details of your report here...",
+      submitButton: "SEND TRANSMISSION",
+      submitting: "ENCRYPTING...",
+      successMessage: "Transmission sent successfully. Ticket ID: #TRX-985",
+      errorMessage: "Transmission error. Please try again later."
+    },
+    infoBox: {
+      title: "RESPONSE PROTOCOL",
+      responseTime: "Estimated response time: < 24 hours.",
+      encryptionNote: "All messages are secured with end-to-end encryption on our network.",
+      directEmail: "DIRECT EMAIL",
+      pgpKey: "PGP FINGERPRINT"
+    },
+    rightsReserved: "All rights reserved."
   }
+
 
 },
 
