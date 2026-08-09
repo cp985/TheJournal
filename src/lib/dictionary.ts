@@ -284,7 +284,26 @@ button:"Accedi",
     btnSignUp: "Richiedi Accesso",
     btnLogin: "Accedi al Sistema",
     trustLine: "Accesso riservato a ricercatori e giornalisti verificati dalla redazione.",
-    backToJournal: "Torna a The Journal"
+    backToJournal: "Torna a The Journal",
+    errors: {
+    ['username-too-long']: "Lo username deve avere al massimo 20 caratteri.",
+    ['username-too-short']: "Lo username deve avere almeno 4 caratteri.",
+    ['invalid-email']: "Formato email non valido.",
+    ['password-too-weak-8-Aa-@$!%*?&']: "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
+    ['passwords-do-not-match']: "Le password non coincidono.",
+    ['server-error']: "Errore durante la registrazione. Riprova.",
+    ['connection-error']: "Impossibile connettersi al server.",
+    ["no-user-found"]: "Nessun utente trovato.",
+    ["wrong-email"]: "Email non valida.",
+    ["wrong-password"]: "Password non valida.",
+    ["username-already-exist"]: "Username già esistente.",
+    ["email-already-exist"]: "Email già esistente.",
+  },
+  success: {
+    ['user-signed-up']: "Registrazione completata con successo!",
+    ["user-logged-in"]: "Login completato con successo!",
+
+  },
   }
   
 
@@ -573,7 +592,26 @@ landing: {
     btnSignUp: "Request Access",
     btnLogin: "System Login",
     trustLine: "Access restricted to researchers and journalists verified by the editorial staff.",
-    backToJournal: "Back to The Journal"
+    backToJournal: "Back to The Journal",
+    errors: {
+    ["username-too-long"]: "Username must be at most 20 characters long.",
+    ["username-too-short"]: "Username must be at least 4 characters long.",
+    ["invalid-email"]: "Please enter a valid email address.",
+    ["password-too-weak-8-Aa-@$!%*?&"]: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
+    ["passwords-do-not-match"]: "Passwords do not match.",
+    ["server-error"]: "An error occurred during sign up. Please try again.",
+    ["connection-error"]: "Unable to connect to the server. Please check your connection.",
+    ["no-user-found"]: "No user found.",
+    ["wrong-email"]: "Wrong email.",
+    ["wrong-password"]: "Wrong password.",
+    ["username-already-exist"]: "Username already exists.",
+    ["email-already-exist"]: "Email already exists.",
+  },
+  success: {
+    ["user-signed-up"]: "Sign up completed successfully!",
+    ["user-logged-in"]: "Log in completed successfully!",
+
+  }
   }
 
 },
