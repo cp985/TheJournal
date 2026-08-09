@@ -110,37 +110,57 @@ const [formState, setFormState,isPending] = useActionState(sendEmail,initialStat
   </div>
 
   {/* Campo Select (Oggetto) */}
+
+
   <div className="space-y-1.5">
-    <Label htmlFor="subject" className="text-xs font-semibold text-zinc-400">
-      {contact.form.subjectLabel}
-    </Label>
-    <Select 
-key={formState.data?.subject || "empty"}
-  defaultValue={formState.data?.subject || undefined}
+  <Label htmlFor="subject" className="text-xs font-semibold text-zinc-400">
+    {contact.form.subjectLabel}
+  </Label>
+  <Select 
+    key={formState.data?.subject || "empty"}
+    defaultValue={formState.data?.subject || undefined}
     required 
-    name="subject">
-      <SelectTrigger
-        id="subject"
-        className="w-full bg-zinc-900 border-zinc-800 text-zinc-300 focus:ring-amber-500/50 focus:border-amber-500 text-sm h-10"
+    name="subject"
+  >
+    <SelectTrigger
+      id="subject"
+      className="w-full bg-zinc-900 border-zinc-800 text-zinc-300 focus:ring-amber-500/50 focus:border-amber-500 text-sm h-10 transition-colors"
+    >
+      <SelectValue placeholder={contact.form.subjectPlaceholder} />
+    </SelectTrigger>
+    
+    <SelectContent 
+      position="popper" 
+      sideOffset={4}
+      className="bg-zinc-900/95 backdrop-blur-md border border-zinc-800 text-zinc-300 shadow-xl rounded-md overflow-hidden z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2"
+    >
+      <SelectItem 
+        value="general" 
+        className="focus:bg-zinc-800 focus:text-amber-400 cursor-pointer text-sm transition-colors"
       >
-        <SelectValue placeholder={contact.form.subjectPlaceholder} />
-      </SelectTrigger>
-      <SelectContent className="bg-zinc-600 border border-amber-700 text-zinc-300">
-        <SelectItem value="general" className="focus:bg-zinc-400 focus:text-zinc-100">
-          {contact.form.subjects.general}
-        </SelectItem>
-        <SelectItem value="bug" className="focus:bg-zinc-400 focus:text-zinc-100">
-          {contact.form.subjects.bug}
-        </SelectItem>
-        <SelectItem value="security" className="focus:bg-zinc-400 focus:text-zinc-100">
-          {contact.form.subjects.security}
-        </SelectItem>
-        <SelectItem value="account" className="focus:bg-zinc-400 focus:text-zinc-100">
-          {contact.form.subjects.account}
-        </SelectItem>
-      </SelectContent>
-    </Select>
-  </div>
+        {contact.form.subjects.general}
+      </SelectItem>
+      <SelectItem 
+        value="bug" 
+        className="focus:bg-zinc-800 focus:text-amber-400 cursor-pointer text-sm transition-colors"
+      >
+        {contact.form.subjects.bug}
+      </SelectItem>
+      <SelectItem 
+        value="security" 
+        className="focus:bg-zinc-800 focus:text-amber-400 cursor-pointer text-sm transition-colors"
+      >
+        {contact.form.subjects.security}
+      </SelectItem>
+      <SelectItem 
+        value="account" 
+        className="focus:bg-zinc-800 focus:text-amber-400 cursor-pointer text-sm transition-colors"
+      >
+        {contact.form.subjects.account}
+      </SelectItem>
+    </SelectContent>
+  </Select>
+</div>
 
   {/* Campo Messaggio */}
   <div className="space-y-1.5">
@@ -173,7 +193,10 @@ key={formState.data?.subject || "empty"}
   >
     {isPending ? contact.form.submitting : contact.form.submitButton}
   </Button>
-                {((formState.errors && Object.keys(formState.errors).length > 0) || formState.message) && (
+
+{/* Messaggio di errore */}
+
+   {((formState.errors && Object.keys(formState.errors).length > 0) || formState.message) && (
     <div 
     key="boxError"
     className={cn("mt-4 rounded-md border border-red-900/50 bg-red-950/30 p-3",{
@@ -185,7 +208,7 @@ key={formState.data?.subject || "empty"}
             if (!messages || messages.length === 0) return null;
             const errorKey  = messages[0];
             // Recupera la traduzione oppure usa una chiave di fallback
-            const translatedMessage = (t.login.errors as Record<string, string>)[errorKey] || errorKey;
+            const translatedMessage = (t.contact.errors as Record<string, string>)[errorKey] || errorKey;
   
             return (
               <li key={field} className="flex items-center gap-1.5">
@@ -202,7 +225,7 @@ key={formState.data?.subject || "empty"}
           "text-rose-400 before:bg-red-500": !formState.success,
           "text-amber-500 before:bg-amber-500": formState.success
         })}>
-          {formState.success ? (t.login.success as Record<string, string>)[formState.message] || formState.message : (t.login.errors as Record<string, string>)[formState.message] || formState.message}
+          {formState.success ? (t.contact.success as Record<string, string>)[formState.message] || formState.message : (t.contact.errors as Record<string, string>)[formState.message] || formState.message}
         
         </p>
       )}

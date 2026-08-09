@@ -8,415 +8,470 @@ export const dictionary = {
       login: "Area Riservata",
       casesArchive: "Archivio Casi",
     },
-casesPage: {
-  loading: "Caricamento dossier in corso",
-  empty: "Nessun dossier trovato.",
-  kodakPrefix: "KODAK 8MM ·",
-  openStatus: "IN CORSO",
-  archivedStatus: "ARCHIVIATO",
-  authorLabel: "AUTORE:",
-  unknownAuthor: "Sconosciuto",
-  archiveAccessTitle: "Accesso Archivio Digitale",
-  removeFromMap: "Rimuovi da Mappa",
-  loadToMap: "Carica in Mappa",
-  openCaseAlt: "Apri il caso",
-  fileExplorer: {
-  back: "Indietro",
-  confidential: "RISERVATO",
-  evidencePrefix: "Reperto #",
-  previewTitle: "Anteprima File",
-  open: "Apri",
-  download: "Scarica",
-  noUrl: "Nessun URL fornito",
-  pdfNoUrl: "URL PDF non disponibile",
-  fileNotesHeader: "Note del fascicolo:",
-  emptySelection: "Seleziona un reperto dalla lista per visualizzarne l'anteprima",
-  loadToMap: "CARICA DOSSIER IN MAPPA"
-},
-pageDefault:{
-title:"Archivio Generale Casi",
-description: "Seleziona un dossier dalla pellicola per consultare i dettagli della scheda, i reperti archiviati e la documentazione.",
-numbeerOfDossiers:"Dossier archiviati nel sistema ",
-
-},
-ctaLogin:{
-title:"Area riservata",
-description1:"Stai consultando la versione dimostrativa (3 Dossier).",
-description2:"per sbloccare l'archivio completo.",
-button:"Accedi",
-},
-},
-
-   landing: {
-    hero: {
-      eyebrow: "Dati verificati · Fonti pubbliche",
-      titleStart: "Il Data Journalism incontra la",
-      titleHighlight: "cronaca nera.",
-      description:
-        "Analisi di dati, atti pubblici e connessioni temporali per ricostruire i fatti in modo oggettivo e verificato.",
-      searchPlaceholder: "Cerca un caso, una prova o un nome...",
-      searchButton: "Indaga",
-      canvasPlaceholder:"Ogni indizio è un frammento isolato. Uniamo le nostre informazioni a quelle degli altri detective. Solo ricomponendo il puzzle possiamo portare alla luce la verità sui casi irrisolti.",
-      quickSearches: ["Casi aperti", "Atti pubblici", "Mappa dei luoghi"],
-    },
-    features: {
-      eyebrow: "Strumenti della redazione",
-      title: "Un metodo, non solo una notizia.",
-      description:
-        "Ogni dossier nasce da fonti tracciabili e viene ricostruito con strumenti pensati per la verifica, non per il sensazionalismo.",
-      items: [
-        {
-          title: "Timeline Cronologica",
-          description:
-            "Riscopri i fatti in ordine sequenziale, con filtri avanzati sulle fonti e sui gradi di attendibilità.",
-        },
-        {
-          title: "Piattaforma OSINT",
-          description:
-            "Crowdsourcing di documenti pubblici, validati dalla redazione prima di entrare nel dossier.",
-        },
-        {
-          title: "La Lavagna dell'Investigatore",
-          description:
-            "Collega indizi, luoghi e soggetti coinvolti nel tuo spazio di lavoro riservato, come su una vera board investigativa.",
-        },
-      ],
-    },
-    cases: {
-      eyebrow: "Dossier aperti",
-      title: "Casi in evidenza",
-      description:
-        "Una selezione dei fascicoli attualmente più consultati sulla piattaforma.",
-      statusAnalysis: "In Analisi",
-      statusArchived: "Archiviato",
-      documentsLabel: "atti",
-      connectionsLabel: "connessioni",
-      openButton: "Apri",
-      viewAllButton: "Visualizza tutti i casi",
-      items: [
-        {
-          code: "n-001",
-          title: "L'omicidio di Elisa Claps",
-          status: "Archiviato",
-          description:
-            "Ricostruzione cronologica degli atti processuali e delle perizie tecniche depositate nei vari gradi di giudizio.",
-          atti: 4,
-          connessioni: 7,
-          href: "/cases?code=n-001",
-        },
-        {
-          code: "n-002",
-          title: "Il Giallo Di Avetrana",
-          status: "Archiviato",
-          description:
-            "I fatti che hanno scioccato un paese intero.",
-          atti: 8,
-          connessioni: 9,
-          href: "/cases?code=n-002",
-        },
-        {
-          code: "n-003",
-          title: "Il Mistero di Pietracatella",
-          status: "In Analisi",
-          description:
-            "Il mistero di Pietracatella che non ha nessun colpevole.",
-          atti: 4,
-          connessioni: 8,
-          href: "/cases/?code=n-003",
-        },
-      ],
-    },
-    cta: {
-      eyebrow: "Accesso ricercatori",
-      title: "Entra nella Control Room",
-      description:
-        "Registrati per salvare le tue analisi, seguire i dossier attivi e collaborare con la redazione nel tuo spazio di lavoro personale.",
-      registerButton: "Richiedi Accesso",
-      loginButton: "Ho già un account",
-      securityNotice:
-        "Ogni richiesta di accesso è verificata manualmente dalla redazione.",
-    },
-    footer: {
-      privacy: "Privacy",
-      terms: "Termini",
-      contacts: "Contatti",
-      titleDisclaimer:"Archivio digitale e ricostruzioni d'epoca di fatti di cronaca e giudiziari.",
-      disclaimer:"I verbali, gli atti peritali e le trascrizioni riportati in questa scheda sono ricostruzioni ed elaborazioni a scopo documentale/editoriale basate sugli atti processuali e sulle sentenze passate in giudicato. Le illustrazioni, i ritratti e le rappresentazioni dei reperti sono generati o rielaborati tramite Intelligenza Artificiale ed elementi grafici d'epoca a scopo puramente evocativo e non fotorealistico.",
-      rights: "Tutti i diritti riservati.",
-    },
-  },
-  about: {
-    hero: {
-      eyebrow: "Il Progetto",
-      titleStart: "Oltre il rumore mediatico,",
-      titleHighlight: "solo i dati contano.",
-      description: "The Journal nasce dall'esigenza di riportare la cronaca nera e investigativa su un binario di oggettività. Viviamo in un'era in cui i casi giudiziari vengono trasformati in spettacoli televisivi. Noi crediamo in un approccio diverso: analitico, documentato e basato sui dati.",
-    },
-    mission: {
-      eyebrow: "La Nostra Missione",
-      title: "Ricostruire la verità attraverso le fonti aperte.",
-      p1: "Troppo spesso, i dettagli fondamentali di un'inchiesta si perdono in migliaia di pagine di atti giudiziari inaccessibili al grande pubblico, sostituiti da narrazioni emotive e parziali.",
-      p2: "Noi di The Journal applichiamo le metodologie dell'Open Source Intelligence (OSINT) e dello sviluppo software per digitalizzare, indicizzare e collegare i frammenti di informazione sparsi in sentenze, perizie e documenti pubblici.",
-      p3: "Creiamo timeline interattive e network graph che permettono a giornalisti, ricercatori e cittadini di esplorare le connessioni spaziali e temporali di un caso, rimuovendo il rumore di fondo e concentrandoci sull'unica cosa che conta: le prove.",
-      graphHeader: "OSINT Relational Graph // Case #07",
-      graphNodesLabel: "4 Nodi / 3 Evidenze",
-      nodeEvidence: "Reperto #A12",
-      nodeCentral: "Timeline Evento",
-      nodeCentralDate: "13 Aug 2007 - 09:12",
-      nodeSignal: "Segnalazione #304",
-      nodeAct: "Atto Giudiziario #712",
-      statDocuments: "Documenti",
-      statConnections: "Connessioni",
-      statSources: "Fonti Verificate",
-    },
-    pillars: {
-      eyebrow: "Metodologia",
-      title: "I tre pilastri del nostro lavoro",
-      items: [
-        {
-          title: "Data Journalism",
-          description: "Raccogliamo, puliamo e incrociamo migliaia di dati pubblici. Dai tabulati alle perizie, trasformiamo fascicoli complessi in database interrogabili e strutturati.",
-        },
-        {
-          title: "Connessioni OSINT",
-          description: "Utilizziamo tecniche di Open Source Intelligence per mappare relazioni, movimenti e discrepanze. Ogni nodo del nostro grafo rappresenta un fatto documentato.",
-        },
-        {
-          title: "Oggettività Assoluta",
-          description: "Nessun parere personale, nessuna speculazione. Presentiamo i fatti nudi e crudi. Il nostro obiettivo non è emettere sentenze, ma fornire gli strumenti per comprendere.",
-        },
-      ],
-    },
-    cta: {
-      title: "Esplora i dossier pubblici",
-      description: "Accedi all'archivio completo dei casi analizzati. Consulta le timeline, verifica i documenti e traccia le connessioni.",
-      archiveButton: "Vai all'Archivio",
-      contactButton: "Contatta la Redazione",
-      securityNotice: "Tutti i dati provengono da fonti giudiziarie pubbliche.",
-    },
-  },
-  osint: {
-    hero: {
-      eyebrow: "Metodologia & Protocolli",
-      titleStart: "Dalle fonti aperte al",
-      titleHighlight: "dato strutturato.",
-      description: "Come raccogliamo, verifichiamo e colleghiamo le informazioni. Il nostro processo garantisce la tracciabilità di ogni singolo nodo e la riproducibilità delle analisi.",
-    },
-    pipeline: {
-      eyebrow: "Workflow Analitico",
-      title: "La Pipeline di Analisi OSINT",
-      step1Title: "1. Acquisizione & Utilizzo dei Dati",
-      step1Desc: "Estrazione di dati da atti giudiziari scritti, repository pubblici, tabulati e metadati. Sanitizzazione dei formati e applicazione di OCR avanzato per la digitalizzazione dei documenti cartacei.",
-      step2Title: "2. Verificazione & Triangolazione",
-      step2Desc: "Ogni fatto o timestamp deve essere confermato da almeno due fonti indipendenti o da un atto ufficiale prima di essere validato nel database.",
-      step3Title: "3. Normalizzazione & Grafici",
-      step3Desc: "Mappatura di entità (persone, luoghi, reperti, orari) ed estrazione delle relazioni sintattiche e semantiche per la generazione di grafici di rete.",
-    },
-    standards: {
-      eyebrow: "Standard di Trasparenza",
-      title: "Principi di Integrità dei Dati",
-      items: [
-        {
-          title: "Catena di Custodia Digitale",
-          description: "Ogni documento archiviato presenta un hash crittografico per garantire che l'atto non sia mai stato manipolato dopo l'acquisizione.",
-        },
-        {
-          title: "Integrazione Geospaziale",
-          description: "Correlazione delle testimonianze e dei dati cellulari con mappe ad alta risoluzione per verificare la congruenza temporale e spaziale.",
-        },
-        {
-          title: "Accesso Pubblico alle Fonti",
-          description: "Nessun dato viene pubblicato senza il riferimento esplicito al fascicolo o alla fonte primaria da cui è stato estratto.",
-        },
-      ],
-    },
-    cta: {
-      title: "Esplora l'applicazione dei nostri protocolli",
-      description: "Consulta i dossier analizzati attraverso la nostra metodologia.",
-      button: "Sfoglia i Casi",
-    },
-  },
-  map: {
-    sidebar: {
-      badge: "Anteprima Mappa OSINT",
-      title: "Geolocalizzazione & CELLE",
-      subtitle: "Seleziona un dossier per esplorare le coordinate e la sequenza cronologica dei rilievi.",
-      publicNotice: "Modalità Pubblica: 12 nodi chiave visualizzati su 142 totali.",
-      unlockBtn: "Sblocca Tutti i Nodi",
-      caseSelectorLabel: "Dossier Disponibili",
-    },
-    nodeDetails: {
-      title: "Rilievo Selezionato",
-      emptyState: "Clicca su un marker sulla mappa o su un evento per analizzare i metadati.",
-      typeLabel: "Tipologia",
-      timeLabel: "Timestamp",
-      coordsLabel: "Coordinate",
-      sourceLabel: "Atto di Riferimento",
-    },
-    mapControls: {
-      timeFilterTitle: "Timeline Rilievi",
-      lockedFeature: "La triangolazione automatica delle celle è riservata agli utenti registrati.",
-    },
-  },
-  login: {
-    usernameLabel: "Username / Alias Operatore",
-    usernamePlaceholder: "Es. Agente_07",
-    emailLabel: "Email",
-    emailPlaceholder: "nome@dominio.com",
-    passwordLabel: "Password",
-    passwordPlaceholder: "••••••••",
-    hidePassword: "Nascondi password",
-    showPassword: "Mostra password",
-    forgotPassword: "Password dimenticata?",
-    confirmPasswordLabel: "Conferma Password",
-    termsPrefix: "Registrandoti confermi di accettare i ",
-    termsLink: "Termini d'uso",
-    termsAnd: " e la ",
-    privacyLink: "Privacy Policy",
-    loginToggle: "Accedi",
-    signUpToggle: "Registrati",
-    badgeSignUp: "Registrazione Operatore",
-    badgeLogin: "Accesso Riservato",
-    titleSignUp: "Richiedi le tue Credenziali",
-    titleLogin: "Bentornato, Investigatore.",
-    descSignUp: "Registrati per accedere alla Control Room e collaborare ai dossier attivi.",
-    descLogin: "Inserisci le tue credenziali per accedere alla piattaforma.",
-    btnSignUp: "Richiedi Accesso",
-    btnLogin: "Accedi al Sistema",
-    trustLine: "Accesso riservato a ricercatori e giornalisti verificati dalla redazione.",
-    backToJournal: "Torna a The Journal",
-    errors: {
-    ['username-too-long']: "Lo username deve avere al massimo 20 caratteri.",
-    ['username-too-short']: "Lo username deve avere almeno 4 caratteri.",
-    ['invalid-email']: "Formato email non valido.",
-    ['password-too-weak-8-Aa-@$!%*?&']: "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
-    ['passwords-do-not-match']: "Le password non coincidono.",
-    ['server-error']: "Errore durante la registrazione. Riprova.",
-    ['connection-error']: "Impossibile connettersi al server.",
-    ["no-user-found"]: "Nessun utente trovato.",
-    ["wrong-email"]: "Email non valida.",
-    ["wrong-password"]: "Password non valida.",
-    ["username-already-exist"]: "Username già esistente.",
-    ["email-already-exist"]: "Email già esistente.",
-  },
-  success: {
-    ['user-signed-up']: "Registrazione completata con successo!",
-    ["user-logged-in"]: "Login completato con successo!",
-
-  },
-  },
-    terms: {
-    backToLogin: "← Torna al login",
-    title: "Termini e Condizioni di Servizio",
-    lastUpdated: "Ultimo aggiornamento",
-    lastUpdatedDate: "9 Agosto 2026",
-    sections: {
-      acceptanceTitle: "1. Accettazione dei Termini",
-      acceptanceBody: "Accedendo o utilizzando il nostro servizio, l'utente accetta di essere vincolato dai presenti Termini e Condizioni. Se non si accettano tutti i termini, non è consentito accedere o utilizzare la piattaforma.",
-      accountTitle: "2. Creazione dell'Account e Sicurezza",
-      accountBody: "Per accedere a determinate funzionalità è necessario registrare un account. L'utente si impegna a:",
-      accountPoints: [
-        "Fornire informazioni accurate, aggiornate e complete.",
-        "Mantenere la riservatezza delle credenziali di accesso.",
-        "Notificare tempestivamente qualsiasi utilizzo non autorizzato del proprio profilo."
-      ],
-      usageTitle: "3. Uso Consentito e Restrizioni",
-      usageBody: "È severamente vietato utilizzare il servizio per scopi illeciti o non autorizzati. È proibito:",
-      usagePoints: [
-        "Tentare di bypassare le misure di sicurezza o accedere ad account altrui.",
-        "Interferire con il corretto funzionamento dei server e delle API.",
-        "Estrarre dati mediante strumenti automatizzati (scraping) senza autorizzazione."
-      ],
-      intellectualTitle: "4. Proprietà Intellettuale",
-      intellectualBody: "Tutti i diritti sul codice sorgente, il design, il marchio, il logo e i contenuti presenti sulla piattaforma appartengono esclusivamente ai rispettivi proprietari. È vietata la riproduzione non autorizzata.",
-      limitationTitle: "5. Limitazione di Responsabilità",
-      limitationBody: "Il servizio è fornito \"così com'è\" (\"as is\") e \"secondo disponibilità\". Non garantiamo l'assenza di interruzioni temporanee o errori nel sistema e non saremo responsabili per eventuali perdite dirette o indirette di dati.",
-      suspensionTitle: "6. Sospensione dell'Account",
-      suspensionBody: "Ci riserviamo il diritto di sospendere o cancellare definitivamente un account in qualsiasi momento e senza preavviso in caso di violazione dei presenti Termini.",
-      contactTitle: "7. Contatti e Chiarimenti",
-      contactBody: "Per qualsiasi domanda o dubbio relativo ai presenti Termini di Servizio, puoi contattarci all'indirizzo email dedicato al supporto."
-    },
-    rightsReserved: "Tutti i diritti riservati.",
-    privacyPolicy: "Privacy Policy"
-  },
-  privacy: {
-    backToLogin: "← Torna al login",
-    title: "Informativa sulla Privacy",
-    lastUpdated: "Ultimo aggiornamento",
-    lastUpdatedDate: "9 Agosto 2026",
-    sections: {
-      introTitle: "1. Introduzione",
-      introBody: "La tua privacy è fondamentale per noi. Questa Informativa descrive come raccogliamo, utilizziamo, conserviamo e proteggiamo i tuoi dati personali quando utilizzi i nostri servizi.",
-      collectedTitle: "2. Dati che Raccogliamo",
-      collectedBody: "Raccogliamo solo i dati strettamente necessari per fornire e migliorare il servizio:",
-      collectedPoints: [
-        "Dati di registrazione: indirizzo email, username e password crittografata.",
-        "Dati di utilizzo: indirizzi IP, tipo di browser e log di sistema per motivi di sicurezza.",
-        "Preferenze di sessione e lingua memorizzate localmente."
-      ],
-      purposeTitle: "3. Finalità del Trattamento",
-      purposeBody: "I tuoi dati vengono elaborati esclusivamente per le seguenti finalità:",
-      purposePoints: [
-        "Consentire l'autenticazione e la gestione del tuo account.",
-        "Garantire la sicurezza e prevenire attività fraudolente o accessi non autorizzati.",
-        "Rispondere alle tue richieste di supporto tecnico."
-      ],
-      sharingTitle: "4. Condivisione dei Dati e Terze Parti",
-      sharingBody: "Non vendiamo né cediamo i tuoi dati personali a terzi per scopi commerciali. I dati possono essere trattati solo da fornitori di servizi infrastrutturali (hosting e database) vincolati alla riservatezza.",
-      securityTitle: "5. Sicurezza dei Dati",
-      securityBody: "Adottiamo misure di sicurezza avanzate, tra cui la crittografia delle password tramite algoritmo bcrypt e connessioni protette via HTTPS, per impedire l'accesso non autorizzato o la perdita dei dati.",
-      rightsTitle: "6. I Tuoi Diritti (GDPR)",
-      rightsBody: "In conformità con la normativa vigente, hai il diritto di accedere, rettificare o richiedere la cancellazione permanente del tuo account e di tutti i dati ad esso associati in qualsiasi momento.",
-      contactTitle: "7. Contatti per la Privacy",
-      contactBody: "Per esercitare i tuoi diritti o per qualsiasi richiesta relativa al trattamento dei dati, puoi contattare il nostro responsabile della protezione dati via email."
-    },
-    rightsReserved: "Tutti i diritti riservati.",
-    termsOfService: "Termini e Condizioni"
-  },
-  contact: {
-    backToLogin: "← Torna al login",
-    systemStatus: "CANALE CIFRATO ATTIUVO :: NODO_01",
-    title: "Canale di Contatto",
-    subtitle: "Invia una trasmissione diretta al team di supporto o agli amministratori di sistema.",
-    form: {
-      nameLabel: "IDENTIFICATIVO / NOME",
-      namePlaceholder: "es. Agent Smith",
-      emailLabel: "INDIRIZZO EMAIL",
-      emailPlaceholder: "agent@agency.org",
-      subjectLabel: "OGGETTO TRANSMISSIONE",
-      subjectPlaceholder: "Seleziona una categoria",
-      subjects: {
-        general: "Info Generali / Supporto",
-        bug: "Segnalazione Bug / Anomalia",
-        security: "Vulnerabilità di Sicurezza",
-        account: "Problema di Accesso Account"
+    casesPage: {
+      loading: "Caricamento dossier in corso",
+      empty: "Nessun dossier trovato.",
+      kodakPrefix: "KODAK 8MM ·",
+      openStatus: "IN CORSO",
+      archivedStatus: "ARCHIVIATO",
+      authorLabel: "AUTORE:",
+      unknownAuthor: "Sconosciuto",
+      archiveAccessTitle: "Accesso Archivio Digitale",
+      removeFromMap: "Rimuovi da Mappa",
+      loadToMap: "Carica in Mappa",
+      openCaseAlt: "Apri il caso",
+      fileExplorer: {
+        back: "Indietro",
+        confidential: "RISERVATO",
+        evidencePrefix: "Reperto #",
+        previewTitle: "Anteprima File",
+        open: "Apri",
+        download: "Scarica",
+        noUrl: "Nessun URL fornito",
+        pdfNoUrl: "URL PDF non disponibile",
+        fileNotesHeader: "Note del fascicolo:",
+        emptySelection:
+          "Seleziona un reperto dalla lista per visualizzarne l'anteprima",
+        loadToMap: "CARICA DOSSIER IN MAPPA",
       },
-      messageLabel: "MESSAGGIO CIFRATO",
-      messagePlaceholder: "Scrivi qui i dettagli della tua segnalazione...",
-      submitButton: "INVIA TRASMISSIONE",
-      submitting: "CIFRATURA IN CORSO...",
-      successMessage: "Trasmissione inviata con successo. ID Ticket: #TRX-985",
-      errorMessage: "Errore di trasmissione. Riprova più tardi."
+      pageDefault: {
+        title: "Archivio Generale Casi",
+        description:
+          "Seleziona un dossier dalla pellicola per consultare i dettagli della scheda, i reperti archiviati e la documentazione.",
+        numbeerOfDossiers: "Dossier archiviati nel sistema ",
+      },
+      ctaLogin: {
+        title: "Area riservata",
+        description1: "Stai consultando la versione dimostrativa (3 Dossier).",
+        description2: "per sbloccare l'archivio completo.",
+        button: "Accedi",
+      },
     },
-    infoBox: {
-      title: "PROTOCOLLO DI RISPOSTA",
-      responseTime: "Tempo stimato di risposta: < 24 ore.",
-      encryptionNote: "Tutti i messaggi sono protetti da cifratura end-to-end sulla nostra rete.",
-      directEmail: "EMAIL DIRETTA",
-      pgpKey: "CHIAVE PGP IMPRONTA"
+
+    landing: {
+      hero: {
+        eyebrow: "Dati verificati · Fonti pubbliche",
+        titleStart: "Il Data Journalism incontra la",
+        titleHighlight: "cronaca nera.",
+        description:
+          "Analisi di dati, atti pubblici e connessioni temporali per ricostruire i fatti in modo oggettivo e verificato.",
+        searchPlaceholder: "Cerca un caso, una prova o un nome...",
+        searchButton: "Indaga",
+        canvasPlaceholder:
+          "Ogni indizio è un frammento isolato. Uniamo le nostre informazioni a quelle degli altri detective. Solo ricomponendo il puzzle possiamo portare alla luce la verità sui casi irrisolti.",
+        quickSearches: ["Casi aperti", "Atti pubblici", "Mappa dei luoghi"],
+      },
+      features: {
+        eyebrow: "Strumenti della redazione",
+        title: "Un metodo, non solo una notizia.",
+        description:
+          "Ogni dossier nasce da fonti tracciabili e viene ricostruito con strumenti pensati per la verifica, non per il sensazionalismo.",
+        items: [
+          {
+            title: "Timeline Cronologica",
+            description:
+              "Riscopri i fatti in ordine sequenziale, con filtri avanzati sulle fonti e sui gradi di attendibilità.",
+          },
+          {
+            title: "Piattaforma OSINT",
+            description:
+              "Crowdsourcing di documenti pubblici, validati dalla redazione prima di entrare nel dossier.",
+          },
+          {
+            title: "La Lavagna dell'Investigatore",
+            description:
+              "Collega indizi, luoghi e soggetti coinvolti nel tuo spazio di lavoro riservato, come su una vera board investigativa.",
+          },
+        ],
+      },
+      cases: {
+        eyebrow: "Dossier aperti",
+        title: "Casi in evidenza",
+        description:
+          "Una selezione dei fascicoli attualmente più consultati sulla piattaforma.",
+        statusAnalysis: "In Analisi",
+        statusArchived: "Archiviato",
+        documentsLabel: "atti",
+        connectionsLabel: "connessioni",
+        openButton: "Apri",
+        viewAllButton: "Visualizza tutti i casi",
+        items: [
+          {
+            code: "n-001",
+            title: "L'omicidio di Elisa Claps",
+            status: "Archiviato",
+            description:
+              "Ricostruzione cronologica degli atti processuali e delle perizie tecniche depositate nei vari gradi di giudizio.",
+            atti: 4,
+            connessioni: 7,
+            href: "/cases?code=n-001",
+          },
+          {
+            code: "n-002",
+            title: "Il Giallo Di Avetrana",
+            status: "Archiviato",
+            description: "I fatti che hanno scioccato un paese intero.",
+            atti: 8,
+            connessioni: 9,
+            href: "/cases?code=n-002",
+          },
+          {
+            code: "n-003",
+            title: "Il Mistero di Pietracatella",
+            status: "In Analisi",
+            description:
+              "Il mistero di Pietracatella che non ha nessun colpevole.",
+            atti: 4,
+            connessioni: 8,
+            href: "/cases/?code=n-003",
+          },
+        ],
+      },
+      cta: {
+        eyebrow: "Accesso ricercatori",
+        title: "Entra nella Control Room",
+        description:
+          "Registrati per salvare le tue analisi, seguire i dossier attivi e collaborare con la redazione nel tuo spazio di lavoro personale.",
+        registerButton: "Richiedi Accesso",
+        loginButton: "Ho già un account",
+        securityNotice:
+          "Ogni richiesta di accesso è verificata manualmente dalla redazione.",
+      },
+      footer: {
+        privacy: "Privacy",
+        terms: "Termini",
+        contacts: "Contatti",
+        titleDisclaimer:
+          "Archivio digitale e ricostruzioni d'epoca di fatti di cronaca e giudiziari.",
+        disclaimer:
+          "I verbali, gli atti peritali e le trascrizioni riportati in questa scheda sono ricostruzioni ed elaborazioni a scopo documentale/editoriale basate sugli atti processuali e sulle sentenze passate in giudicato. Le illustrazioni, i ritratti e le rappresentazioni dei reperti sono generati o rielaborati tramite Intelligenza Artificiale ed elementi grafici d'epoca a scopo puramente evocativo e non fotorealistico.",
+        rights: "Tutti i diritti riservati.",
+      },
     },
-    rightsReserved: "Tutti i diritti riservati.",
-    errors:  {
-      ["email-not-found"]: "L'indirizzo email inserito non è associato ad alcun account registrato.",
-      ["no-text-found"]: "Dati mancanti o form non valido. Compila tutti i campi richiesti.",
-      ["server-error"]: "Si è verificato un errore durante l'invio della segnalazione. Riprova più tardi.",
-     ["connection-error"]: "Impossibile connettersi al server. Verifica la tua connessione internet."
-    
-  },
-  success: {
-     ["email-sent"]: "Segnalazione inviata con successo. Un'email di conferma viene inviata.",
-  }
-  }
+    about: {
+      hero: {
+        eyebrow: "Il Progetto",
+        titleStart: "Oltre il rumore mediatico,",
+        titleHighlight: "solo i dati contano.",
+        description:
+          "The Journal nasce dall'esigenza di riportare la cronaca nera e investigativa su un binario di oggettività. Viviamo in un'era in cui i casi giudiziari vengono trasformati in spettacoli televisivi. Noi crediamo in un approccio diverso: analitico, documentato e basato sui dati.",
+      },
+      mission: {
+        eyebrow: "La Nostra Missione",
+        title: "Ricostruire la verità attraverso le fonti aperte.",
+        p1: "Troppo spesso, i dettagli fondamentali di un'inchiesta si perdono in migliaia di pagine di atti giudiziari inaccessibili al grande pubblico, sostituiti da narrazioni emotive e parziali.",
+        p2: "Noi di The Journal applichiamo le metodologie dell'Open Source Intelligence (OSINT) e dello sviluppo software per digitalizzare, indicizzare e collegare i frammenti di informazione sparsi in sentenze, perizie e documenti pubblici.",
+        p3: "Creiamo timeline interattive e network graph che permettono a giornalisti, ricercatori e cittadini di esplorare le connessioni spaziali e temporali di un caso, rimuovendo il rumore di fondo e concentrandoci sull'unica cosa che conta: le prove.",
+        graphHeader: "OSINT Relational Graph // Case #07",
+        graphNodesLabel: "4 Nodi / 3 Evidenze",
+        nodeEvidence: "Reperto #A12",
+        nodeCentral: "Timeline Evento",
+        nodeCentralDate: "13 Aug 2007 - 09:12",
+        nodeSignal: "Segnalazione #304",
+        nodeAct: "Atto Giudiziario #712",
+        statDocuments: "Documenti",
+        statConnections: "Connessioni",
+        statSources: "Fonti Verificate",
+      },
+      pillars: {
+        eyebrow: "Metodologia",
+        title: "I tre pilastri del nostro lavoro",
+        items: [
+          {
+            title: "Data Journalism",
+            description:
+              "Raccogliamo, puliamo e incrociamo migliaia di dati pubblici. Dai tabulati alle perizie, trasformiamo fascicoli complessi in database interrogabili e strutturati.",
+          },
+          {
+            title: "Connessioni OSINT",
+            description:
+              "Utilizziamo tecniche di Open Source Intelligence per mappare relazioni, movimenti e discrepanze. Ogni nodo del nostro grafo rappresenta un fatto documentato.",
+          },
+          {
+            title: "Oggettività Assoluta",
+            description:
+              "Nessun parere personale, nessuna speculazione. Presentiamo i fatti nudi e crudi. Il nostro obiettivo non è emettere sentenze, ma fornire gli strumenti per comprendere.",
+          },
+        ],
+      },
+      cta: {
+        title: "Esplora i dossier pubblici",
+        description:
+          "Accedi all'archivio completo dei casi analizzati. Consulta le timeline, verifica i documenti e traccia le connessioni.",
+        archiveButton: "Vai all'Archivio",
+        contactButton: "Contatta la Redazione",
+        securityNotice:
+          "Tutti i dati provengono da fonti giudiziarie pubbliche.",
+      },
+    },
+    osint: {
+      hero: {
+        eyebrow: "Metodologia & Protocolli",
+        titleStart: "Dalle fonti aperte al",
+        titleHighlight: "dato strutturato.",
+        description:
+          "Come raccogliamo, verifichiamo e colleghiamo le informazioni. Il nostro processo garantisce la tracciabilità di ogni singolo nodo e la riproducibilità delle analisi.",
+      },
+      pipeline: {
+        eyebrow: "Workflow Analitico",
+        title: "La Pipeline di Analisi OSINT",
+        step1Title: "1. Acquisizione & Utilizzo dei Dati",
+        step1Desc:
+          "Estrazione di dati da atti giudiziari scritti, repository pubblici, tabulati e metadati. Sanitizzazione dei formati e applicazione di OCR avanzato per la digitalizzazione dei documenti cartacei.",
+        step2Title: "2. Verificazione & Triangolazione",
+        step2Desc:
+          "Ogni fatto o timestamp deve essere confermato da almeno due fonti indipendenti o da un atto ufficiale prima di essere validato nel database.",
+        step3Title: "3. Normalizzazione & Grafici",
+        step3Desc:
+          "Mappatura di entità (persone, luoghi, reperti, orari) ed estrazione delle relazioni sintattiche e semantiche per la generazione di grafici di rete.",
+      },
+      standards: {
+        eyebrow: "Standard di Trasparenza",
+        title: "Principi di Integrità dei Dati",
+        items: [
+          {
+            title: "Catena di Custodia Digitale",
+            description:
+              "Ogni documento archiviato presenta un hash crittografico per garantire che l'atto non sia mai stato manipolato dopo l'acquisizione.",
+          },
+          {
+            title: "Integrazione Geospaziale",
+            description:
+              "Correlazione delle testimonianze e dei dati cellulari con mappe ad alta risoluzione per verificare la congruenza temporale e spaziale.",
+          },
+          {
+            title: "Accesso Pubblico alle Fonti",
+            description:
+              "Nessun dato viene pubblicato senza il riferimento esplicito al fascicolo o alla fonte primaria da cui è stato estratto.",
+          },
+        ],
+      },
+      cta: {
+        title: "Esplora l'applicazione dei nostri protocolli",
+        description:
+          "Consulta i dossier analizzati attraverso la nostra metodologia.",
+        button: "Sfoglia i Casi",
+      },
+    },
+    map: {
+      sidebar: {
+        badge: "Anteprima Mappa OSINT",
+        title: "Geolocalizzazione & CELLE",
+        subtitle:
+          "Seleziona un dossier per esplorare le coordinate e la sequenza cronologica dei rilievi.",
+        publicNotice:
+          "Modalità Pubblica: 12 nodi chiave visualizzati su 142 totali.",
+        unlockBtn: "Sblocca Tutti i Nodi",
+        caseSelectorLabel: "Dossier Disponibili",
+      },
+      nodeDetails: {
+        title: "Rilievo Selezionato",
+        emptyState:
+          "Clicca su un marker sulla mappa o su un evento per analizzare i metadati.",
+        typeLabel: "Tipologia",
+        timeLabel: "Timestamp",
+        coordsLabel: "Coordinate",
+        sourceLabel: "Atto di Riferimento",
+      },
+      mapControls: {
+        timeFilterTitle: "Timeline Rilievi",
+        lockedFeature:
+          "La triangolazione automatica delle celle è riservata agli utenti registrati.",
+      },
+    },
+    login: {
+      usernameLabel: "Username / Alias Operatore",
+      usernamePlaceholder: "Es. Agente_07",
+      emailLabel: "Email",
+      emailPlaceholder: "nome@dominio.com",
+      passwordLabel: "Password",
+      passwordPlaceholder: "••••••••",
+      hidePassword: "Nascondi password",
+      showPassword: "Mostra password",
+      forgotPassword: "Password dimenticata?",
+      confirmPasswordLabel: "Conferma Password",
+      termsPrefix: "Registrandoti confermi di accettare i ",
+      termsLink: "Termini d'uso",
+      termsAnd: " e la ",
+      privacyLink: "Privacy Policy",
+      loginToggle: "Accedi",
+      signUpToggle: "Registrati",
+      badgeSignUp: "Registrazione Operatore",
+      badgeLogin: "Accesso Riservato",
+      titleSignUp: "Richiedi le tue Credenziali",
+      titleLogin: "Bentornato, Investigatore.",
+      descSignUp:
+        "Registrati per accedere alla Control Room e collaborare ai dossier attivi.",
+      descLogin: "Inserisci le tue credenziali per accedere alla piattaforma.",
+      btnSignUp: "Richiedi Accesso",
+      btnLogin: "Accedi al Sistema",
+      trustLine:
+        "Accesso riservato a ricercatori e giornalisti verificati dalla redazione.",
+      backToJournal: "Torna a The Journal",
+      errors: {
+        ["username-too-long"]:
+          "Lo username deve avere al massimo 20 caratteri.",
+        ["username-too-short"]: "Lo username deve avere almeno 4 caratteri.",
+        ["invalid-email"]: "Formato email non valido.",
+        ["password-too-weak-8-Aa-@$!%*?&"]:
+          "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
+        ["passwords-do-not-match"]: "Le password non coincidono.",
+        ["server-error"]: "Errore durante la registrazione. Riprova.",
+        ["connection-error"]: "Impossibile connettersi al server.",
+        ["no-user-found"]: "Nessun utente trovato.",
+        ["wrong-email"]: "Email non valida.",
+        ["wrong-password"]: "Password non valida.",
+        ["username-already-exist"]: "Username già esistente.",
+        ["email-already-exist"]: "Email già esistente.",
+      },
+      success: {
+        ["user-signed-up"]: "Registrazione completata con successo!",
+        ["user-logged-in"]: "Login completato con successo!",
+      },
+    },
+    terms: {
+      backToLogin: "← Torna al login",
+      title: "Termini e Condizioni di Servizio",
+      lastUpdated: "Ultimo aggiornamento",
+      lastUpdatedDate: "9 Agosto 2026",
+      sections: {
+        acceptanceTitle: "1. Accettazione dei Termini",
+        acceptanceBody:
+          "Accedendo o utilizzando il nostro servizio, l'utente accetta di essere vincolato dai presenti Termini e Condizioni. Se non si accettano tutti i termini, non è consentito accedere o utilizzare la piattaforma.",
+        accountTitle: "2. Creazione dell'Account e Sicurezza",
+        accountBody:
+          "Per accedere a determinate funzionalità è necessario registrare un account. L'utente si impegna a:",
+        accountPoints: [
+          "Fornire informazioni accurate, aggiornate e complete.",
+          "Mantenere la riservatezza delle credenziali di accesso.",
+          "Notificare tempestivamente qualsiasi utilizzo non autorizzato del proprio profilo.",
+        ],
+        usageTitle: "3. Uso Consentito e Restrizioni",
+        usageBody:
+          "È severamente vietato utilizzare il servizio per scopi illeciti o non autorizzati. È proibito:",
+        usagePoints: [
+          "Tentare di bypassare le misure di sicurezza o accedere ad account altrui.",
+          "Interferire con il corretto funzionamento dei server e delle API.",
+          "Estrarre dati mediante strumenti automatizzati (scraping) senza autorizzazione.",
+        ],
+        intellectualTitle: "4. Proprietà Intellettuale",
+        intellectualBody:
+          "Tutti i diritti sul codice sorgente, il design, il marchio, il logo e i contenuti presenti sulla piattaforma appartengono esclusivamente ai rispettivi proprietari. È vietata la riproduzione non autorizzata.",
+        limitationTitle: "5. Limitazione di Responsabilità",
+        limitationBody:
+          'Il servizio è fornito "così com\'è" ("as is") e "secondo disponibilità". Non garantiamo l\'assenza di interruzioni temporanee o errori nel sistema e non saremo responsabili per eventuali perdite dirette o indirette di dati.',
+        suspensionTitle: "6. Sospensione dell'Account",
+        suspensionBody:
+          "Ci riserviamo il diritto di sospendere o cancellare definitivamente un account in qualsiasi momento e senza preavviso in caso di violazione dei presenti Termini.",
+        contactTitle: "7. Contatti e Chiarimenti",
+        contactBody:
+          "Per qualsiasi domanda o dubbio relativo ai presenti Termini di Servizio, puoi contattarci all'indirizzo email dedicato al supporto.",
+      },
+      rightsReserved: "Tutti i diritti riservati.",
+      privacyPolicy: "Privacy Policy",
+    },
+    privacy: {
+      backToLogin: "← Torna al login",
+      title: "Informativa sulla Privacy",
+      lastUpdated: "Ultimo aggiornamento",
+      lastUpdatedDate: "9 Agosto 2026",
+      sections: {
+        introTitle: "1. Introduzione",
+        introBody:
+          "La tua privacy è fondamentale per noi. Questa Informativa descrive come raccogliamo, utilizziamo, conserviamo e proteggiamo i tuoi dati personali quando utilizzi i nostri servizi.",
+        collectedTitle: "2. Dati che Raccogliamo",
+        collectedBody:
+          "Raccogliamo solo i dati strettamente necessari per fornire e migliorare il servizio:",
+        collectedPoints: [
+          "Dati di registrazione: indirizzo email, username e password crittografata.",
+          "Dati di utilizzo: indirizzi IP, tipo di browser e log di sistema per motivi di sicurezza.",
+          "Preferenze di sessione e lingua memorizzate localmente.",
+        ],
+        purposeTitle: "3. Finalità del Trattamento",
+        purposeBody:
+          "I tuoi dati vengono elaborati esclusivamente per le seguenti finalità:",
+        purposePoints: [
+          "Consentire l'autenticazione e la gestione del tuo account.",
+          "Garantire la sicurezza e prevenire attività fraudolente o accessi non autorizzati.",
+          "Rispondere alle tue richieste di supporto tecnico.",
+        ],
+        sharingTitle: "4. Condivisione dei Dati e Terze Parti",
+        sharingBody:
+          "Non vendiamo né cediamo i tuoi dati personali a terzi per scopi commerciali. I dati possono essere trattati solo da fornitori di servizi infrastrutturali (hosting e database) vincolati alla riservatezza.",
+        securityTitle: "5. Sicurezza dei Dati",
+        securityBody:
+          "Adottiamo misure di sicurezza avanzate, tra cui la crittografia delle password tramite algoritmo bcrypt e connessioni protette via HTTPS, per impedire l'accesso non autorizzato o la perdita dei dati.",
+        rightsTitle: "6. I Tuoi Diritti (GDPR)",
+        rightsBody:
+          "In conformità con la normativa vigente, hai il diritto di accedere, rettificare o richiedere la cancellazione permanente del tuo account e di tutti i dati ad esso associati in qualsiasi momento.",
+        contactTitle: "7. Contatti per la Privacy",
+        contactBody:
+          "Per esercitare i tuoi diritti o per qualsiasi richiesta relativa al trattamento dei dati, puoi contattare il nostro responsabile della protezione dati via email.",
+      },
+      rightsReserved: "Tutti i diritti riservati.",
+      termsOfService: "Termini e Condizioni",
+    },
+    contact: {
+      backToLogin: "← Torna al login",
+      systemStatus: "CANALE CIFRATO ATTIUVO :: NODO_01",
+      title: "Canale di Contatto",
+      subtitle:
+        "Invia una trasmissione diretta al team di supporto o agli amministratori di sistema.",
+      form: {
+        nameLabel: "IDENTIFICATIVO / NOME",
+        namePlaceholder: "es. Agent Smith",
+        emailLabel: "INDIRIZZO EMAIL",
+        emailPlaceholder: "agent@agency.org",
+        subjectLabel: "OGGETTO TRANSMISSIONE",
+        subjectPlaceholder: "Seleziona una categoria",
+        subjects: {
+          general: "Info Generali / Supporto",
+          bug: "Segnalazione Bug / Anomalia",
+          security: "Vulnerabilità di Sicurezza",
+          account: "Problema di Accesso Account",
+        },
+        messageLabel: "MESSAGGIO CIFRATO",
+        messagePlaceholder: "Scrivi qui i dettagli della tua segnalazione...",
+        submitButton: "INVIA TRASMISSIONE",
+        submitting: "CIFRATURA IN CORSO...",
+        successMessage:
+          "Trasmissione inviata con successo. ID Ticket: #TRX-985",
+        errorMessage: "Errore di trasmissione. Riprova più tardi.",
+      },
+      infoBox: {
+        title: "PROTOCOLLO DI RISPOSTA",
+        responseTime: "Tempo stimato di risposta: < 24 ore.",
+        encryptionNote:
+          "Tutti i messaggi sono protetti da cifratura end-to-end sulla nostra rete.",
+        directEmail: "EMAIL DIRETTA",
+        pgpKey: "CHIAVE PGP IMPRONTA",
+      },
+      rightsReserved: "Tutti i diritti riservati.",
+      errors: {
+        ["email-not-found"]:
+          "L'indirizzo email inserito non è associato ad alcun account registrato.",
+        ["no-text-found"]:
+          "Dati mancanti o form non valido. Compila tutti i campi richiesti.",
+        ["server-error"]:
+          "Si è verificato un errore durante l'invio della segnalazione. Riprova più tardi.",
+        ["connection-error"]:
+          "Impossibile connettersi al server. Verifica la tua connessione internet.",
+        ["username-too-long"]:
+          "L'username deve essere al massimo 20 caratteri.",
+        ["username-too-short"]: "L'username deve essere almeno 4 caratteri.",
+        ["invalid-email"]: "Indirizzo email non valido.",
+        ["subject-too-short"]: "Oggetto della segnalazione non  valido.",
+        ["message-too-short"]:
+          "Il messaggio della segnalazione deve essere almeno 10 caratteri.",
+        ["subject-too-long"]: "Oggetto della segnalazione non  valido.",
+        ["message-too-long"]:
+          "Il messaggio della segnalazione deve essere al massimo 1000 caratteri.",
+      },
+      success: {
+        ["email-sent"]:
+          "Segnalazione inviata con successo. Un'email di conferma viene inviata.",
+      },
+    },
   },
   EN: {
     nav: {
@@ -427,420 +482,467 @@ button:"Accedi",
       login: "Restricted Area",
       casesArchive: "Case Archive",
     },
-casesPage: {
-  loading: "Loading dossiers",
-  empty: "No dossiers found.",
-  kodakPrefix: "KODAK 8MM ·",
-  openStatus: "IN PROGRESS",
-  archivedStatus: "ARCHIVED",
-  authorLabel: "AUTHOR:",
-  unknownAuthor: "Unknown",
-  archiveAccessTitle: "Digital Archive Access",
-  removeFromMap: "Remove from Map",
-  loadToMap: "Load to Map",
-  openCaseAlt: "Open case",
-  fileExplorer: {
-  back: "Back",
-  confidential: "CONFIDENTIAL",
-  evidencePrefix: "Evidence #",
-  previewTitle: "File Preview",
-  open: "Open",
-  download: "Download",
-  noUrl: "No URL provided",
-  pdfNoUrl: "PDF URL not available",
-  fileNotesHeader: "File notes:",
-  emptySelection: "Select an evidence item from the list to preview it",
-  loadToMap: "LOAD DOSSIER TO MAP"
-},
-pageDefault:{
-title:"General Cases Archive",
-description: "Select a dossier to explore details and documents.",
-numbeerOfDossiers:"Dossiers archived ",
-},
-ctaLogin:{
-title:"Restricted Area",
-description1:"Now you can only explore the public archive (3 dossiers). ",
-description2:"to access the full archive.",
-button:"Login",
-},
-} ,   
-landing: {
-    hero: {
-      eyebrow: "Verified Data · Public Sources",
-      titleStart: "Data Journalism meets",
-      titleHighlight: "true crime.",
-      description:
-        "Data analysis, public court documents, and chronological timelines to reconstruct facts objectively and accurately.",
-      searchPlaceholder: "Search for a case, evidence, or name...",
-      searchButton: "Investigate",
-      canvasPlaceholder:"Every clue is an isolated fragment. We combine our information with that of other detectives. Only by piecing together the puzzle can we uncover the truth about unsolved cases. ",
-      scrollMore: "Learn more",
-      quickSearches: ["Open cases", "Public records", "Locations map"],
-    },
-    features: {
-      eyebrow: "Editorial Tools",
-      title: "A methodology, not just news.",
-      description:
-        "Every dossier originates from traceable sources and is reconstructed using tools designed for verification, not sensationalism.",
-      items: [
-        {
-          title: "Chronological Timeline",
-          description:
-            "Rediscover facts in sequential order, with advanced filtering on sources and reliability ratings.",
-        },
-        {
-          title: "OSINT Platform",
-          description:
-            "Crowdsourced public documents, validated by our editorial team before entering the dossier.",
-        },
-        {
-          title: "Investigator's Whiteboard",
-          description:
-            "Connect clues, locations, and involved entities in your private workspace, just like a real investigation board.",
-        },
-      ],
-    },
-    cases: {
-      eyebrow: "Open Dossiers",
-      title: "Featured Cases",
-      description:
-        "A selection of the most frequently consulted case files on the platform.",
-      statusAnalysis: "Under Review",
-      statusArchived: "Archived",
-      documentsLabel: "records",
-      connectionsLabel: "links",
-      openButton: "Open",
-      viewAllButton: "View all cases",
-      items: [
-        {
-          code: "n-001",
-          title: "The Elisa Claps Case",
-          status: "Archived",
-          description:
-            "Chronological reconstruction of court documents and technical expert opinions filed across various judicial levels.",
-          atti: 8,
-          connessioni: 8,
-          href: "/cases?code=n-001",
-        },
-        {
-          code: "n-002",
-          title: "The Avetrana Killing",
-          status: "Archived",
-          description:
-            "The fatcs that terrified a whole country.",
-          atti: 8,
-          connessioni: 7,
-          href: "/cases?code=n-002",
-        },
-        {
-          code: "n-003",
-          title: "The Pietracatella Mystery",
-          status: "Under Review",
-          description:
-            "The mystery of the Pietracatella case that not have a single clue.",
-          atti: 4,
-          connessioni: 7,
-          href: "/cases?code=n-003",
-        },
-      ],
-    },
-    cta: {
-      eyebrow: "Researchers Access",
-      title: "Enter the Control Room",
-      description:
-        "Sign up to save your analyses, follow active dossiers, and collaborate with the editorial board in your workspace.",
-      registerButton: "Request Access",
-      loginButton: "I already have an account",
-      securityNotice:
-        "Each access request is manually reviewed and verified by our editorial team.",
-    },
-    footer: {
-      privacy: "Privacy Policy",
-      terms: "Terms of Service",
-      contacts: "Contact Us",
-      titleDisclaimer:"Digital archive and historical reconstructions of crime and judicial cases.",
-      disclaimer:"The official reports, forensic expert evaluations, and transcripts presented on this page are reconstructed and processed for documentary and editorial purposes based on judicial records and final binding court rulings. Illustrative materials, portraits, and physical evidence depictions are generated or enhanced using Artificial Intelligence and period-accurate graphical assets for purely evocative, non-photorealistic purposes.",
-      rights: "All rights reserved.",
-    },
-  },
-    about: {
-    hero: {
-      eyebrow: "The Project",
-      titleStart: "Beyond media hype,",
-      titleHighlight: "only data matters.",
-      description: "The Journal was born from the need to bring investigative and crime journalism back to objectivity. We live in an era where judicial cases are turned into TV spectacles. We believe in a different approach: analytical, documented, and data-driven.",
-    },
-    mission: {
-      eyebrow: "Our Mission",
-      title: "Reconstructing truth through open sources.",
-      p1: "All too often, key investigative details get lost in thousands of pages of court files inaccessible to the general public, replaced by emotional and biased narratives.",
-      p2: "At The Journal, we apply Open Source Intelligence (OSINT) methodologies and software engineering to digitize, index, and connect scattered fragments of information across rulings, expert reports, and public records.",
-      p3: "We create interactive timelines and network graphs that enable journalists, researchers, and citizens to explore the spatial and temporal connections of a case, filtering out background noise and focusing on what truly matters: evidence.",
-      graphHeader: "OSINT Relational Graph // Case #07",
-      graphNodesLabel: "4 Nodes / 3 Evidences",
-      nodeEvidence: "Exhibits #A12",
-      nodeCentral: "Event Timeline",
-      nodeCentralDate: "13 Aug 2007 - 09:12",
-      nodeSignal: "Tip-off #304",
-      nodeAct: "Court Document #712",
-      statDocuments: "Documents",
-      statConnections: "Connections",
-      statSources: "Verified Sources",
-    },
-    pillars: {
-      eyebrow: "Methodology",
-      title: "The three pillars of our work",
-      items: [
-        {
-          title: "Data Journalism",
-          description: "We collect, clean, and cross-reference thousands of public records. From phone logs to expert analyses, we turn complex files into searchable and structured databases.",
-        },
-        {
-          title: "OSINT Connections",
-          description: "We use Open Source Intelligence techniques to map relationships, movements, and discrepancies. Every node in our graph represents a documented fact.",
-        },
-        {
-          title: "Absolute Objectivity",
-          description: "No personal opinions, no speculation. We present raw, hard facts. Our goal is not to pass judgment, but to provide the tools to understand.",
-        },
-      ],
-    },
-    cta: {
-      title: "Explore Public Dossiers",
-      description: "Access the full archive of analyzed cases. Inspect timelines, verify documents, and trace connections.",
-      archiveButton: "Go to Archive",
-      contactButton: "Contact Editorial Team",
-      securityNotice: "All data originates from public judicial records.",
-    },
-  },
-  osint: {
-    hero: {
-      eyebrow: "Methodology & Protocols",
-      titleStart: "From open sources to",
-      titleHighlight: "structured data.",
-      description: "How we collect, verify, and connect information. Our process guarantees the traceability of every single node and the reproducibility of our analyses.",
-    },
-    pipeline: {
-      eyebrow: "Analytical Workflow",
-      title: "The OSINT Analysis Pipeline",
-      step1Title: "1. Acquisition & Ingestion",
-      step1Desc: "Data extraction from court filings, public repositories, phone records, and metadata. Format sanitization and advanced OCR for paper document digitization.",
-      step2Title: "2. Verification & Triangulation",
-      step2Desc: "Every fact or timestamp must be cross-verified by at least two independent sources or an official document before validation into the database.",
-      step3Title: "3. Normalization & Graphing",
-      step3Desc: "Entity mapping (people, locations, exhibits, timestamps) and semantic extraction to generate relational network graphs.",
-    },
-    standards: {
-      eyebrow: "Transparency Standards",
-      title: "Data Integrity Principles",
-      items: [
-        {
-          title: "Digital Chain of Custody",
-          description: "Every archived document features a cryptographic hash ensuring it hasn't been altered post-acquisition.",
-        },
-        {
-          title: "Geospatial Integration",
-          description: "Cross-referencing witness accounts and cell tower data with high-res maps to verify spatial-temporal plausibility.",
-        },
-        {
-          title: "Public Source Accessibility",
-          description: "No data is published without explicit reference to the court file or primary source from which it was extracted.",
-        },
-      ],
-    },
-    cta: {
-      title: "Explore our protocols in action",
-      description: "Inspect active dossiers analyzed through our methodology.",
-      button: "Browse Cases",
-    },
-  },
-  map: {
-    sidebar: {
-      badge: "OSINT Map Preview",
-      title: "Geolocation & Cell Towers",
-      subtitle: "Select a dossier to explore coordinates and chronological events.",
-      publicNotice: "Public Mode: 12 key nodes displayed out of 142 total.",
-      unlockBtn: "Unlock All Nodes",
-      caseSelectorLabel: "Available Dossiers",
-    },
-    nodeDetails: {
-      title: "Selected Evidence",
-      emptyState: "Click a marker on the map or an event to inspect metadata.",
-      typeLabel: "Type",
-      timeLabel: "Timestamp",
-      coordsLabel: "Coordinates",
-      sourceLabel: "Reference File",
-    },
-    mapControls: {
-      timeFilterTitle: "Timeline Events",
-      lockedFeature: "Automated cell tower triangulation is restricted to registered users.",
-    },
-  },
-  login: {
-    usernameLabel: "Username / Operator Alias",
-    usernamePlaceholder: "E.g. Agent_07",
-    emailLabel: "Email",
-    emailPlaceholder: "name@domain.com",
-    passwordLabel: "Password",
-    passwordPlaceholder: "••••••••",
-    hidePassword: "Hide password",
-    showPassword: "Show password",
-    forgotPassword: "Forgot password?",
-    confirmPasswordLabel: "Confirm Password",
-    termsPrefix: "By signing up you agree to our ",
-    termsLink: "Terms of Use",
-    termsAnd: " and ",
-    privacyLink: "Privacy Policy",
-    loginToggle: "Log In",
-    signUpToggle: "Sign Up",
-    badgeSignUp: "Operator Registration",
-    badgeLogin: "Restricted Access",
-    titleSignUp: "Request your Credentials",
-    titleLogin: "Welcome back, Investigator.",
-    descSignUp: "Register to access the Control Room and collaborate on active dossiers.",
-    descLogin: "Enter your credentials to access the platform.",
-    btnSignUp: "Request Access",
-    btnLogin: "System Login",
-    trustLine: "Access restricted to researchers and journalists verified by the editorial staff.",
-    backToJournal: "Back to The Journal",
-    errors: {
-    ["username-too-long"]: "Username must be at most 20 characters long.",
-    ["username-too-short"]: "Username must be at least 4 characters long.",
-    ["invalid-email"]: "Please enter a valid email address.",
-    ["password-too-weak-8-Aa-@$!%*?&"]: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
-    ["passwords-do-not-match"]: "Passwords do not match.",
-    ["server-error"]: "An error occurred during sign up. Please try again.",
-    ["connection-error"]: "Unable to connect to the server. Please check your connection.",
-    ["no-user-found"]: "No user found.",
-    ["wrong-email"]: "Wrong email.",
-    ["wrong-password"]: "Wrong password.",
-    ["username-already-exist"]: "Username already exists.",
-    ["email-already-exist"]: "Email already exists.",
-  },
-  success: {
-    ["user-signed-up"]: "Sign up completed successfully!",
-    ["user-logged-in"]: "Log in completed successfully!",
-
-  }
-  },
-  terms: {
-    backToLogin: "← Back to login",
-    title: "Terms and Conditions of Service",
-    lastUpdated: "Last updated",
-    lastUpdatedDate: "August 9, 2026",
-    sections: {
-      acceptanceTitle: "1. Acceptance of Terms",
-      acceptanceBody: "By accessing or using our service, you agree to be bound by these Terms and Conditions. If you do not agree to all of these terms, you are not permitted to access or use the platform.",
-      accountTitle: "2. Account Creation and Security",
-      accountBody: "To access certain features, you must register an account. You agree to:",
-      accountPoints: [
-        "Provide accurate, current, and complete information.",
-        "Maintain the confidentiality of your login credentials.",
-        "Promptly notify us of any unauthorized use of your account."
-      ],
-      usageTitle: "3. Permitted Use and Restrictions",
-      usageBody: "Using the service for illegal or unauthorized purposes is strictly prohibited. You are prohibited from:",
-      usagePoints: [
-        "Attempting to bypass security measures or access other users' accounts.",
-        "Interfering with the proper operation of servers and APIs.",
-        "Extracting data using automated tools (scraping) without permission."
-      ],
-      intellectualTitle: "4. Intellectual Property",
-      intellectualBody: "All rights to the source code, design, branding, logo, and content on the platform belong exclusively to their respective owners. Unauthorized reproduction is prohibited.",
-      limitationTitle: "5. Limitation of Liability",
-      limitationBody: "The service is provided \"as is\" and \"as available\". We do not guarantee uninterrupted or error-free system performance and will not be liable for any direct or indirect loss of data.",
-      suspensionTitle: "6. Account Suspension",
-      suspensionBody: "We reserve the right to suspend or permanently terminate an account at any time without prior notice in the event of a violation of these Terms.",
-      contactTitle: "7. Contact and Inquiries",
-      contactBody: "For any questions or concerns regarding these Terms of Service, you can reach us via our dedicated support email."
-    },
-    rightsReserved: "All rights reserved.",
-    privacyPolicy: "Privacy Policy"
-  },
-  privacy: {
-    backToLogin: "← Back to login",
-    title: "Privacy Policy",
-    lastUpdated: "Last updated",
-    lastUpdatedDate: "August 9, 2026",
-    sections: {
-      introTitle: "1. Introduction",
-      introBody: "Your privacy is fundamental to us. This Policy outlines how we collect, use, store, and protect your personal data when you use our services.",
-      collectedTitle: "2. Data We Collect",
-      collectedBody: "We only collect data strictly necessary to provide and improve our service:",
-      collectedPoints: [
-        "Registration data: email address, username, and encrypted password.",
-        "Usage data: IP addresses, browser type, and system logs for security purposes.",
-        "Session and language preferences stored locally."
-      ],
-      purposeTitle: "3. Purpose of Processing",
-      purposeBody: "Your data is processed exclusively for the following purposes:",
-      purposePoints: [
-        "To enable authentication and manage your account.",
-        "To ensure security and prevent fraudulent activity or unauthorized access.",
-        "To respond to your technical support requests."
-      ],
-      sharingTitle: "4. Data Sharing and Third Parties",
-      sharingBody: "We do not sell or trade your personal data to third parties for commercial purposes. Data is processed only by infrastructure providers (hosting and database) bound by strict confidentiality.",
-      securityTitle: "5. Data Security",
-      securityBody: "We implement advanced security measures, including password encryption using the bcrypt algorithm and HTTPS connections, to prevent unauthorized access or data loss.",
-      rightsTitle: "6. Your Rights (GDPR)",
-      rightsBody: "Under applicable regulations, you have the right to access, rectify, or request the permanent deletion of your account and associated data at any time.",
-      contactTitle: "7. Privacy Contacts",
-      contactBody: "To exercise your rights or for any inquiries regarding data processing, you can contact our privacy lead via email."
-    },
-    rightsReserved: "All rights reserved.",
-    termsOfService: "Terms and Conditions"
-  },
-  contact: {
-    backToLogin: "← Back to login",
-    systemStatus: "ENCRYPTED CHANNEL ACTIVE :: NODE_01",
-    title: "Contact Channel",
-    subtitle: "Send a direct transmission to the support team or system administrators.",
-    form: {
-      nameLabel: "IDENTIFIER / NAME",
-      namePlaceholder: "e.g. Agent Smith",
-      emailLabel: "EMAIL ADDRESS",
-      emailPlaceholder: "agent@agency.org",
-      subjectLabel: "TRANSMISSION SUBJECT",
-      subjectPlaceholder: "Select a category",
-      subjects: {
-        general: "General Info / Support",
-        bug: "Bug / Anomaly Report",
-        security: "Security Vulnerability",
-        account: "Account Access Issue"
+    casesPage: {
+      loading: "Loading dossiers",
+      empty: "No dossiers found.",
+      kodakPrefix: "KODAK 8MM ·",
+      openStatus: "IN PROGRESS",
+      archivedStatus: "ARCHIVED",
+      authorLabel: "AUTHOR:",
+      unknownAuthor: "Unknown",
+      archiveAccessTitle: "Digital Archive Access",
+      removeFromMap: "Remove from Map",
+      loadToMap: "Load to Map",
+      openCaseAlt: "Open case",
+      fileExplorer: {
+        back: "Back",
+        confidential: "CONFIDENTIAL",
+        evidencePrefix: "Evidence #",
+        previewTitle: "File Preview",
+        open: "Open",
+        download: "Download",
+        noUrl: "No URL provided",
+        pdfNoUrl: "PDF URL not available",
+        fileNotesHeader: "File notes:",
+        emptySelection: "Select an evidence item from the list to preview it",
+        loadToMap: "LOAD DOSSIER TO MAP",
       },
-      messageLabel: "ENCRYPTED MESSAGE",
-      messagePlaceholder: "Write the details of your report here...",
-      submitButton: "SEND TRANSMISSION",
-      submitting: "ENCRYPTING...",
-      successMessage: "Transmission sent successfully. Ticket ID: #TRX-985",
-      errorMessage: "Transmission error. Please try again later."
+      pageDefault: {
+        title: "General Cases Archive",
+        description: "Select a dossier to explore details and documents.",
+        numbeerOfDossiers: "Dossiers archived ",
+      },
+      ctaLogin: {
+        title: "Restricted Area",
+        description1:
+          "Now you can only explore the public archive (3 dossiers). ",
+        description2: "to access the full archive.",
+        button: "Login",
+      },
     },
-    infoBox: {
-      title: "RESPONSE PROTOCOL",
-      responseTime: "Estimated response time: < 24 hours.",
-      encryptionNote: "All messages are secured with end-to-end encryption on our network.",
-      directEmail: "DIRECT EMAIL",
-      pgpKey: "PGP FINGERPRINT"
+    landing: {
+      hero: {
+        eyebrow: "Verified Data · Public Sources",
+        titleStart: "Data Journalism meets",
+        titleHighlight: "true crime.",
+        description:
+          "Data analysis, public court documents, and chronological timelines to reconstruct facts objectively and accurately.",
+        searchPlaceholder: "Search for a case, evidence, or name...",
+        searchButton: "Investigate",
+        canvasPlaceholder:
+          "Every clue is an isolated fragment. We combine our information with that of other detectives. Only by piecing together the puzzle can we uncover the truth about unsolved cases. ",
+        scrollMore: "Learn more",
+        quickSearches: ["Open cases", "Public records", "Locations map"],
+      },
+      features: {
+        eyebrow: "Editorial Tools",
+        title: "A methodology, not just news.",
+        description:
+          "Every dossier originates from traceable sources and is reconstructed using tools designed for verification, not sensationalism.",
+        items: [
+          {
+            title: "Chronological Timeline",
+            description:
+              "Rediscover facts in sequential order, with advanced filtering on sources and reliability ratings.",
+          },
+          {
+            title: "OSINT Platform",
+            description:
+              "Crowdsourced public documents, validated by our editorial team before entering the dossier.",
+          },
+          {
+            title: "Investigator's Whiteboard",
+            description:
+              "Connect clues, locations, and involved entities in your private workspace, just like a real investigation board.",
+          },
+        ],
+      },
+      cases: {
+        eyebrow: "Open Dossiers",
+        title: "Featured Cases",
+        description:
+          "A selection of the most frequently consulted case files on the platform.",
+        statusAnalysis: "Under Review",
+        statusArchived: "Archived",
+        documentsLabel: "records",
+        connectionsLabel: "links",
+        openButton: "Open",
+        viewAllButton: "View all cases",
+        items: [
+          {
+            code: "n-001",
+            title: "The Elisa Claps Case",
+            status: "Archived",
+            description:
+              "Chronological reconstruction of court documents and technical expert opinions filed across various judicial levels.",
+            atti: 8,
+            connessioni: 8,
+            href: "/cases?code=n-001",
+          },
+          {
+            code: "n-002",
+            title: "The Avetrana Killing",
+            status: "Archived",
+            description: "The fatcs that terrified a whole country.",
+            atti: 8,
+            connessioni: 7,
+            href: "/cases?code=n-002",
+          },
+          {
+            code: "n-003",
+            title: "The Pietracatella Mystery",
+            status: "Under Review",
+            description:
+              "The mystery of the Pietracatella case that not have a single clue.",
+            atti: 4,
+            connessioni: 7,
+            href: "/cases?code=n-003",
+          },
+        ],
+      },
+      cta: {
+        eyebrow: "Researchers Access",
+        title: "Enter the Control Room",
+        description:
+          "Sign up to save your analyses, follow active dossiers, and collaborate with the editorial board in your workspace.",
+        registerButton: "Request Access",
+        loginButton: "I already have an account",
+        securityNotice:
+          "Each access request is manually reviewed and verified by our editorial team.",
+      },
+      footer: {
+        privacy: "Privacy Policy",
+        terms: "Terms of Service",
+        contacts: "Contact Us",
+        titleDisclaimer:
+          "Digital archive and historical reconstructions of crime and judicial cases.",
+        disclaimer:
+          "The official reports, forensic expert evaluations, and transcripts presented on this page are reconstructed and processed for documentary and editorial purposes based on judicial records and final binding court rulings. Illustrative materials, portraits, and physical evidence depictions are generated or enhanced using Artificial Intelligence and period-accurate graphical assets for purely evocative, non-photorealistic purposes.",
+        rights: "All rights reserved.",
+      },
     },
-    rightsReserved: "All rights reserved."
+    about: {
+      hero: {
+        eyebrow: "The Project",
+        titleStart: "Beyond media hype,",
+        titleHighlight: "only data matters.",
+        description:
+          "The Journal was born from the need to bring investigative and crime journalism back to objectivity. We live in an era where judicial cases are turned into TV spectacles. We believe in a different approach: analytical, documented, and data-driven.",
+      },
+      mission: {
+        eyebrow: "Our Mission",
+        title: "Reconstructing truth through open sources.",
+        p1: "All too often, key investigative details get lost in thousands of pages of court files inaccessible to the general public, replaced by emotional and biased narratives.",
+        p2: "At The Journal, we apply Open Source Intelligence (OSINT) methodologies and software engineering to digitize, index, and connect scattered fragments of information across rulings, expert reports, and public records.",
+        p3: "We create interactive timelines and network graphs that enable journalists, researchers, and citizens to explore the spatial and temporal connections of a case, filtering out background noise and focusing on what truly matters: evidence.",
+        graphHeader: "OSINT Relational Graph // Case #07",
+        graphNodesLabel: "4 Nodes / 3 Evidences",
+        nodeEvidence: "Exhibits #A12",
+        nodeCentral: "Event Timeline",
+        nodeCentralDate: "13 Aug 2007 - 09:12",
+        nodeSignal: "Tip-off #304",
+        nodeAct: "Court Document #712",
+        statDocuments: "Documents",
+        statConnections: "Connections",
+        statSources: "Verified Sources",
+      },
+      pillars: {
+        eyebrow: "Methodology",
+        title: "The three pillars of our work",
+        items: [
+          {
+            title: "Data Journalism",
+            description:
+              "We collect, clean, and cross-reference thousands of public records. From phone logs to expert analyses, we turn complex files into searchable and structured databases.",
+          },
+          {
+            title: "OSINT Connections",
+            description:
+              "We use Open Source Intelligence techniques to map relationships, movements, and discrepancies. Every node in our graph represents a documented fact.",
+          },
+          {
+            title: "Absolute Objectivity",
+            description:
+              "No personal opinions, no speculation. We present raw, hard facts. Our goal is not to pass judgment, but to provide the tools to understand.",
+          },
+        ],
+      },
+      cta: {
+        title: "Explore Public Dossiers",
+        description:
+          "Access the full archive of analyzed cases. Inspect timelines, verify documents, and trace connections.",
+        archiveButton: "Go to Archive",
+        contactButton: "Contact Editorial Team",
+        securityNotice: "All data originates from public judicial records.",
+      },
+    },
+    osint: {
+      hero: {
+        eyebrow: "Methodology & Protocols",
+        titleStart: "From open sources to",
+        titleHighlight: "structured data.",
+        description:
+          "How we collect, verify, and connect information. Our process guarantees the traceability of every single node and the reproducibility of our analyses.",
+      },
+      pipeline: {
+        eyebrow: "Analytical Workflow",
+        title: "The OSINT Analysis Pipeline",
+        step1Title: "1. Acquisition & Ingestion",
+        step1Desc:
+          "Data extraction from court filings, public repositories, phone records, and metadata. Format sanitization and advanced OCR for paper document digitization.",
+        step2Title: "2. Verification & Triangulation",
+        step2Desc:
+          "Every fact or timestamp must be cross-verified by at least two independent sources or an official document before validation into the database.",
+        step3Title: "3. Normalization & Graphing",
+        step3Desc:
+          "Entity mapping (people, locations, exhibits, timestamps) and semantic extraction to generate relational network graphs.",
+      },
+      standards: {
+        eyebrow: "Transparency Standards",
+        title: "Data Integrity Principles",
+        items: [
+          {
+            title: "Digital Chain of Custody",
+            description:
+              "Every archived document features a cryptographic hash ensuring it hasn't been altered post-acquisition.",
+          },
+          {
+            title: "Geospatial Integration",
+            description:
+              "Cross-referencing witness accounts and cell tower data with high-res maps to verify spatial-temporal plausibility.",
+          },
+          {
+            title: "Public Source Accessibility",
+            description:
+              "No data is published without explicit reference to the court file or primary source from which it was extracted.",
+          },
+        ],
+      },
+      cta: {
+        title: "Explore our protocols in action",
+        description:
+          "Inspect active dossiers analyzed through our methodology.",
+        button: "Browse Cases",
+      },
+    },
+    map: {
+      sidebar: {
+        badge: "OSINT Map Preview",
+        title: "Geolocation & Cell Towers",
+        subtitle:
+          "Select a dossier to explore coordinates and chronological events.",
+        publicNotice: "Public Mode: 12 key nodes displayed out of 142 total.",
+        unlockBtn: "Unlock All Nodes",
+        caseSelectorLabel: "Available Dossiers",
+      },
+      nodeDetails: {
+        title: "Selected Evidence",
+        emptyState:
+          "Click a marker on the map or an event to inspect metadata.",
+        typeLabel: "Type",
+        timeLabel: "Timestamp",
+        coordsLabel: "Coordinates",
+        sourceLabel: "Reference File",
+      },
+      mapControls: {
+        timeFilterTitle: "Timeline Events",
+        lockedFeature:
+          "Automated cell tower triangulation is restricted to registered users.",
+      },
+    },
+    login: {
+      usernameLabel: "Username / Operator Alias",
+      usernamePlaceholder: "E.g. Agent_07",
+      emailLabel: "Email",
+      emailPlaceholder: "name@domain.com",
+      passwordLabel: "Password",
+      passwordPlaceholder: "••••••••",
+      hidePassword: "Hide password",
+      showPassword: "Show password",
+      forgotPassword: "Forgot password?",
+      confirmPasswordLabel: "Confirm Password",
+      termsPrefix: "By signing up you agree to our ",
+      termsLink: "Terms of Use",
+      termsAnd: " and ",
+      privacyLink: "Privacy Policy",
+      loginToggle: "Log In",
+      signUpToggle: "Sign Up",
+      badgeSignUp: "Operator Registration",
+      badgeLogin: "Restricted Access",
+      titleSignUp: "Request your Credentials",
+      titleLogin: "Welcome back, Investigator.",
+      descSignUp:
+        "Register to access the Control Room and collaborate on active dossiers.",
+      descLogin: "Enter your credentials to access the platform.",
+      btnSignUp: "Request Access",
+      btnLogin: "System Login",
+      trustLine:
+        "Access restricted to researchers and journalists verified by the editorial staff.",
+      backToJournal: "Back to The Journal",
+      errors: {
+        ["username-too-long"]: "Username must be at most 20 characters long.",
+        ["username-too-short"]: "Username must be at least 4 characters long.",
+        ["invalid-email"]: "Please enter a valid email address.",
+        ["password-too-weak-8-Aa-@$!%*?&"]:
+          "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
+        ["passwords-do-not-match"]: "Passwords do not match.",
+        ["server-error"]: "An error occurred during sign up. Please try again.",
+        ["connection-error"]:
+          "Unable to connect to the server. Please check your connection.",
+        ["no-user-found"]: "No user found.",
+        ["wrong-email"]: "Wrong email.",
+        ["wrong-password"]: "Wrong password.",
+        ["username-already-exist"]: "Username already exists.",
+        ["email-already-exist"]: "Email already exists.",
+      },
+      success: {
+        ["user-signed-up"]: "Sign up completed successfully!",
+        ["user-logged-in"]: "Log in completed successfully!",
+      },
+    },
+    terms: {
+      backToLogin: "← Back to login",
+      title: "Terms and Conditions of Service",
+      lastUpdated: "Last updated",
+      lastUpdatedDate: "August 9, 2026",
+      sections: {
+        acceptanceTitle: "1. Acceptance of Terms",
+        acceptanceBody:
+          "By accessing or using our service, you agree to be bound by these Terms and Conditions. If you do not agree to all of these terms, you are not permitted to access or use the platform.",
+        accountTitle: "2. Account Creation and Security",
+        accountBody:
+          "To access certain features, you must register an account. You agree to:",
+        accountPoints: [
+          "Provide accurate, current, and complete information.",
+          "Maintain the confidentiality of your login credentials.",
+          "Promptly notify us of any unauthorized use of your account.",
+        ],
+        usageTitle: "3. Permitted Use and Restrictions",
+        usageBody:
+          "Using the service for illegal or unauthorized purposes is strictly prohibited. You are prohibited from:",
+        usagePoints: [
+          "Attempting to bypass security measures or access other users' accounts.",
+          "Interfering with the proper operation of servers and APIs.",
+          "Extracting data using automated tools (scraping) without permission.",
+        ],
+        intellectualTitle: "4. Intellectual Property",
+        intellectualBody:
+          "All rights to the source code, design, branding, logo, and content on the platform belong exclusively to their respective owners. Unauthorized reproduction is prohibited.",
+        limitationTitle: "5. Limitation of Liability",
+        limitationBody:
+          'The service is provided "as is" and "as available". We do not guarantee uninterrupted or error-free system performance and will not be liable for any direct or indirect loss of data.',
+        suspensionTitle: "6. Account Suspension",
+        suspensionBody:
+          "We reserve the right to suspend or permanently terminate an account at any time without prior notice in the event of a violation of these Terms.",
+        contactTitle: "7. Contact and Inquiries",
+        contactBody:
+          "For any questions or concerns regarding these Terms of Service, you can reach us via our dedicated support email.",
+      },
+      rightsReserved: "All rights reserved.",
+      privacyPolicy: "Privacy Policy",
+    },
+    privacy: {
+      backToLogin: "← Back to login",
+      title: "Privacy Policy",
+      lastUpdated: "Last updated",
+      lastUpdatedDate: "August 9, 2026",
+      sections: {
+        introTitle: "1. Introduction",
+        introBody:
+          "Your privacy is fundamental to us. This Policy outlines how we collect, use, store, and protect your personal data when you use our services.",
+        collectedTitle: "2. Data We Collect",
+        collectedBody:
+          "We only collect data strictly necessary to provide and improve our service:",
+        collectedPoints: [
+          "Registration data: email address, username, and encrypted password.",
+          "Usage data: IP addresses, browser type, and system logs for security purposes.",
+          "Session and language preferences stored locally.",
+        ],
+        purposeTitle: "3. Purpose of Processing",
+        purposeBody:
+          "Your data is processed exclusively for the following purposes:",
+        purposePoints: [
+          "To enable authentication and manage your account.",
+          "To ensure security and prevent fraudulent activity or unauthorized access.",
+          "To respond to your technical support requests.",
+        ],
+        sharingTitle: "4. Data Sharing and Third Parties",
+        sharingBody:
+          "We do not sell or trade your personal data to third parties for commercial purposes. Data is processed only by infrastructure providers (hosting and database) bound by strict confidentiality.",
+        securityTitle: "5. Data Security",
+        securityBody:
+          "We implement advanced security measures, including password encryption using the bcrypt algorithm and HTTPS connections, to prevent unauthorized access or data loss.",
+        rightsTitle: "6. Your Rights (GDPR)",
+        rightsBody:
+          "Under applicable regulations, you have the right to access, rectify, or request the permanent deletion of your account and associated data at any time.",
+        contactTitle: "7. Privacy Contacts",
+        contactBody:
+          "To exercise your rights or for any inquiries regarding data processing, you can contact our privacy lead via email.",
+      },
+      rightsReserved: "All rights reserved.",
+      termsOfService: "Terms and Conditions",
+    },
+    contact: {
+      backToLogin: "← Back to login",
+      systemStatus: "ENCRYPTED CHANNEL ACTIVE :: NODE_01",
+      title: "Contact Channel",
+      subtitle:
+        "Send a direct transmission to the support team or system administrators.",
+      form: {
+        nameLabel: "IDENTIFIER / NAME",
+        namePlaceholder: "e.g. Agent Smith",
+        emailLabel: "EMAIL ADDRESS",
+        emailPlaceholder: "agent@agency.org",
+        subjectLabel: "TRANSMISSION SUBJECT",
+        subjectPlaceholder: "Select a category",
+        subjects: {
+          general: "General Info / Support",
+          bug: "Bug / Anomaly Report",
+          security: "Security Vulnerability",
+          account: "Account Access Issue",
+        },
+        messageLabel: "ENCRYPTED MESSAGE",
+        messagePlaceholder: "Write the details of your report here...",
+        submitButton: "SEND TRANSMISSION",
+        submitting: "ENCRYPTING...",
+        successMessage: "Transmission sent successfully. Ticket ID: #TRX-985",
+        errorMessage: "Transmission error. Please try again later.",
+      },
+      infoBox: {
+        title: "RESPONSE PROTOCOL",
+        responseTime: "Estimated response time: < 24 hours.",
+        encryptionNote:
+          "All messages are secured with end-to-end encryption on our network.",
+        directEmail: "DIRECT EMAIL",
+        pgpKey: "PGP FINGERPRINT",
+      },
+      rightsReserved: "All rights reserved.",
+      errors: {
+        ["email-not-found"]:
+          "The email address provided is not associated with any registered account.",
+        ["no-text-found"]:
+          "Missing data or invalid form. Please fill in all required fields.",
+        ["server-error"]:
+          "An error occurred while sending your report. Please try again later.",
+        ["connection-error"]:
+          "Unable to connect to the server. Please check your internet connection.",
+        ["username-too-long"]:
+          "L'username deve essere al massimo 20 caratteri.",
+        ["username-too-short"]: "Username must be at least 4 characters long.",
+        ["invalid-email"]: "Email not valid.",
+        ["subject-too-short"]: "Subject not valid.",
+        ["message-too-short"]:
+          "the message must be at least 10 characters long.",
+        ["subject-too-long"]: "Subject not valid.",
+        ["message-too-long"]:
+          "The message must be at most 1000 characters long.",
+      },
+      success: {
+        ["email-sent"]:
+          "Report submitted successfully. A confirmation email has been sent.",
+      },
+    },
   },
-  errors: {
-    
-      ["email-not-found"]: "The email address provided is not associated with any registered account.",
-      ["no-text-found"]: "Missing data or invalid form. Please fill in all required fields.",
-      ["server-error"]: "An error occurred while sending your report. Please try again later.",
-      ["connection-error"]: "Unable to connect to the server. Please check your internet connection."
-    
-
-  },success:{
-     ["email-sent"]: "Report submitted successfully. A confirmation email has been sent.",
-
-  }
-
-
-},
-
 } as const;
 
 //commit env

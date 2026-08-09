@@ -1,6 +1,6 @@
 "use server";
 
-import { type DbDossier, type DbUser } from "@/lib/type";
+import { type DbDossier } from "@/lib/type";
 import z from "zod";
 
 //auth dossiers list
@@ -48,6 +48,7 @@ const userSignUpZodSchema = z
         { message: "password-too-weak-8-Aa-@$!%*?&" },
       ),
     confirmPassword: z.string(),
+    lang: z.enum(["IT", "EN"]),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "passwords-do-not-match",
@@ -63,6 +64,7 @@ export type SignUpFormState = {
     email?: string;
     password?: string;
     confirmPassword?: string;
+    lang?: string;
   };
 };
 export const userSignUp = async (
@@ -74,6 +76,7 @@ export const userSignUp = async (
     email: (formData.get("email") as string) || "",
     password: (formData.get("password") as string) || "",
     confirmPassword: (formData.get("confirmPassword") as string) || "",
+    lang: (formData.get("lang") as string) || "",
   };
 
   try {
@@ -98,6 +101,7 @@ export const userSignUp = async (
           username: validation.data.username,
           email: validation.data.email,
           password: validation.data.password,
+          lang: validation.data.lang,
         }),
       },
     );
@@ -224,7 +228,7 @@ const userSendEmailZodSchema = z
       .max(20, { message: "username-too-long" })
       .min(4, { message: "username-too-short" }),
     email: z.string().email({ message: "invalid-email" }),
-    subject: z.string().min(4, { message: "subject-too-short" }).max(100, { message: "subject-too-long" }),
+    subject: z.string().min(1, { message: "subject-too-short" }).max(20, { message: "subject-too-long" }),
     textarea: z.string().min(10, { message: "message-too-short" }).max(1000, { message: "message-too-long" }),
   lang: z.enum(["IT", "EN"] ),
 
@@ -254,9 +258,7 @@ export const sendEmail = async (
     lang: (formData.get("lang") as string) || "",
   };
 
-  console.log(validatedForm);
-  
-  
+ 
 
   try {
     const validation = userSendEmailZodSchema.safeParse(validatedForm);
@@ -289,7 +291,6 @@ export const sendEmail = async (
     );
     const data = await response.json();
 
-    console.log('data',data);
     if (!response.ok) {
       return {
         success: false as const,

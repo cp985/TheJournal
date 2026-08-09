@@ -152,7 +152,7 @@ function LoginComponent() {
   const router = useRouter();
   const pathname = usePathname();
   const isSignUp = params.get("action") === "signup";
-  const { t } = useLanguage();
+  const { t,lang } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -188,6 +188,7 @@ function LoginComponent() {
       email: "",
       password: "",
       confirmPassword: "",
+      lang:lang
     },
   };
   const [formData, setFormData, isPending] = useActionState(
@@ -389,6 +390,7 @@ function LoginComponent() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+                <Input type="hidden" name="lang"  id="lang" value={lang} />
               </motion.div>
 
               <Button
