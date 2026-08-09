@@ -402,6 +402,9 @@ function LoginComponent() {
                 {isSignUp ? t.login.btnSignUp : t.login.btnLogin}
                 {isPending ? <div className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin" ></div> : <ArrowRight className="h-4 w-4" />}
               </Button>
+
+              {/* Error box */}
+              
               {((formData.errors && Object.keys(formData.errors).length > 0) || formData.message) && (
   <div 
   key="boxError"

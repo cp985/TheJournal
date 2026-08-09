@@ -213,3 +213,103 @@ export const userLogin = async (
     };
   }
 };
+
+
+//sendmail action
+
+const userSendEmailZodSchema = z
+  .object({
+    username: z
+      .string()
+      .max(20, { message: "username-too-long" })
+      .min(4, { message: "username-too-short" }),
+    email: z.string().email({ message: "invalid-email" }),
+    subject: z.string().min(4, { message: "subject-too-short" }).max(100, { message: "subject-too-long" }),
+    textarea: z.string().min(10, { message: "message-too-short" }).max(1000, { message: "message-too-long" }),
+  lang: z.enum(["IT", "EN"] ),
+
+  })
+
+export type SendEmailFormState = {
+  success: boolean;
+  errors?: Record<string, string[] | undefined> | null;
+  message?: string | null;
+  data?: {
+    username?: string;
+    email?: string;
+   subject?: string;
+    textarea?: string;
+    lang?: string
+  };
+};
+export const sendEmail = async (
+  _prevs: SendEmailFormState,
+  formData: FormData,
+): Promise<SendEmailFormState> => {
+  const validatedForm = {
+    username: (formData.get("username") as string) || "",
+    email: (formData.get("email") as string) || "",
+    subject: (formData.get("subject") as string) || "",
+    textarea: (formData.get("textarea") as string) || "",
+    lang: (formData.get("lang") as string) || "",
+  };
+
+  console.log(validatedForm);
+  
+  
+
+  try {
+    const validation = userSendEmailZodSchema.safeParse(validatedForm);
+
+    if (!validation.success) {
+      return {
+        success: false as const,
+        errors: validation.error.flatten().fieldErrors,
+        data: validatedForm,
+      };
+    }
+
+    
+
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_RENDER + "/contact",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: validation.data.username,
+          email: validation.data.email,
+          subject: validation.data.subject,
+          textarea: validation.data.textarea,
+          lang: validation.data.lang
+        }),
+      },
+    );
+    const data = await response.json();
+
+    console.log('data',data);
+    if (!response.ok) {
+      return {
+        success: false as const,
+        message: data.message || data.error || "server-error",
+        errors: null,
+        data: validatedForm,
+      };
+    }
+    return {
+      success: true as const,
+      errors: null,
+      message: "email-sent",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false as const,
+      message: "connection-error",
+      errors: null,
+      data: validatedForm,
+    };
+  }
+};

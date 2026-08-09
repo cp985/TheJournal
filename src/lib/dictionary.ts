@@ -405,9 +405,18 @@ button:"Accedi",
       directEmail: "EMAIL DIRETTA",
       pgpKey: "CHIAVE PGP IMPRONTA"
     },
-    rightsReserved: "Tutti i diritti riservati."
+    rightsReserved: "Tutti i diritti riservati.",
+    errors:  {
+      ["email-not-found"]: "L'indirizzo email inserito non è associato ad alcun account registrato.",
+      ["no-text-found"]: "Dati mancanti o form non valido. Compila tutti i campi richiesti.",
+      ["server-error"]: "Si è verificato un errore durante l'invio della segnalazione. Riprova più tardi.",
+     ["connection-error"]: "Impossibile connettersi al server. Verifica la tua connessione internet."
+    
+  },
+  success: {
+     ["email-sent"]: "Segnalazione inviata con successo. Un'email di conferma viene inviata.",
   }
-
+  }
   },
   EN: {
     nav: {
@@ -815,6 +824,18 @@ landing: {
       pgpKey: "PGP FINGERPRINT"
     },
     rightsReserved: "All rights reserved."
+  },
+  errors: {
+    
+      ["email-not-found"]: "The email address provided is not associated with any registered account.",
+      ["no-text-found"]: "Missing data or invalid form. Please fill in all required fields.",
+      ["server-error"]: "An error occurred while sending your report. Please try again later.",
+      ["connection-error"]: "Unable to connect to the server. Please check your internet connection."
+    
+
+  },success:{
+     ["email-sent"]: "Report submitted successfully. A confirmation email has been sent.",
+
   }
 
 
