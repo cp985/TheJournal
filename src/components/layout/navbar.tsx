@@ -21,6 +21,8 @@ export default function Navbar() {
     { href: "/map", label: nav.map, icon: Map },
     { href: "/osint-method", label: nav.osint, icon: ShieldCheck },
     { href: "/about", label: nav.about, icon: Info },
+      { href: "/profile",label: 'Profilo', icon: Info },
+
   ];
 
   /* -------------------------------------------------------------------------- */

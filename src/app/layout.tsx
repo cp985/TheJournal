@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 
 // Define default metadata configuration for the public site
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://the-journal-phi.vercel.app"
+  ),
   // Configura il template per i titoli delle sotto-pagine (es: "Caso Garlasco | The Journal")
   title: {
     default: "The Journal — Data Journalism & OSINT",
