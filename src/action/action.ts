@@ -4,9 +4,10 @@ import { type DbDossier } from "@/lib/type";
 import z from "zod";
 import { signIn } from "@/auth/auth";
 import { AuthError } from "next-auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 
-//user by email
 
 
 
@@ -20,53 +21,6 @@ role?:string;
 
 
 
-// export type UserByEmail = {
-//   success: boolean;
-//   error?: Record<string, string[] | undefined> | null;
-//   message?: string | null;
-//   data?:AuthUserByEmail | null;
-// }
-// export const userByEmail = async (email: string
-// ): Promise<UserByEmail> => {
-// try {
-//     const response = await fetch(
-//       process.env.NEXT_PUBLIC_URL_RENDER + "/user/email",
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           email,
-   
-//         }),
-//       },
-//     );
-//     const data = await response.json();
-//     if (!response.ok) {
-//       return {
-//         success: false as const,
-//         error: data.error || data.message,
-//         message: data.message || data.error || "server-error",
-//         data: null,
-//       };
-//     }
-//     return {
-//       success: true as const,
-//       message: "success",
-//      error: null,
-//       data: data,
-//     };
-//   } catch (error) { 
-//     console.log(error );
-//     return {
-//       success: false as const,
-//       message: "connection-error",
-//       error:{errore1:["server-error"],errore2: ["connection-error"]},
-//       data: null,
-//     };
-//   }
-// };
 
 
 
@@ -274,11 +228,6 @@ export const userLogin = async (
     }
 
 
-    // return {
-    //   success: true as const,
-    //   errors: null,
-    //   message: "user-logged-in",
-    // };
   } catch (error) {
     console.log(error);
 
@@ -298,11 +247,15 @@ export const userLogin = async (
       redirect: false,
     });
 
-        return {
-      success: true as const,
-      errors: null,
-      message: "user-logged-in",
-    };
+  revalidatePath("/", "layout");
+
+ 
+
+    //     return {
+    //   success: true as const,
+    //   errors: null,
+    //   message: "user-logged-in",
+    // };
   }
   catch(error){
       if (error instanceof AuthError) {
@@ -314,6 +267,7 @@ export const userLogin = async (
     }
   }  throw error;
 };
+  redirect("/profile");
 }
 
 

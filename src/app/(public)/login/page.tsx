@@ -403,7 +403,7 @@ function LoginComponent() {
                 className={cn(
                   "mt-8 w-full gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-600 focus-visible:ring-amber-500",
                   {
-                    "pointer-events-none bg-muted": isPending,
+                    "bg-amber-950": isPending,
                   },
                 )}
               >

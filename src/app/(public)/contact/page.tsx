@@ -1,15 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useActionState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/maincontext";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Select,
   SelectContent,
@@ -54,10 +51,7 @@ export default function ContactPage() {
             >
               {contact.backToLogin}
             </Link>
-            <span className="text-amber-500/80 flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-              {contact.systemStatus}
-            </span>
+        
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100 pt-2">
@@ -189,9 +183,13 @@ export default function ContactPage() {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full bg-amber-600 hover:bg-amber-700 disabled:bg-zinc-800 disabled:text-zinc-500 text-zinc-100 font-bold py-2.5 text-xs tracking-wider transition-colors h-10 uppercase"
+              className={cn("w-full bg-amber-600 hover:bg-amber-700 disabled:bg-zinc-800 disabled:text-zinc-500 text-zinc-100 font-bold py-2.5 text-xs tracking-wider transition-colors h-10 uppercase",{
+                "bg-amber-950": isPending
+              })}
+                
+              
             >
-              {isPending ? contact.form.submitting : contact.form.submitButton}
+              {isPending ? (<><span>{contact.form.submitting}</span><span className="animate-spin border-amber-500 border-2 border-r-transparent w-4 h-4 rounded-full"></span></>) : contact.form.submitButton}
             </Button>
 
             {/* Messaggio di errore */}

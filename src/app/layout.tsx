@@ -4,6 +4,9 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/layout/navbar";
 import { LanguageProvider } from "@/context/maincontext";
+import {auth} from "@/auth/auth"
+import { Session } from "next-auth";
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -106,11 +109,15 @@ export const viewport: Viewport = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+const session : Session | null  = await  auth()  
+
+
   return (
     <html
       lang="it"
@@ -125,7 +132,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col pt-16 bg-zinc-950">
         <LanguageProvider>
-          <Navbar />
+          <Navbar session={session} />
           {children}
         </LanguageProvider>
       </body>

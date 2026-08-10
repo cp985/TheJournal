@@ -413,7 +413,6 @@ export const dictionary = {
     },
     contact: {
       backToLogin: "← Torna al login",
-      systemStatus: "CANALE CIFRATO ATTIUVO :: NODO_01",
       title: "Canale di Contatto",
       subtitle:
         "Invia una trasmissione diretta al team di supporto o agli amministratori di sistema.",
@@ -884,7 +883,6 @@ export const dictionary = {
     },
     contact: {
       backToLogin: "← Back to login",
-      systemStatus: "ENCRYPTED CHANNEL ACTIVE :: NODE_01",
       title: "Contact Channel",
       subtitle:
         "Send a direct transmission to the support team or system administrators.",

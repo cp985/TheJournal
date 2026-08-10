@@ -7,13 +7,18 @@ import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/maincontext";
 import { Button } from "@/components/ui/button";
 import { Menu, Lock, Network, FolderArchive, Map, ShieldCheck, Info, X } from "lucide-react";
+import { Session } from "next-auth";
+import {UserNavDesktop, UserNavMobile}from "./user-nav-badge";
 
-export default function Navbar() {
+interface PropNav{
+ session : Session | null
+}
+export default function Navbar(prop:PropNav) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { lang, setLang, t } = useLanguage();
   const { nav } = t;
-
+const session = prop.session
   const isMapPage = pathname === "/map";
 
   const navLinks = [
@@ -21,7 +26,6 @@ export default function Navbar() {
     { href: "/map", label: nav.map, icon: Map },
     { href: "/osint-method", label: nav.osint, icon: ShieldCheck },
     { href: "/about", label: nav.about, icon: Info },
-      { href: "/profile",label: 'Profilo', icon: Info },
 
   ];
 
@@ -133,13 +137,17 @@ export default function Navbar() {
                   EN
                 </button>
               </div>
-
-              <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs">
+              {/* login o user nav */}
+              {session ? (
+                <UserNavMobile session={session} /> ):(    <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs">
                 <Link href="/login" onClick={() => setIsOpen(false)}>
                   <Lock className="mr-1.5 h-3.5 w-3.5" />
                   {nav.login}
                 </Link>
-              </Button>
+              </Button>)}
+
+          
+
             </div>
           </div>
         </div>
@@ -222,12 +230,17 @@ export default function Navbar() {
               </button>
             </div>
 
-            <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs">
+{/* PULSANTE LOGIN / USER NAV */}
+
+{session ? (<UserNavDesktop session={session} />) :(<Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs">
               <Link href="/login">
                 <Lock className="mr-1.5 h-3.5 w-3.5" />
                 {nav.login}
               </Link>
-            </Button>
+            </Button>)}
+        
+
+
           </div>
 
           {/* PULSANTE HAMBURGER MOBILE */}
@@ -286,13 +299,15 @@ export default function Navbar() {
                   EN
                 </button>
               </div>
-
-              <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs">
+{/* PULSANTE LOGIN / USER NAV */}
+{session ? (<UserNavMobile session={session} />) :(   <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 text-white text-xs">
                 <Link href="/login" onClick={() => setIsOpen(false)}>
                   <Lock className="mr-1.5 h-3.5 w-3.5" />
                   {nav.login}
                 </Link>
               </Button>
+ )}
+           
             </div>
           </div>
         )}
