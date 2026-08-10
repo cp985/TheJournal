@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import Loading from "@/components/layout/loading";
-import { getDossiers } from "@/../api/api";
+import Loader from "@/components/layout/loader";
+import { getDossiers } from "@/action/action";
 
 import CasesPageMainCompo from "@/components/layout/casePageMainCompo";
 
@@ -9,9 +9,8 @@ export default async function CasePage() {
   const isPublic = false;
   //!-------------------------------------------------
   const dossiersList = await getDossiers(isPublic ? 3 : undefined);
-  console.log('from case main',dossiersList);
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loader />}>
       <CasesPageMainCompo isPublic={isPublic} dossiersList={dossiersList} />
     </Suspense>
   );

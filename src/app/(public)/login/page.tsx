@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
-import LoadingSkeleton from "@/components/layout/loading";
+import Loader from "@/components/layout/loader";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,7 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
-import { userSignUp, userLogin, type SignUpFormState, type LoginFormState } from "@/../api/api";
+import {
+  userSignUp,
+  userLogin,
+  type SignUpFormState,
+  type LoginFormState,
+} from "@/action/action";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Lock,
@@ -152,7 +157,7 @@ function LoginComponent() {
   const router = useRouter();
   const pathname = usePathname();
   const isSignUp = params.get("action") === "signup";
-  const { t,lang } = useLanguage();
+  const { t, lang } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -173,10 +178,14 @@ function LoginComponent() {
 
   //login/signup handling
 
-  const correctRegistrationMode = async (prevS : LoginFormState | SignUpFormState, formData : FormData) => {
-   if(isSignUp){
-    return await userSignUp(prevS as SignUpFormState , formData );
-   }return await userLogin(prevS as LoginFormState, formData);
+  const correctRegistrationMode = async (
+    prevS: LoginFormState | SignUpFormState,
+    formData: FormData,
+  ) => {
+    if (isSignUp) {
+      return await userSignUp(prevS as SignUpFormState, formData);
+    }
+    return await userLogin(prevS as LoginFormState, formData);
   };
 
   const initialState = {
@@ -188,16 +197,13 @@ function LoginComponent() {
       email: "",
       password: "",
       confirmPassword: "",
-      lang:lang
+      lang: lang,
     },
   };
   const [formData, setFormData, isPending] = useActionState(
     correctRegistrationMode,
     initialState,
   );
-
-
-
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 pt-8 sm:px-6">
@@ -282,10 +288,7 @@ function LoginComponent() {
             </AnimatePresence>
 
             {/* Form */}
-            <form
-              action={setFormData}
-              className="mt-8"
-            >
+            <form action={setFormData} className="mt-8">
               <motion.div layout className="flex flex-col gap-4">
                 <AnimatePresence initial={false}>
                   {isSignUp && (
@@ -390,60 +393,89 @@ function LoginComponent() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-                <Input type="hidden" name="lang"  id="lang" value={lang} />
+                <Input type="hidden" name="lang" id="lang" value={lang} />
               </motion.div>
 
               <Button
                 type="submit"
                 disabled={isPending}
                 size="lg"
-                className={cn("mt-8 w-full gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-600 focus-visible:ring-amber-500",{
-                  "pointer-events-none bg-muted": isPending
-                })}
+                className={cn(
+                  "mt-8 w-full gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-600 focus-visible:ring-amber-500",
+                  {
+                    "pointer-events-none bg-muted": isPending,
+                  },
+                )}
               >
                 {isSignUp ? t.login.btnSignUp : t.login.btnLogin}
-                {isPending ? <div className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin" ></div> : <ArrowRight className="h-4 w-4" />}
+                {isPending ? (
+                  <div className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin"></div>
+                ) : (
+                  <ArrowRight className="h-4 w-4" />
+                )}
               </Button>
 
               {/* Error box */}
-              
-              {((formData.errors && Object.keys(formData.errors).length > 0) || formData.message) && (
-  <div 
-  key="boxError"
-  className={cn("mt-4 rounded-md border border-red-900/50 bg-red-950/30 p-3",{
-    "hidden": isPending
-  })}>
-    {formData.errors && (
-      <ul className="flex flex-col gap-1 text-xs text-red-400 font-mono">
-        {Object.entries(formData.errors).map(([field, messages]) => {
-          if (!messages || messages.length === 0) return null;
-          const errorKey  = messages[0];
-          // Recupera la traduzione oppure usa una chiave di fallback
-          const translatedMessage = (t.login.errors as Record<string, string>)[errorKey] || errorKey;
 
-          return (
-            <li key={field} className="flex items-center gap-1.5">
-              <span className="text-red-500">•</span>
-              <span>{translatedMessage}</span>
-            </li>
-          );
-        })}
-      </ul>
-    )}
+              {((formData.errors && Object.keys(formData.errors).length > 0) ||
+                formData.message) && (
+                <div
+                  key="boxError"
+                  className={cn(
+                    "mt-4 rounded-md border border-red-900/50 bg-red-950/30 p-3",
+                    {
+                      hidden: isPending,
+                    },
+                  )}
+                >
+                  {formData.errors && (
+                    <ul className="flex flex-col gap-1 text-xs text-red-400 font-mono">
+                      {Object.entries(formData.errors).map(
+                        ([field, messages]) => {
+                          if (!messages || messages.length === 0) return null;
+                          const errorKey = messages[0];
+                          // Recupera la traduzione oppure usa una chiave di fallback
+                          const translatedMessage =
+                            (t.login.errors as Record<string, string>)[
+                              errorKey
+                            ] || errorKey;
 
-    {formData.message && (
-      <p className={cn("flex justify-start items-center text-xs font-mono text-center gap-2 mt-1 before:h-0.75 before:w-0.75 before:shrink-0 before:rounded-full ",{
-        "text-rose-400 before:bg-red-500": !formData.success,
-        "text-amber-500 before:bg-amber-500": formData.success
-      })}>
-        {formData.success ? (t.login.success as Record<string, string>)[formData.message] || formData.message : (t.login.errors as Record<string, string>)[formData.message] || formData.message}
-      
-      </p>
-    )}
-  </div>
-)}
+                          return (
+                            <li
+                              key={field}
+                              className="flex items-center gap-1.5"
+                            >
+                              <span className="text-red-500">•</span>
+                              <span>{translatedMessage}</span>
+                            </li>
+                          );
+                        },
+                      )}
+                    </ul>
+                  )}
 
-
+                  {formData.message && (
+                    <p
+                      className={cn(
+                        "flex justify-start items-center text-xs font-mono text-center gap-2 mt-1 before:h-0.75 before:w-0.75 before:shrink-0 before:rounded-full ",
+                        {
+                          "text-rose-400 before:bg-red-500": !formData.success,
+                          "text-amber-500 before:bg-amber-500":
+                            formData.success,
+                        },
+                      )}
+                    >
+                      {formData.success
+                        ? (t.login.success as Record<string, string>)[
+                            formData.message
+                          ] || formData.message
+                        : (t.login.errors as Record<string, string>)[
+                            formData.message
+                          ] || formData.message}
+                    </p>
+                  )}
+                </div>
+              )}
             </form>
 
             {/* Trust line */}
@@ -468,7 +500,7 @@ function LoginComponent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<LoadingSkeleton />}>
+    <Suspense fallback={<Loader />}>
       <LoginComponent />
     </Suspense>
   );

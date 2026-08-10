@@ -3,7 +3,7 @@ export const dictionary = {
     nav: {
       cases: "Casi",
       map: "Mappa",
-      osint: "Metodologia OSINT",
+      osint: "Metodo-OSINT",
       about: "About",
       login: "Area Riservata",
       casesArchive: "Archivio Casi",
@@ -477,7 +477,7 @@ export const dictionary = {
     nav: {
       cases: "Cases",
       map: "Map",
-      osint: "OSINT Methodology",
+      osint: "OSINT-Method",
       about: "About",
       login: "Restricted Area",
       casesArchive: "Case Archive",

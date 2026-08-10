@@ -3,6 +3,71 @@
 import { type DbDossier } from "@/lib/type";
 import z from "zod";
 
+
+//user by email
+
+
+
+export type AuthUserByEmail = {
+  email?: string;
+  password?: string;
+  username?: string;
+id?:string;
+role?:string;
+};
+
+
+
+export type UserByEmail = {
+  success: boolean;
+  error?: Record<string, string[] | undefined> | null;
+  message?: string | null;
+  data?:AuthUserByEmail | null;
+}
+export const userByEmail = async (email: string
+): Promise<UserByEmail> => {
+try {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_RENDER + "/user",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+   
+        }),
+      },
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      return {
+        success: false as const,
+        error: data.error || data.message,
+        message: data.message || data.error || "server-error",
+        data: null,
+      };
+    }
+    return {
+      success: true as const,
+      message: "success",
+     error: null,
+      data: data,
+    };
+  } catch (error) { 
+    console.log(error );
+    return {
+      success: false as const,
+      message: "connection-error",
+      error:{errore1:["server-error"],errore2: ["connection-error"]},
+      data: null,
+    };
+  }
+};
+
+
+
 //auth dossiers list
 export const getDossiers = async (limit?: number): Promise<DbDossier[]> => {
   try {
@@ -24,7 +89,6 @@ export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
       process.env.NEXT_PUBLIC_URL_RENDER + "/dossiers/" + code,
     );
     const data = await response.json();
-    console.log(data);
     return data as DbDossier[];
   } catch (error) {
     console.log(error);
@@ -193,7 +257,6 @@ export const userLogin = async (
       },
     );
     const data = await response.json();
-    console.log('log in ',data);
     if (!response.ok) {
       return {
         success: false as const,
