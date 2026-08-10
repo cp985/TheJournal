@@ -1,13 +1,14 @@
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import Loader from "@/components/layout/loader";
-export default function ProfilePage() {
-  const { data: session, status } = useSession();
-     if (status === "loading") return <Loader />;
-
- 
-  if (!session?.user) {
+import { auth } from "@/auth/auth"
+export default async function ProfilePage() {
+    const session = await auth()
+    
+if (!session?.user) {
     redirect("/login");
+  }
+
+  if (session.user.role !== "ADMIN") {
+    redirect("/");
   }
 
 
