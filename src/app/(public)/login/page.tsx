@@ -14,6 +14,7 @@ import { useActionState } from "react";
 import {
   userSignUp,
   userLogin,
+  userOauth,
   type SignUpFormState,
   type LoginFormState,
 } from "@/action/action";
@@ -28,6 +29,8 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
+
+import { FaGoogle, FaGithub } from "react-icons/fa6";
 
 import { useLanguage } from "@/context/maincontext";
 
@@ -415,6 +418,36 @@ function LoginComponent() {
                 )}
               </Button>
 
+              <div className="relative my-4 text-center text-xs text-muted-foreground ">
+                {t.login.or}
+              </div>
+
+              {/* BOTTONI OAUTH (FUORI DAL FORM CREDENTIALS) */}
+                            <div className="relative my-4 text-center text-xs text-muted-foreground uppercase"></div>
+
+              <div className="flex flex-row gap-3">
+                {/* Bottone Google */}
+                <button
+                  type="button"
+                  onClick={() => userOauth("google")}
+                  className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
+                >
+                  <FaGoogle className="h-5 w-5" />
+
+                  <span>{isSignUp ? "Google" : "Google"}</span>
+                </button>
+
+                {/* Bottone GitHub */}
+                <button
+                  type="button"
+                  onClick={() => userOauth("github")}
+                  className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
+                >
+                  <FaGithub className="h-5 w-5" />
+                  <span>{isSignUp ? "GitHub" : "GitHub"}</span>
+                </button>
+              </div>
+
               {/* Error box */}
 
               {((formData.errors && Object.keys(formData.errors).length > 0) ||
@@ -434,7 +467,6 @@ function LoginComponent() {
                         ([field, messages]) => {
                           if (!messages || messages.length === 0) return null;
                           const errorKey = messages[0];
-                          // Recupera la traduzione oppure usa una chiave di fallback
                           const translatedMessage =
                             (t.login.errors as Record<string, string>)[
                               errorKey

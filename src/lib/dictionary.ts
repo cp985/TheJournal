@@ -289,6 +289,7 @@ export const dictionary = {
       },
     },
     login: {
+      or: "Oppure accedi con...",
       usernameLabel: "Username / Alias Operatore",
       usernamePlaceholder: "Es. Agente_07",
       emailLabel: "Email",
@@ -768,6 +769,7 @@ export const dictionary = {
       },
     },
     login: {
+      or: "Or access with...",
       usernameLabel: "Username / Operator Alias",
       usernamePlaceholder: "E.g. Agent_07",
       emailLabel: "Email",
