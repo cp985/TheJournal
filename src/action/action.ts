@@ -288,19 +288,9 @@ export const userLogin = async (
 //oauth login/signup
 
 export async function userOauth(provider: "google" | "github") {
-  try {
+ 
     await signIn(provider, { redirectTo: "/profile" });
-  } catch (error) {
-    if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
-      throw error;
-    }
 
-    if (error instanceof AuthError) {
-      return { success: false, message: "auth-error" };
-    }
-
-    throw error;
-  }
 }
 
 //sendmail action

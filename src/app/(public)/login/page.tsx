@@ -422,31 +422,9 @@ function LoginComponent() {
                 {t.login.or}
               </div>
 
-              {/* BOTTONI OAUTH (FUORI DAL FORM CREDENTIALS) */}
-                            <div className="relative my-4 text-center text-xs text-muted-foreground uppercase"></div>
 
-              <div className="flex flex-row gap-3">
-                {/* Bottone Google */}
-                <button
-                  type="button"
-                  onClick={() => userOauth("google")}
-                  className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
-                >
-                  <FaGoogle className="h-5 w-5" />
+          
 
-                  <span>{isSignUp ? "Google" : "Google"}</span>
-                </button>
-
-                {/* Bottone GitHub */}
-                <button
-                  type="button"
-                  onClick={() => userOauth("github")}
-                  className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
-                >
-                  <FaGithub className="h-5 w-5" />
-                  <span>{isSignUp ? "GitHub" : "GitHub"}</span>
-                </button>
-              </div>
 
               {/* Error box */}
 
@@ -509,6 +487,35 @@ function LoginComponent() {
                 </div>
               )}
             </form>
+                          <div className="relative my-4 text-center text-xs text-muted-foreground uppercase"></div>
+
+            <div className="flex flex-row gap-3">
+
+{/* BOTTONI OAUTH (FUORI DAL FORM CREDENTIALS) */}
+
+  {/* Bottone Google */}
+  <form action={userOauth.bind(null, "google")} className="flex-1">
+    <button
+      type="submit"
+      className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
+    >
+      <FaGoogle className="w-4 h-4" />
+      <span>Google</span>
+    </button>
+  </form>
+
+  {/* Bottone GitHub */}
+  <form action={userOauth.bind(null, "github")} className="flex-1">
+    <button
+      type="submit"
+      className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
+    >
+      <FaGithub className="w-4 h-4" />
+      <span>GitHub</span>
+    </button>
+  </form>
+</div>
+
 
             {/* Trust line */}
             <div className="mt-6 flex items-center justify-center gap-2 border-t border-zinc-800/80 pt-6 text-center text-[11px] text-zinc-600">
