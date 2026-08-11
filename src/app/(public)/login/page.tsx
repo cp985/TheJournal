@@ -401,9 +401,9 @@ function LoginComponent() {
                 disabled={isPending}
                 size="lg"
                 className={cn(
-                  "mt-8 w-full gap-2 bg-amber-500 text-zinc-950 hover:bg-amber-600 focus-visible:ring-amber-500",
+                  "mt-8 w-full gap-2 bg-amber-500 text-zinc-900 hover:bg-amber-600 focus-visible:ring-amber-500",
                   {
-                    "bg-amber-950": isPending,
+                    "bg-amber-950 text-zinc-400": isPending,
                   },
                 )}
               >

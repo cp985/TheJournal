@@ -114,7 +114,7 @@ const session = prop.session
             </nav>
 
             {/* CONTROLLI SOTTO SU MOBILE */}
-            <div className="flex items-center justify-between border-t border-zinc-800/80 pt-4 mt-2">
+            <div className="flex flex-col items-start gap-2 justify-center border-t border-zinc-800/80 pt-4 mt-2">
               <div className="flex items-center rounded border border-zinc-800 bg-zinc-900/80 p-1 text-xs font-mono">
                 <button
                   onClick={() => setLang("IT")}
@@ -276,7 +276,7 @@ const session = prop.session
               })}
             </nav>
 
-            <div className="flex items-center justify-between border-t border-zinc-800/80 pt-4">
+            <div className="flex flex-col items-start gap-2  justify-between border-t border-zinc-800/80 pt-4">
               <div className="flex items-center rounded border border-zinc-800 bg-zinc-900/80 p-1 text-xs font-mono">
                 <button
                   onClick={() => setLang("IT")}

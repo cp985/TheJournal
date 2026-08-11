@@ -7,6 +7,15 @@ export const dictionary = {
       about: "About",
       login: "Area Riservata",
       casesArchive: "Archivio Casi",
+      userNav: {
+  defaultAgent: "Agente",
+  activeIdentity: "Identità Attiva",
+  noEmail: "Nessuna email",
+  profile: "Profilo",
+  adminDashboard: "Dashboard Admin",
+  logout: "Disconnetti"
+}
+
     },
     casesPage: {
       loading: "Caricamento dossier in corso",
@@ -323,6 +332,7 @@ export const dictionary = {
         ["wrong-password"]: "Password non valida.",
         ["username-already-exist"]: "Username già esistente.",
         ["email-already-exist"]: "Email già esistente.",
+      ["auth-error"]:"Autenticazione fallita. Verifica le credenziali.",
       },
       success: {
         ["user-signed-up"]: "Registrazione completata con successo!",
@@ -480,6 +490,14 @@ export const dictionary = {
       about: "About",
       login: "Restricted Area",
       casesArchive: "Case Archive",
+      userNav: {
+  defaultAgent: "Agent",
+  activeIdentity: "Active Identity",
+  noEmail: "No email provided",
+  profile: "Profile",
+  adminDashboard: "Admin Dashboard",
+  logout: "Sign Out"
+}
     },
     casesPage: {
       loading: "Loading dossiers",
@@ -793,6 +811,7 @@ export const dictionary = {
         ["wrong-password"]: "Wrong password.",
         ["username-already-exist"]: "Username already exists.",
         ["email-already-exist"]: "Email already exists.",
+      ["auth-error"]:"Authentication failed. Please check your credentials.",
       },
       success: {
         ["user-signed-up"]: "Sign up completed successfully!",

@@ -183,8 +183,8 @@ export default function ContactPage() {
             <Button
               type="submit"
               disabled={isPending}
-              className={cn("w-full bg-amber-600 hover:bg-amber-700 disabled:bg-zinc-800 disabled:text-zinc-500 text-zinc-100 font-bold py-2.5 text-xs tracking-wider transition-colors h-10 uppercase",{
-                "bg-amber-950": isPending
+              className={cn("w-full bg-amber-500 hover:bg-amber-700 text-zinc-900 font-bold py-2.5 text-xs tracking-wider transition-colors h-10 uppercase",{
+                "bg-amber-950 text-zinc-400": isPending
               })}
                 
               

@@ -98,9 +98,9 @@ export const userSignUp = async (
     confirmPassword: (formData.get("confirmPassword") as string) || "",
     lang: (formData.get("lang") as string) || "",
   };
+    const validation = userSignUpZodSchema.safeParse(validatedForm);
 
   try {
-    const validation = userSignUpZodSchema.safeParse(validatedForm);
 
     if (!validation.success) {
       return {
@@ -134,11 +134,7 @@ export const userSignUp = async (
         data: validatedForm,
       };
     }
-    return {
-      success: true as const,
-      errors: null,
-      message: "user-signed-up",
-    };
+
   } catch (error) {
     console.log(error);
     return {
@@ -148,6 +144,29 @@ export const userSignUp = async (
       data: validatedForm,
     };
   }
+    try{
+    await signIn("credentials", {
+      email: validation.data.email,
+      password: validation.data.password,
+      redirect: false,
+    });
+
+  revalidatePath("/", "layout");
+
+ 
+
+  }
+  catch(error){
+      if (error instanceof AuthError) {
+      return { success: false, 
+        message: "auth-error",
+        errors: null,
+        data: validatedForm,
+
+    }
+  }  throw error;
+};
+  redirect("/profile");
 };
 
 
@@ -251,11 +270,6 @@ export const userLogin = async (
 
  
 
-    //     return {
-    //   success: true as const,
-    //   errors: null,
-    //   message: "user-logged-in",
-    // };
   }
   catch(error){
       if (error instanceof AuthError) {
