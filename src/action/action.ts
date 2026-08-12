@@ -287,10 +287,15 @@ export const userLogin = async (
 
 //oauth login/signup
 
-export async function userOauth(provider: "google" | "github") {
- 
-    await signIn(provider, { redirectTo: "/profile" });
 
+export async function userOauth(prevState: any, formData: FormData) {
+  const provider = formData.get("provider") as string;
+
+  if (!provider) {
+    return { error: "Provider non specificato" };
+  }
+
+  await signIn(provider, { redirectTo: "/profile" });
 }
 
 //sendmail action
@@ -387,4 +392,4 @@ export const sendEmail = async (
       data: validatedForm,
     };
   }
-};
+}

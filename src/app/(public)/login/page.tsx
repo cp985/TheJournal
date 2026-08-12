@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, Suspense } from "react";
+
 import Link from "next/link";
 import Loader from "@/components/layout/loader";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
@@ -203,10 +204,26 @@ function LoginComponent() {
       lang: lang,
     },
   };
-  const [formData, setFormData, isPending] = useActionState(
+  const [formData, setFormData, isPendingCredentials] = useActionState(
     correctRegistrationMode,
     initialState,
   );
+
+
+    const [formSGoogle, setOAuthGoogle, isPendingOAuthGoogle] = useActionState(
+    userOauth,
+   null
+  );
+
+     const [formSGithub, setOAuthGithub, isPendingOAuthGithub] = useActionState(
+    userOauth,
+   null
+  );
+
+  const isPending =
+    isPendingCredentials || isPendingOAuthGoogle || isPendingOAuthGithub;
+
+
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 pt-8 sm:px-6">
@@ -406,12 +423,12 @@ function LoginComponent() {
                 className={cn(
                   "mt-8 w-full gap-2 bg-amber-500 text-zinc-900 hover:bg-amber-600 focus-visible:ring-amber-500",
                   {
-                    "bg-amber-950 text-zinc-400": isPending,
+                    "bg-amber-950 text-zinc-400": isPendingCredentials,
                   },
                 )}
               >
                 {isSignUp ? t.login.btnSignUp : t.login.btnLogin}
-                {isPending ? (
+                {isPendingCredentials ? (
                   <div className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin"></div>
                 ) : (
                   <ArrowRight className="h-4 w-4" />
@@ -494,25 +511,43 @@ function LoginComponent() {
 {/* BOTTONI OAUTH (FUORI DAL FORM CREDENTIALS) */}
 
   {/* Bottone Google */}
-  <form action={userOauth.bind(null, "google")} className="flex-1">
-    <button
+  <form action={setOAuthGoogle} className="flex-1">
+    <Input type="hidden" name="provider" id="provider" value={"google"} />
+    <Button
+    disabled={isPending}
       type="submit"
-      className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
+     
+      
+      className={cn("w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm",{
+        "bg-amber-950 text-zinc-400": isPendingOAuthGoogle
+      })}
     >
       <FaGoogle className="w-4 h-4" />
       <span>Google</span>
-    </button>
+      {isPendingOAuthGoogle && (
+        <span className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin"></span>
+      )}
+    </Button>
   </form>
 
   {/* Bottone GitHub */}
-  <form action={userOauth.bind(null, "github")} className="flex-1">
-    <button
+  <form action={setOAuthGithub} className="flex-1">
+    <Input type="hidden" name="provider" id="provider" value={"github"} />
+    <Button
       type="submit"
-      className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm"
+      disabled={isPending}
+     
+      
+      className={cn("w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-700 text-zinc-950 font-medium py-2 px-4 rounded-md transition-colors duration-200 shadow-sm",{
+        "bg-amber-950 text-zinc-400": isPendingOAuthGithub
+      })}
     >
       <FaGithub className="w-4 h-4" />
       <span>GitHub</span>
-    </button>
+      {isPendingOAuthGithub && (
+        <span className="h-5 w-5 rounded-full border-2 border-amber-500 border-r-transparent animate-spin"></span>
+      )}
+    </Button>
   </form>
 </div>
 
