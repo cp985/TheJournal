@@ -1,11 +1,13 @@
 "use server";
 
-import { type DbDossier } from "@/lib/type";
+import { DbEvidence, type DbDossier } from "@/lib/type";
 import z from "zod";
 import { signIn } from "@/auth/auth";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
+import {auth} from '@/auth/auth'
 
 
 
@@ -38,6 +40,7 @@ export const getDossiers = async (limit?: number): Promise<DbDossier[]> => {
     return [];
   }
 };
+
 
 export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
   try {
@@ -170,6 +173,8 @@ export const userSignUp = async (
 };
 
 
+// login
+
 export type AuthFormData = {
   email?: string;
   password?: string;
@@ -298,6 +303,10 @@ export async function userOauth(prevState: any, formData: FormData) {
   await signIn(provider, { redirectTo: "/profile" });
 }
 
+
+
+
+
 //sendmail action
 
 const userSendEmailZodSchema = z
@@ -393,3 +402,55 @@ export const sendEmail = async (
     };
   }
 }
+
+
+
+//evidence by id user
+
+
+
+export const getEvidenceByUserId = async (): Promise<DbEvidence[]> => {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      console.error("Utente non autenticato");
+      return [];
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("AUTH_SECRET non trovato nelle variabili d'ambiente di Next.js");
+      return [];
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences/user`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      }
+    );
+
+    if (!response.ok) {
+      console.error(`Errore risposta backend: ${response.status}`);
+      return [];
+    }
+
+    const data = await response.json();
+    return data as DbEvidence[];
+  } catch (error) {
+    console.error("Errore fetch evidence:", error);
+    return [];
+  }
+};

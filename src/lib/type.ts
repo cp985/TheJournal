@@ -7,6 +7,7 @@ export interface DbUser {
   username: string | null;
   email: string | null;
   role: Role;
+  avatar: string | null;
 }
 
 export interface DbEvidence {
@@ -18,6 +19,7 @@ export interface DbEvidence {
   notes_en: string;
   status: EvidenceStatus;
   user: DbUser; 
+  createdAt: string;
 }
 
 export interface DbDossier {
