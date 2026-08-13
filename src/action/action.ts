@@ -62,7 +62,7 @@ const userSignUpZodSchema = z
     username: z
       .string()
       .max(20, { message: "username-too-long" })
-      .min(4, { message: "username-too-short" }),
+      .min(4, { message: "username-too-short" }).regex(/^[a-zA-Z0-9_-]+$/, { message: "username-no-symbols" }),
     email: z.string().email({ message: "invalid-email" }),
     password: z
       .string()
@@ -457,23 +457,197 @@ export const getEvidenceByUserId = async (): Promise<DbEvidence[]> => {
 
 //user update
 
+// const profileZodSchema = z
+//   .object({
+//     username: z
+//       .string()
+//       .min(4, { message: "username-too-short" })
+//       .max(20, { message: "username-too-long" }).regex(/^[a-zA-Z0-9_-]+$/, { message: "username-no-symbols" }),
+//     email: z.string().email({ message: "invalid-email" }),
+//     lang: z.enum(["IT", "EN"]),
+    
+//     oldPassword: z.string().nullable().optional().or(z.literal("")),
+//     newPassword: z.string().nullable().optional().or(z.literal("")),
+//   })
+//   .superRefine((data, ctx) => {
+//     const hasNewPassword = data.newPassword && data.newPassword.trim() !== "";
+
+//     if (hasNewPassword) {
+//       const passwordRegex =
+//         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+//       if (!passwordRegex.test(data.newPassword!)) {
+//         ctx.addIssue({
+//           code: z.ZodIssueCode.custom,
+//           message: "password-too-weak-8-Aa-@$!%*?&",
+//           path: ["newPassword"],
+//         });
+//       }
+
+//       if (!data.oldPassword || data.oldPassword.trim() === "") {
+//         ctx.addIssue({
+//           code: z.ZodIssueCode.custom,
+//           message: "old-password-required",
+//           path: ["oldPassword"],
+//         });
+//       }
+//     }
+//   });
+
+
+
+// export const userUpdate = async (prevS:any, formData: FormData): Promise<InitialStateProfile> => {
+//   const username = formData.get("username") as string;
+//   const email = formData.get("email") as string;
+// const lang = ((formData.get("lang") as string) || "IT") as "IT" | "EN";  const oldPassword = formData.get("oldPassword") as string;
+//   const newPassword = formData.get("newPassword") as string;
+  
+//   const validated = profileZodSchema.safeParse({
+//     username,
+//     email,
+//     newPassword,
+//     oldPassword,
+//     lang
+
+//   })
+//   if (!validated.success) {
+//     console.log("Dettaglio errori Zod:", validated.error.flatten().fieldErrors);
+//     return {
+//       success: false as const,
+//       errors: validated.error.flatten().fieldErrors,
+//       message: null,
+//       data: {
+//         username,
+//         email,
+//         oldPassword,
+//         newPassword,
+//         lang
+//       }
+//     };
+//   }
+//   try {
+//     const session = await auth();
+
+//     if (!session?.user?.id) {
+//       console.error("user-not-authenticated");
+//       return {
+// success: false as const,
+//         errors: null,
+//         message: "user-not-authenticated",
+//         data: {
+//           username,
+//           email,
+//           oldPassword,
+//           newPassword,
+//           lang,
+//         }
+
+//       } ;
+//     }
+//     const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+//     if (!secret) {
+//       console.error("Auth-secret-not-found");
+//       return {
+// success: false as const,
+//         errors: null,
+//         message: "auth-secret-not-found",
+//         data: {
+//           username,
+//           email,
+//           oldPassword,
+//           newPassword,
+//           lang,
+//         }
+//       } ;
+//     }
+//     const token = jwt.sign({ sub: session.user.id, email: session.user.email }, secret, {
+//       expiresIn: "5m",
+//     });
+// const payload: Record<string, string> = { username, lang,email };
+// if (oldPassword && newPassword) {
+//   payload.oldPassword = oldPassword;
+//   payload.newPassword = newPassword;
+// }
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/users`, {
+//       method: "PATCH",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+
+//       cache: "no-store",
+//       body: JSON.stringify(payload),
+//     });
+
+//     if (!response.ok) {
+//       console.error(`Error: ${response.status}`);
+//       return {
+//         success: false as const,
+//         errors: null,
+//         message: 'invalid-credentials',
+//         data: {
+//           username,
+//           email,
+//           oldPassword,
+//           newPassword,
+//           lang,
+//         }
+//       } 
+//     }
+
+//     const data = await response.json();
+//     revalidatePath("/profile");
+//     return {
+//       success: true as const,
+//       errors: null,
+//       message: "user-updated",
+//       data: {
+//         username,
+//         email,
+//         oldPassword,
+//         newPassword,
+//         lang,
+//       }
+      
+//     };
+//   } catch (error) {
+//     console.error("Error:", error);
+//     return {
+//       success: false as const,
+//       errors: null,
+//       message: "fatal-error",
+//       data: {
+//         username,
+//         email,
+//         oldPassword,
+//         newPassword,
+//         lang,
+//       }
+//     } ;
+//   }
+// };
+
 const profileZodSchema = z
   .object({
     username: z
       .string()
       .min(4, { message: "username-too-short" })
-      .max(20, { message: "username-too-long" }),
+      .max(20, { message: "username-too-long" })
+      .regex(/^[a-zA-Z0-9_-]+$/, { message: "username-no-symbols" }),
     email: z.string().email({ message: "invalid-email" }),
     lang: z.enum(["IT", "EN"]),
-    oldPassword: z.string().optional().or(z.literal("")),
-    newPassword: z.string().optional().or(z.literal("")),
+    avatar: z.string().optional(), // 👈 Aggiunto avatar allo schema Zod
+    oldPassword: z.string().nullable().optional().or(z.literal("")),
+    newPassword: z.string().nullable().optional().or(z.literal("")),
   })
   .superRefine((data, ctx) => {
-    // Se l'utente compila la NUOVA password, DEVE compilare anche la password ATTUALE e rispettare la regex
-    if (data.newPassword && data.newPassword.trim() !== "") {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const hasNewPassword = data.newPassword && data.newPassword.trim() !== "";
 
-      if (!passwordRegex.test(data.newPassword)) {
+    if (hasNewPassword) {
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+      if (!passwordRegex.test(data.newPassword!)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "password-too-weak-8-Aa-@$!%*?&",
@@ -491,23 +665,28 @@ const profileZodSchema = z
     }
   });
 
-
-
-export const userUpdate = async (prevS:any, formData: FormData): Promise<InitialStateProfile> => {
+export const userUpdate = async (
+  prevS: any,
+  formData: FormData
+): Promise<InitialStateProfile> => {
   const username = formData.get("username") as string;
   const email = formData.get("email") as string;
-const lang = ((formData.get("lang") as string) || "IT") as "IT" | "EN";  const oldPassword = formData.get("oldPassword") as string;
+  const avatar = (formData.get("avatar") as string) || "icon:detective"; // 👈 Lettura del valore avatar
+  const lang = ((formData.get("lang") as string) || "IT") as "IT" | "EN";
+  const oldPassword = formData.get("oldPassword") as string;
   const newPassword = formData.get("newPassword") as string;
-  
+
   const validated = profileZodSchema.safeParse({
     username,
     email,
+    avatar,
     newPassword,
     oldPassword,
-    lang
+    lang,
+  });
 
-  })
   if (!validated.success) {
+    console.log("Dettaglio errori Zod:", validated.error.flatten().fieldErrors);
     return {
       success: false as const,
       errors: validated.error.flatten().fieldErrors,
@@ -515,84 +694,99 @@ const lang = ((formData.get("lang") as string) || "IT") as "IT" | "EN";  const o
       data: {
         username,
         email,
+        avatar,
         oldPassword,
         newPassword,
-        lang
-      }
+        lang,
+      },
     };
   }
+
   try {
     const session = await auth();
 
     if (!session?.user?.id) {
       console.error("user-not-authenticated");
       return {
-success: false as const,
+        success: false as const,
         errors: null,
         message: "user-not-authenticated",
         data: {
           username,
           email,
+          avatar,
           oldPassword,
           newPassword,
           lang,
-        }
-
-      } ;
+        },
+      };
     }
+
     const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
     if (!secret) {
       console.error("Auth-secret-not-found");
       return {
-success: false as const,
+        success: false as const,
         errors: null,
         message: "auth-secret-not-found",
         data: {
           username,
           email,
+          avatar,
           oldPassword,
           newPassword,
           lang,
-        }
-      } ;
+        },
+      };
     }
-    const token = jwt.sign({ sub: session.user.id, email: session.user.email }, secret, {
-      expiresIn: "5m",
-    });
-const payload: Record<string, string> = { username, lang };
-if (oldPassword && newPassword) {
-  payload.oldPassword = oldPassword;
-  payload.newPassword = newPassword;
-}
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/users`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
 
-      cache: "no-store",
-      body: JSON.stringify(payload),
-    });
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    // 🚀 Aggiunto avatar al payload inviato al server Render
+    const payload: Record<string, string> = { username, lang, email, avatar };
+
+    if (oldPassword && newPassword) {
+      payload.oldPassword = oldPassword;
+      payload.newPassword = newPassword;
+    }
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_RENDER}/users`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+        body: JSON.stringify(payload),
+      }
+    );
 
     if (!response.ok) {
       console.error(`Error: ${response.status}`);
       return {
         success: false as const,
         errors: null,
-        message: 'invalid-credentials',
+        message: "invalid-credentials",
         data: {
           username,
           email,
+          avatar,
           oldPassword,
           newPassword,
           lang,
-        }
-      } 
+        },
+      };
     }
 
     const data = await response.json();
-    revalidatePath("/profile")
+    revalidatePath("/profile");
+
     return {
       success: true as const,
       errors: null,
@@ -600,11 +794,11 @@ if (oldPassword && newPassword) {
       data: {
         username,
         email,
+        avatar, // 👈 Restituito al client per l'aggiornamento di NextAuth update()
         oldPassword,
         newPassword,
         lang,
-      }
-      
+      },
     };
   } catch (error) {
     console.error("Error:", error);
@@ -615,10 +809,12 @@ if (oldPassword && newPassword) {
       data: {
         username,
         email,
+        avatar,
         oldPassword,
         newPassword,
         lang,
-      }
-    } ;
+      },
+    };
   }
 };
+

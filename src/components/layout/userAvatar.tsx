@@ -21,7 +21,11 @@ export const AVATAR_MAP: Record<string, React.ReactNode> = {
   "icon:detective": <FaUserSecret className="w-8 h-8 text-zinc-300" />,
 };
 
-export default function UserAvatar({ avatarValue }: { avatarValue?: string }) {
+
+interface UserAvatarProps {
+  avatarValue?: string | null; 
+}
+export default function UserAvatar({ avatarValue }: UserAvatarProps) {
   if (avatarValue && AVATAR_MAP[avatarValue]) {
     return (
       <div className="w-16 h-16 rounded-full bg-zinc-800 border-2 border-amber-500/50 flex items-center justify-center">

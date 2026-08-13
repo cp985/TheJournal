@@ -1,191 +1,3 @@
-// import NextAuth, { DefaultSession } from "next-auth";
-// import { JWT } from "next-auth/jwt";
-// import Credentials from "next-auth/providers/credentials";
-
-// declare module "next-auth" {
-//   interface User {
-//     username?: string;
-//     role?: string;
-//   }
-
-//   interface Session {
-//     user: {
-//       id?: string;
-//       email?: string;
-//       username?: string;
-//       role?: string;
-//     } & DefaultSession["user"];
-//   }
-// }
-
-// declare module "next-auth/jwt" {
-//   interface JWT  {
-//     id?: string;
-//     username?: string;
-//     role?: string;
-//   }
-// }
-
-// // export const { handlers, signIn, signOut, auth } = NextAuth({
-// //   secret: process.env.AUTH_SECRET,
-// //     providers: [
-// //     Credentials({
-// //       name: "Credentials",
-// //       credentials: {
-// //         email: {
-// //           label: "Email",
-// //           type: "text",
-// //           placeholder: "Enter your email",
-// //         },
-// //         password: {
-// //           label: "Password",
-// //           type: "password",
-// //           placeholder: "Enter your password",
-// //         },
-// //       },
-
-// //       async authorize(credentials) {
-// //         if (!credentials?.email || !credentials?.password) {
-// //           return null;
-// //         }
-
-// //         const email = credentials.email as string;
-// //         const password = credentials.password as string;
-
-// //         //! chiamata /user tramite mail
-// //         const resp = await userByEmail(email);
-
-// //         const user = resp.data;
-// //         const error = resp.error;
-
-// //         if (error || !user || !user.password) {
-// //           return null;
-// //         }
-
-// //         const isValid = await bcrypt.compare(password, user.password);
-
-// //         if (!isValid) {
-// //           return null;
-// //         }
-
-// //         return {
-// //           id: user.id,
-// //           email: user.email,
-// //           username: user.username,
-// //           role: user.role,
-// //         };
-// //       },
-// //     }),
-// //   ],
-// //   session: {
-// //     strategy: "jwt",
-// //     maxAge: 30 * 24 * 60 * 60, // 30 days
-// //   },
-
-// //   callbacks: {
-// //     async jwt({ token, user }) {
-// //       if (user) {
-// //         token.id = user.id;
-// //         token.email = user.email;
-// //         token.username = user.username;
-// //         token.role = user.role;
-// //       }
-// //       return token;
-// //     },
-// //     async session({ session, token }) {
-// //       if (token) {
-// //         session.user.id = token.id ?? "";
-// //         session.user.email = token.email ?? "";
-// //         session.user.username = token.username;
-// //         session.user.role = token.role;
-// //       }
-// //       return session;
-// //     },
-// //   },
-// //   pages: {
-// //     signIn: "/login",
-// //     signOut: "/login",
-// //     error: "/login",
-// //   },
-// // });
-
-
-
-
-
-// export const { handlers, signIn, signOut, auth } = NextAuth({
-//   secret: process.env.AUTH_SECRET,
-//   providers: [
-//     Credentials({
-//       name: "Credentials",
-//       credentials: {
-//         email: { label: "Email", type: "text" },
-//         password: { label: "Password", type: "password" },
-//       },
-
-//       async authorize(credentials) {
-//         if (!credentials?.email) {
-//           return null;
-//         }
-
-//         const email = credentials.email as string;
-
-//         const resp = await fetch(
-//           `${process.env.NEXT_PUBLIC_URL_RENDER}/user/email`,
-//           {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: JSON.stringify({ email }),
-//           }
-//         );
-
-//         const data = await resp.json();
-
-//         if (!resp.ok || !data) {
-//           return null;
-//         }
-
-//         return {
-//           id: data.user.id,
-//           email: data.user.email,
-//           username: data.user.username,
-//           role: data.user.role,
-//         };
-//       },
-//     }),
-//   ],
-//   session: {
-//     strategy: "jwt",
-//     maxAge: 30 * 24 * 60 * 60, // 30 giorni
-//   },
-//   callbacks: {
-//     async jwt({ token, user }) {
-//       if (user) {
-//         token.id = user.id;
-//         token.email = user.email;
-//         token.username = user.username;
-//         token.role = user.role;
-//       }
-//       return token;
-//     },
-//     async session({ session, token }) {
-//       if (token) {
-//         session.user.id = token.id ?? "";
-//         session.user.email = token.email ?? "";
-//         session.user.username = token.username;
-//         session.user.role = token.role;
-//       }
-//       return session;
-//     },
-//   },
-//   pages: {
-//     signIn: "/login",
-//     signOut: "/login",
-//     error: "/login",
-//   },
-// });
-
-
 import NextAuth, { DefaultSession } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
@@ -201,13 +13,18 @@ declare module "next-auth" {
       username?: string;
       role?: string;
       provider?: string;
+      avatar?: string;
+      originalImage?: string;
     } & DefaultSession["user"];
   }
 
   interface User {
+    id?: string;
     username?: string;
     role?: string;
     provider?: string;
+    avatar?: string;
+    originalImage?: string;
   }
 }
 
@@ -217,9 +34,10 @@ declare module "next-auth/jwt" {
     username?: string;
     role?: string;
     provider?: string;
+    avatar?: string;
+    originalImage?: string;
   }
-}
-export const { handlers, signIn, signOut, auth } = NextAuth({
+}export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   providers: [
 
@@ -257,6 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           email: data.user.email,
           username: data.user.username,
           role: data.user.role,
+          avatar: data.user.avatar,
         };
       },
     }),
@@ -277,16 +96,86 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 giorni
   },
+//   callbacks: {
+//     // ==========================================
+//     // CALLBACK SIGNIN PER OAUTH SYNC
+   
+//     async signIn({ user, account }) {
+//       if (account?.provider === "google" || account?.provider === "github") {
+//         try {
+//           const resp = await fetch(
+//             `${process.env.NEXT_PUBLIC_URL_RENDER}/users/oauth-sync`,
+//             {
+//               method: "POST",
+//               headers: { "Content-Type": "application/json" },
+//               body: JSON.stringify({
+//                 email: user.email,
+//                 name: user.name,
+//                 provider: account.provider,
+//               }),
+//             }
+//           );
+
+//           const data = await resp.json();
+
+//           if (!resp.ok || !data) {
+//             return false; 
+//           }
+
+//           user.id = data.user.id;
+//           user.username = data.user.username;
+//           user.role = data.user.role;
+
+//           return true;
+//         } catch (error) {
+//           console.error("Errore durante oauth-sync con il backend:", error);
+//           return false;
+//         }
+//       }
+
+//       return true; 
+//     },
+
+//     // ==========================================
+
+//   async jwt({ token, user, account, trigger, session: triggerSession }) {
+//       if (user) {
+//         token.id = user.id;
+//         token.email = user.email;
+//         token.username = user.username;
+//         token.role = user.role;
+//       }
+//       if (account) {
+//         token.provider = account.provider; 
+//       } else if (user && (user as any).provider) {
+//         token.provider = (user as any).provider;
+//       }
+
+//       if (trigger === "update" && triggerSession?.user?.username) {
+//         token.username = triggerSession.user.username;
+//       }
+
+//       return token;
+//     },
+//     async session({ session, token }) {
+//       if (token) {
+//         session.user.id = token.id ?? "";
+//         session.user.email = token.email ?? "";
+//         session.user.username = token.username;
+//         session.user.role = token.role;
+//         (session.user as any).provider = token.provider;
+//       }
+//       return session;
+//     },
+
+// },
   callbacks: {
     // ==========================================
     // CALLBACK SIGNIN PER OAUTH SYNC
-   
-    // Viene scatenato subito dopo la conferma da Google/GitHub
+    // ==========================================
     async signIn({ user, account }) {
-      // Se l'accesso avviene via OAuth (Google o GitHub)
       if (account?.provider === "google" || account?.provider === "github") {
         try {
-          // Chiamata al backend per trovare o creare l'utente nel DB Supabase via Prisma
           const resp = await fetch(
             `${process.env.NEXT_PUBLIC_URL_RENDER}/users/oauth-sync`,
             {
@@ -295,7 +184,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               body: JSON.stringify({
                 email: user.email,
                 name: user.name,
+                image: user.image, 
                 provider: account.provider,
+                avatar: user.avatar,
               }),
             }
           );
@@ -303,13 +194,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const data = await resp.json();
 
           if (!resp.ok || !data) {
-            return false; // Blocca il login se il backend restituisce errore
+            return false; 
           }
 
-          // Arricchiamo l'oggetto user temporaneo con i dati restituiti dal DB
           user.id = data.user.id;
           user.username = data.user.username;
           user.role = data.user.role;
+          user.avatar = data.user.avatar; // L'avatar personalizzato nel DB
+          user.originalImage = data.user.originalImage || user.image; // Foto Google/GitHub
 
           return true;
         } catch (error) {
@@ -318,37 +210,62 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      return true; // Per le Credentials il flusso prosegue normalmente
+      return true; 
     },
 
     // ==========================================
-
-    async jwt({ token, user, account }) {
+    // CALLBACK JWT & SESSION
+    // ==========================================
+    async jwt({ token, user, account, trigger, session: triggerSession }) {
+      // 1. Al Login Iniziale (popoliamo il JWT con i dati utente)
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.username = user.username;
         token.role = user.role;
+        token.avatar = user.avatar;
+        token.originalImage = user.originalImage;
       }
+
       if (account) {
-    token.provider = account.provider; 
-  } else if (user && (user as any).provider) {
-    token.provider = (user as any).provider;
-  }
+        token.provider = account.provider; 
+      } else if (user && (user as any).provider) {
+        token.provider = (user as any).provider;
+      }
+
+      // 2. Quando dal client chiami update() per aggiornare dati in tempo reale
+      if (trigger === "update" && triggerSession?.user) {
+        if (triggerSession.user.username !== undefined) {
+          token.username = triggerSession.user.username;
+        }
+        if (triggerSession.user.avatar !== undefined) {
+          token.avatar = triggerSession.user.avatar;
+        }
+        if (triggerSession.user.image !== undefined) {
+          token.avatar = triggerSession.user.image;
+        }
+      }
+
       return token;
     },
+
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id ?? "";
         session.user.email = token.email ?? "";
         session.user.username = token.username;
         session.user.role = token.role;
-      (session.user as any).provider = token.provider;
+        session.user.provider = token.provider;
+        
+        // 🚀 Sincronizziamo sia avatar custom che la proprietà .image standard di NextAuth
+        session.user.avatar = token.avatar;
+        session.user.originalImage = token.originalImage;
+        session.user.image = token.avatar || token.originalImage || null;
       }
       return session;
     },
   },
-  pages: {
+pages: {
     signIn: "/login",
     signOut: "/login",
     error: "/login",

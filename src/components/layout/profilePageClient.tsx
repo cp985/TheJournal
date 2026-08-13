@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useLanguage } from "@/context/maincontext";
 import  {DbEvidence} from "@/lib/type";
+import UserAvatar from "./userAvatar";
 import { Stats } from "@/app/(auth)/profile/page";
 import { 
   FiPlusCircle, 
@@ -41,7 +42,7 @@ const {t} = useLanguage();
             <div className="flex items-center gap-5">
               {/* Avatar Utente */}
               <div className="relative w-20 h-20 rounded-full overflow-hidden bg-zinc-800 border-2 border-amber-500/50 flex-shrink-0 flex items-center justify-center text-2xl font-bold text-amber-500 shadow-inner">
-                {session.user.image ? (
+                {/* {session.user.image ? (
                   <Image
                     src={session.user.image}
                     alt={session.user.name || "User Avatar"}
@@ -50,7 +51,11 @@ const {t} = useLanguage();
                   />
                 ) : (
                   session.user.name?.charAt(0).toUpperCase() || "U"
-                )}
+                )} */}
+                <UserAvatar 
+    avatarValue={session.user.image} 
+    
+  />
               </div>
 
               {/* Informazioni Anagrafiche */}
