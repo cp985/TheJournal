@@ -1,6 +1,7 @@
 
 import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
+import { DbEvidence } from "@/lib/type";
 import { getEvidenceByUserId } from "@/action/action";
 import ProfilePageClient from "@/components/layout/profilePageClient";
   export interface Stats {
@@ -26,14 +27,27 @@ export default async function ProfilePageServer(){
   // ---------------------------------------------------------------------------
 
   const stats : Stats = {
-    totalSubmitted: 10,
-    pending: 5,
-    approved: 1,
-    rejected: 4,
+    totalSubmitted: 0,
+    pending: 0,
+    approved: 0,
+    rejected: 0,
   };
 
 
   const userEvidenceList = await getEvidenceByUserId();
+const lenght= userEvidenceList.length;
+stats.totalSubmitted=lenght;
+  for (const evidence of userEvidenceList) {
+    if( evidence.status === "ACCEPTED") {  
+      stats.approved++;
+    } 
+    if (evidence.status === "REJECTED") {
+      stats.rejected++;
+    }
+    if (evidence.status === "PENDING") {
+      stats.pending++;
+    }
+  }
 
   return (
       <ProfilePageClient stats={stats} userEvidenceList={userEvidenceList} session={session} />

@@ -195,18 +195,19 @@ import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 
 declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      username?: string;
+      role?: string;
+      provider?: string;
+    } & DefaultSession["user"];
+  }
+
   interface User {
     username?: string;
     role?: string;
-  }
-
-  interface Session {
-    user: {
-      id?: string;
-      email?: string;
-      username?: string;
-      role?: string;
-    } & DefaultSession["user"];
+    provider?: string;
   }
 }
 
@@ -215,9 +216,9 @@ declare module "next-auth/jwt" {
     id?: string;
     username?: string;
     role?: string;
+    provider?: string;
   }
 }
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   providers: [
@@ -322,13 +323,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     // ==========================================
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.username = user.username;
         token.role = user.role;
       }
+      if (account) {
+    token.provider = account.provider; 
+  } else if (user && (user as any).provider) {
+    token.provider = (user as any).provider;
+  }
       return token;
     },
     async session({ session, token }) {
@@ -337,6 +343,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.email = token.email ?? "";
         session.user.username = token.username;
         session.user.role = token.role;
+      (session.user as any).provider = token.provider;
       }
       return session;
     },
