@@ -49,24 +49,25 @@ declare module "next-auth/jwt" {
       },
 
       async authorize(credentials) {
-        if (!credentials?.email) {
-          return null;
-        }
+      if (!credentials?.email || !credentials?.password) {  // 👈 aggiungi check password
+    return null;
+  }
 
         const email = credentials.email as string;
+        const password = credentials.password as string;
 
         const resp = await fetch(
-          `${process.env.NEXT_PUBLIC_URL_RENDER}/user/email`,
+          `${process.env.NEXT_PUBLIC_URL_RENDER}/user/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email,password }),
           }
         );
 
         const data = await resp.json();
 
-        if (!resp.ok || !data) {
+        if (!resp.ok || !data?.data) {
           return null;
         }
 
@@ -96,79 +97,8 @@ declare module "next-auth/jwt" {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 giorni
   },
-//   callbacks: {
-//     // ==========================================
-//     // CALLBACK SIGNIN PER OAUTH SYNC
    
-//     async signIn({ user, account }) {
-//       if (account?.provider === "google" || account?.provider === "github") {
-//         try {
-//           const resp = await fetch(
-//             `${process.env.NEXT_PUBLIC_URL_RENDER}/users/oauth-sync`,
-//             {
-//               method: "POST",
-//               headers: { "Content-Type": "application/json" },
-//               body: JSON.stringify({
-//                 email: user.email,
-//                 name: user.name,
-//                 provider: account.provider,
-//               }),
-//             }
-//           );
 
-//           const data = await resp.json();
-
-//           if (!resp.ok || !data) {
-//             return false; 
-//           }
-
-//           user.id = data.user.id;
-//           user.username = data.user.username;
-//           user.role = data.user.role;
-
-//           return true;
-//         } catch (error) {
-//           console.error("Errore durante oauth-sync con il backend:", error);
-//           return false;
-//         }
-//       }
-
-//       return true; 
-//     },
-
-//     // ==========================================
-
-//   async jwt({ token, user, account, trigger, session: triggerSession }) {
-//       if (user) {
-//         token.id = user.id;
-//         token.email = user.email;
-//         token.username = user.username;
-//         token.role = user.role;
-//       }
-//       if (account) {
-//         token.provider = account.provider; 
-//       } else if (user && (user as any).provider) {
-//         token.provider = (user as any).provider;
-//       }
-
-//       if (trigger === "update" && triggerSession?.user?.username) {
-//         token.username = triggerSession.user.username;
-//       }
-
-//       return token;
-//     },
-//     async session({ session, token }) {
-//       if (token) {
-//         session.user.id = token.id ?? "";
-//         session.user.email = token.email ?? "";
-//         session.user.username = token.username;
-//         session.user.role = token.role;
-//         (session.user as any).provider = token.provider;
-//       }
-//       return session;
-//     },
-
-// },
   callbacks: {
     // ==========================================
     // CALLBACK SIGNIN PER OAUTH SYNC
@@ -217,7 +147,6 @@ declare module "next-auth/jwt" {
     // CALLBACK JWT & SESSION
     // ==========================================
     async jwt({ token, user, account, trigger, session: triggerSession }) {
-      // 1. Al Login Iniziale (popoliamo il JWT con i dati utente)
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -233,7 +162,6 @@ declare module "next-auth/jwt" {
         token.provider = (user as any).provider;
       }
 
-      // 2. Quando dal client chiami update() per aggiornare dati in tempo reale
       if (trigger === "update" && triggerSession?.user) {
         if (triggerSession.user.username !== undefined) {
           token.username = triggerSession.user.username;
@@ -257,7 +185,6 @@ declare module "next-auth/jwt" {
         session.user.role = token.role;
         session.user.provider = token.provider;
         
-        // 🚀 Sincronizziamo sia avatar custom che la proprietà .image standard di NextAuth
         session.user.avatar = token.avatar;
         session.user.originalImage = token.originalImage;
         session.user.image = token.avatar || token.originalImage || null;
