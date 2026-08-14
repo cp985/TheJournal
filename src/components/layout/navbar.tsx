@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/maincontext";
@@ -17,6 +17,8 @@ export default function Navbar(prop:PropNav) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { lang, setLang, t } = useLanguage();
+ const [currentPathname, setCurrentPathname] = useState(pathname);
+ 
   const { nav } = t;
 const session = prop.session
   const isMapPage = pathname === "/map";
@@ -29,6 +31,11 @@ const session = prop.session
 
   ];
 
+
+if(currentPathname !== pathname){
+  setCurrentPathname(pathname)
+  setIsOpen(false)
+}
   /* -------------------------------------------------------------------------- */
   /* CASO 1: PAGINA MAPPA (/map) -> Menu fluttuante a comparsa                 */
   /* -------------------------------------------------------------------------- */

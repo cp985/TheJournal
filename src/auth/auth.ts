@@ -65,43 +65,43 @@ declare module "next-auth/jwt" {
           }
         );
 
-        // const data = await resp.json();
-        // console.log("AUTHORIZE RESPONSE:", JSON.stringify(data));
+        const data = await resp.json();
+        console.log("AUTHORIZE RESPONSE:", JSON.stringify(data));
 
-        // if (!resp.ok || !data?.data) {
-        //   return null;
-        // }
+        if (!resp.ok || !data?.data) {
+          return null;
+        }
 
-        // return {
-        //   id: data.data.id,
-        //   email: data.data.email,
-        //   username: data.data.username,
-        //   role: data.data.role,
-        //   avatar: data.data.avatar,
-        // };
+        return {
+          id: data.data.id,
+          email: data.data.email,
+          username: data.data.username,
+          role: data.data.role,
+          avatar: data.data.avatar,
+        };
 
-        const raw = await resp.text();
-console.log("AUTH DEBUG — status:", resp.status);
-console.log("AUTH DEBUG — body:", raw.slice(0, 300));
+//         const raw = await resp.text();
+// console.log("AUTH DEBUG — status:", resp.status);
+// console.log("AUTH DEBUG — body:", raw.slice(0, 300));
 
-let data;
-try {
-  data = JSON.parse(raw);
-} catch {
-  return null; // risposta non-JSON → login fallito, ma niente crash
-}
+// let data;
+// try {
+//   data = JSON.parse(raw);
+// } catch {
+//   return null; // risposta non-JSON → login fallito, ma niente crash
+// }
 
-if (!resp.ok || !data?.data) {
-  return null;
-}
+// if (!resp.ok || !data?.data) {
+//   return null;
+// }
 
-return {
-  id: data.data.id,
-  email: data.data.email,
-  username: data.data.username,
-  role: data.data.role,
-  avatar: data.data.avatar,
-};
+// return {
+//   id: data.data.id,
+//   email: data.data.email,
+//   username: data.data.username,
+//   role: data.data.role,
+//   avatar: data.data.avatar,
+// };
       },
     }),
 
