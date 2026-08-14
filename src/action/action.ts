@@ -2,7 +2,7 @@
 
 import { DbEvidence, type DbDossier, type DbUser } from "@/lib/type";
 import z from "zod";
-import { signIn } from "@/auth/auth";
+import { signIn, signOut } from "@/auth/auth";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -650,3 +650,68 @@ export const userUpdate = async (
   }
 };
 
+
+export const  userDelete= async () =>{
+ let isDeleting = false;
+  try {
+    const session = await auth();
+    if(!session?.user?.id){
+      console.error("Utente non autenticato");
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+        
+      };
+    }
+        const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("Auth-secret-not-found");
+      return {
+        success: false as const,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/users/me`, 
+      {method:"DELETE", 
+        headers:{"Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`,
+
+        },
+      
+      });
+ 
+        if(!response.ok){
+          console.error(`Error: ${response.status}`);
+          return {
+            success: false as const,
+            message: "user-not-authenticated",
+          };
+        }
+    isDeleting = true;
+    
+
+    
+}
+catch(error){
+  console.error("Error:", error);
+  return {
+    success: false as const,
+    errors: null,
+    message: "fatal-error",
+    data: null,
+  };
+}
+
+if(isDeleting){
+  revalidatePath("/profile");
+await signOut({ redirectTo: "/" });
+
+}}

@@ -1,19 +1,23 @@
 "use client";
-import Image from "next/image";
 import { useLanguage } from "@/context/maincontext";
 import  {DbEvidence} from "@/lib/type";
 import UserAvatar from "./userAvatar";
+import { useState } from "react";
 import { Stats } from "@/app/(auth)/profile/page";
+import ProfileEvidenceList from "./profileEvidenceList";
+import DeleteAccountButton from "./deleteAccountButton";
+
 import { 
   FiPlusCircle, 
   FiShield, 
-  FiEdit2, 
   FiCalendar, 
   FiDownload, 
   FiTrash2, 
   FiFileText,
   FiSend,
-  FiActivity
+  FiActivity,
+  FiChevronDown,
+  FiChevronUp
 } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import { Session } from "next-auth";
@@ -28,7 +32,19 @@ interface ProfilePageClientProps {
 
 export default function ProfilePageClient({session, stats,userEvidenceList } : ProfilePageClientProps){ 
   // ---------------------------------------------------------------------------
-const {t} = useLanguage();
+const [showAll, setShowAll] = useState(false);
+
+  // 2. Limite elementi da mostrare di default (es. 5)
+  const LIMIT = 5;
+  const displayedEvidence = showAll
+    ? userEvidenceList
+    : userEvidenceList.slice(0, LIMIT);
+
+  const hasMore = userEvidenceList.length > LIMIT;
+
+
+
+  const {t} = useLanguage();
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 p-4 md:p-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -172,67 +188,13 @@ const {t} = useLanguage();
           </div>
 
           {/* LISTA DEGLI INVII */}
-          <div className="space-y-3">
-            {userEvidenceList.length > 0 ? (
-              <div className="divide-y divide-zinc-800/60 border border-zinc-800/80 rounded-xl overflow-hidden bg-zinc-950/40">
-                {userEvidenceList.map((item) => {
-                  // Mappatura Badge Stato
-                  let statusBadge = (
-                    <span className="px-2.5 py-1 rounded-full border text-xs font-mono bg-amber-500/10 text-amber-400 border-amber-500/20">
-                      In Sospeso
-                    </span>
-                  );
-                  if (item.status === "ACCEPTED") {
-                    statusBadge = (
-                      <span className="px-2.5 py-1 rounded-full border text-xs font-mono bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                        Accettata
-                      </span>
-                    );
-                  } else if (item.status === "REJECTED") {
-                    statusBadge = (
-                      <span className="px-2.5 py-1 rounded-full border text-xs font-mono bg-rose-500/10 text-rose-400 border-rose-500/20">
-                        Rifiutata
-                      </span>
-                    );
-                  }
-
-                  return (
-                    <div
-                      key={item.id}
-                      className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-zinc-800/20 transition-colors"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-amber-400 border border-zinc-700/60">
-                            {item.id}
-                          </span>
-                          <span className="text-xs font-semibold text-zinc-200">
-                            {item.notes}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-mono">
-                          <span>Tipo: {item.type}</span>
-                          <span>•</span>
-                          <span>Inviato il {item.createdAt}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between sm:justify-end gap-4">
-                        {statusBadge}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="text-center py-10 border border-dashed border-zinc-800/80 rounded-xl bg-zinc-950/20">
-                <FiSend className="w-8 h-8 text-zinc-600 mx-auto mb-2" />
-                <p className="text-xs text-zinc-400">
-                  Nessuna prova o segnalazione inviata finora.
-                </p>
-              </div>
-            )}
-          </div>
+   
+          
+   
+    <ProfileEvidenceList
+        evidenceList={userEvidenceList}
+        limit={5}
+      />
         </section>
 
         {/* ================================================================= */}
@@ -270,10 +232,11 @@ const {t} = useLanguage();
                   Rimuovi profilo e credenziali
                 </p>
               </div>
-              <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg transition-colors flex-shrink-0">
-                <FiTrash2 className="w-3.5 h-3.5" /> Elimina
-              </button>
+      
+               <DeleteAccountButton />
             </div>
+
+           
           </div>
         </section>
 
