@@ -49,7 +49,7 @@ declare module "next-auth/jwt" {
       },
 
       async authorize(credentials) {
-      if (!credentials?.email || !credentials?.password) {  // 👈 aggiungi check password
+      if (!credentials?.email || !credentials?.password) {  
     return null;
   }
 
@@ -57,7 +57,7 @@ declare module "next-auth/jwt" {
         const password = credentials.password as string;
 
         const resp = await fetch(
-          `${process.env.NEXT_PUBLIC_URL_RENDER}/user/login`,
+          `${process.env.NEXT_PUBLIC_URL_RENDER}/users/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -65,19 +65,43 @@ declare module "next-auth/jwt" {
           }
         );
 
-        const data = await resp.json();
+        // const data = await resp.json();
+        // console.log("AUTHORIZE RESPONSE:", JSON.stringify(data));
 
-        if (!resp.ok || !data?.data) {
-          return null;
-        }
+        // if (!resp.ok || !data?.data) {
+        //   return null;
+        // }
 
-        return {
-          id: data.user.id,
-          email: data.user.email,
-          username: data.user.username,
-          role: data.user.role,
-          avatar: data.user.avatar,
-        };
+        // return {
+        //   id: data.data.id,
+        //   email: data.data.email,
+        //   username: data.data.username,
+        //   role: data.data.role,
+        //   avatar: data.data.avatar,
+        // };
+
+        const raw = await resp.text();
+console.log("AUTH DEBUG — status:", resp.status);
+console.log("AUTH DEBUG — body:", raw.slice(0, 300));
+
+let data;
+try {
+  data = JSON.parse(raw);
+} catch {
+  return null; // risposta non-JSON → login fallito, ma niente crash
+}
+
+if (!resp.ok || !data?.data) {
+  return null;
+}
+
+return {
+  id: data.data.id,
+  email: data.data.email,
+  username: data.data.username,
+  role: data.data.role,
+  avatar: data.data.avatar,
+};
       },
     }),
 
