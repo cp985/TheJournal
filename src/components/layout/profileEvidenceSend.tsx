@@ -316,16 +316,12 @@ if (formEvidence.success) {
       setSelectedFile(null);
       if (onSuccess) onSuccess();
     }
-  
+
+  const isOpen = open && !formEvidence.success;
 
   return (
     <Dialog
-      open={open}
-      onOpenChange={(nextOpen) => {
-        setOpen(nextOpen);
-        if (!nextOpen) setSelectedFile(null);
-      }}
-    >
+    open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button
           type="button"
@@ -386,9 +382,6 @@ if (formEvidence.success) {
               >
                 <option value="PHOTO">Foto / Immagine</option>
                 <option value="DOCUMENT">Documento (PDF, DOCX)</option>
-                <option value="VIDEO">Video</option>
-                <option value="AUDIO">Traccia Audio</option>
-                <option value="OTHER">Altro</option>
               </select>
             </div>
 
