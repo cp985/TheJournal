@@ -332,8 +332,7 @@ if (formEvidence.success) {
         </button>
       </DialogTrigger>
 
-      {/* 🟢 Ampliato il Dialog su Desktop con sm:max-w-[650px] */}
-      <DialogContent className="bg-zinc-950 border border-zinc-800 text-zinc-100 sm:max-w-[650px]">
+      <DialogContent className="bg-zinc-950 border border-zinc-800 text-zinc-100 sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-zinc-100 flex items-center gap-2 text-base font-semibold">
             <FiFileText className="w-4 h-4 text-amber-500" />
@@ -345,7 +344,6 @@ if (formEvidence.success) {
         </DialogHeader>
 
         <form action={formAction} className="space-y-4 py-2">
-          {/* 🟢 Grid a 2 colonne su Desktop (md:grid-cols-2), 1 colonna su Mobile */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 1. Select Dossier / Caso */}
             <div className="space-y-1.5">
@@ -450,9 +448,9 @@ if (formEvidence.success) {
           </div>
 
           {/* Messaggi / Box Errori */}
-          {!isPending && formEvidence.errors ? (
-            <ErrorsBox formData={formEvidence} isPending={isPending} />
-          ) : null}
+    {!isPending && (formEvidence.errors || (formEvidence.message && !formEvidence.success)) ? (
+  <ErrorsBox formData={formEvidence} isPending={isPending} />
+) : null}
 
           <DialogFooter className="gap-2 sm:gap-0 pt-2">
             <Button
