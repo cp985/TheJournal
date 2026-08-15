@@ -3,11 +3,12 @@ import { cn } from "@/lib/utils";
 interface ErrorsBoxProps {
   formData: {
     success: boolean;
-    errors?: Record<string, string[]>;
+    errors?: Record<string, string[]> |null;
     message?: string;
-    data: any;
+    data?: any;
   };
   isPending: boolean;
+  
 }
 export default function ErrorsBox(props: ErrorsBoxProps) {
   const { t } = useLanguage();

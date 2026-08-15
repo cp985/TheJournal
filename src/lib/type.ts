@@ -1,5 +1,5 @@
 export type Role = "USER" | "ADMIN";
-export type EvidenceType = "PHOTO" | "PDF" | "AUDIO" | "DOCUMENT";
+export type EvidenceType = "PHOTO" | "PDF" | "DOCUMENT";
 export type EvidenceStatus = "PENDING" | "REJECTED" | "ACCEPTED";
 export type DossierStatus = "Open" | "Archived" | "Closed";
 export interface DbUser {

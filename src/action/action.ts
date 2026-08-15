@@ -857,3 +857,142 @@ export const userExportData = async () => {
     };
   }
 };
+
+//user send evidence
+
+const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
+const ALLOWED_MIME_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "application/pdf",
+
+];
+
+const evidenceSchema = z.object({
+  dossierId: z.string().min(1, { message: "dossierId-not-selected" }),
+  type: z.enum(["PHOTO","PDF", "DOCUMENT"]),
+  notes: z.string().min(15, { message: "notes-too-short" }).max(60, { message: "notes-too-long" }),
+  fileName: z.string().max(40, { message: "file-name-too-long" }).min(3, { message: "file-name-too-short" }),
+  file: z
+    .custom<File>((val) => val instanceof File && val.size > 0, {
+      message: "file-missing",
+    })
+    .refine((file) => file.size <= MAX_FILE_SIZE, {
+      message: "file-too-large",
+    })
+    .refine((file) => ALLOWED_MIME_TYPES.includes(file.type), {
+      message: "invalid-file-format",
+    }),
+});
+    
+
+ type FormActionState = {
+errors?: Record<string, string[]> | null;
+  message?: string;
+  data?: {
+    dossierId?: string;
+    type?: string;
+    notes?: string; 
+     fileName?: string | undefined;
+
+  };
+  success: boolean;
+};
+
+
+
+export async function createEvidenceAction(
+  prevState: FormActionState,
+  formData: FormData
+): Promise<FormActionState> {
+  const dossierId = formData.get("dossierId") as string;
+  const type = formData.get("type") as string;
+  const notes = formData.get("notes") as string;
+  const file = formData.get("file") as File;
+  const fileName= file.name
+
+  // Manteniamo i campi per fare il ripopolamento in caso di errore
+  const data = { dossierId, type, notes, fileName };
+
+  // Validazione Zod
+  const validationResult = evidenceSchema.safeParse({
+    dossierId,
+    type,
+    notes,
+    file,
+    fileName
+  });
+
+  if (!validationResult.success) {
+    const errorCodes = validationResult.error.flatten().fieldErrors;
+    return {
+      errors: errorCodes,
+      data,
+      success: false,
+    };
+  }
+
+  try {
+    
+        const session = await auth();
+    if (!session?.user?.id) {
+      console.error("user-not-authenticated");
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+        data ,
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("auth-secret-not-found");
+      return {
+        success: false as const,
+        message: "auth-secret-not-found",
+        data,
+      };
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/evidence`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+      body: formData, 
+    });
+
+    if (!response.ok) {
+      return {
+        errors: null,
+        message: "error-creating-evidence",
+       data,
+        success: false,
+      };
+    }
+    
+
+    return {
+      errors: null,
+      message: "evidence-created",
+      data: { dossierId: "", type: "PHOTO", notes: "" ,fileName: ""},
+     
+      success: true,
+    };
+  } catch (error) {
+    console.error("Errore nella creazione della prova:", error);
+    return {
+      errors: null,
+      message: "error-creating-evidence",
+      data,
+      success: false,
+    };
+  }
+}

@@ -80,28 +80,7 @@ declare module "next-auth/jwt" {
           avatar: data.data.avatar,
         };
 
-//         const raw = await resp.text();
-// console.log("AUTH DEBUG — status:", resp.status);
-// console.log("AUTH DEBUG — body:", raw.slice(0, 300));
 
-// let data;
-// try {
-//   data = JSON.parse(raw);
-// } catch {
-//   return null; // risposta non-JSON → login fallito, ma niente crash
-// }
-
-// if (!resp.ok || !data?.data) {
-//   return null;
-// }
-
-// return {
-//   id: data.data.id,
-//   email: data.data.email,
-//   username: data.data.username,
-//   role: data.data.role,
-//   avatar: data.data.avatar,
-// };
       },
     }),
 

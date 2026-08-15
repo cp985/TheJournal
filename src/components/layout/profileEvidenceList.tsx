@@ -77,8 +77,6 @@ export default function ProfileEvidenceList({
       <div className="divide-y divide-zinc-800/60 border border-zinc-800/80 rounded-xl overflow-hidden bg-zinc-950/40">
         <AnimatePresence initial={false}>
           {displayedEvidence.map((item, index) => {
-            // Gli elementi oltre il limite iniziale sono quelli che entrano/escono
-            // animati quando si preme "Vedi tutte" / "Mostra meno".
             const isExtra = index >= limit;
 
             return (

@@ -1,16 +1,16 @@
 "use client";
 import { useLanguage } from "@/context/maincontext";
 import  {DbEvidence} from "@/lib/type";
+import { DossierStats } from "@/app/(auth)/profile/page";
 import UserAvatar from "./userAvatar";
 import { Stats } from "@/app/(auth)/profile/page";
 import ProfileEvidenceList from "./profileEvidenceList";
 import DeleteAccountButton from "./profileDeleteAccount";
 import ExportDataButton from "./profileExportButton";
+import AddEvidenceButton from "./profileEvidenceSend";
 import { 
-  FiPlusCircle, 
   FiShield, 
   FiCalendar, 
-  FiDownload, 
   FiFileText,
   FiActivity,
 } from "react-icons/fi";
@@ -22,10 +22,11 @@ interface ProfilePageClientProps {
   session: Session;
   stats: Stats;
   userEvidenceList: DbEvidence[];
+  dossiers: DossierStats[];
 }
 
 
-export default function ProfilePageClient({session, stats,userEvidenceList } : ProfilePageClientProps){ 
+export default function ProfilePageClient({session, stats,userEvidenceList, dossiers } : ProfilePageClientProps){ 
   // ---------------------------------------------------------------------------
 
 
@@ -166,12 +167,7 @@ export default function ProfilePageClient({session, stats,userEvidenceList } : P
             </div>
 
             {/* Pulsante di Apertura Form Segnalazione / Prova */}
-            <button 
-              /* onClick={() => setIsModalOpen(true)} */
-              className="flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-zinc-950 font-medium text-xs py-2.5 px-4 rounded-lg transition-colors whitespace-nowrap shadow-lg shadow-amber-500/10"
-            >
-              <FiPlusCircle className="w-4 h-4" /> Invia Prova / Segnalazione
-            </button>
+         <AddEvidenceButton dossiers={dossiers} />
           </div>
 
           {/* LISTA DEGLI INVII */}

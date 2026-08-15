@@ -2,6 +2,9 @@
 import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
 import { getEvidenceByUserId } from "@/action/action";
+import { DbDossier } from "@/lib/type";
+import { getDossiers } from "@/action/action";
+
 import ProfilePageClient from "@/components/layout/profilePageClient";
   export interface Stats {
     totalSubmitted: number;
@@ -10,7 +13,11 @@ import ProfilePageClient from "@/components/layout/profilePageClient";
     rejected: number;
   }
 
+export interface DossierStats  {
+  code: string;
+  title: string;
 
+}
 
 export default async function ProfilePageServer(){
     // 1. SESSIONE UTENTE
@@ -48,8 +55,16 @@ stats.totalSubmitted=lenght;
     }
   }
 
+
+const dossiersList = await getDossiers();
+
+
+
+
+
+
   return (
-      <ProfilePageClient stats={stats} userEvidenceList={userEvidenceList} session={session} />
+      <ProfilePageClient stats={stats} userEvidenceList={userEvidenceList} session={session} dossiers={dossiersList} />
    
   );
 }
