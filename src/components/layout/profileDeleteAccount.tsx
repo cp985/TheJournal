@@ -32,11 +32,10 @@ export default function DeleteAccountButton() {
 
   return (
     <AlertDialog>
-      {/* 1. Il pulsante principale che apre il dialog */}
       <AlertDialogTrigger asChild>
         <Button
           variant="destructive"
-          className="bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 font-mono text-xs"
+          className="bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 font-mono text-xs cursor-pointer"
         >
           <FiTrash2 className="w-4 h-4 mr-2" />
           Elimina Account

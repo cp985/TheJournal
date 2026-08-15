@@ -578,7 +578,6 @@ export const userUpdate = async (
       { expiresIn: "5m" }
     );
 
-    // 🚀 Aggiunto avatar al payload inviato al server Render
     const payload: Record<string, string> = { username, lang, email, avatar };
 
     if (oldPassword && newPassword) {
@@ -626,7 +625,7 @@ export const userUpdate = async (
       data: {
         username,
         email,
-        avatar, // 👈 Restituito al client per l'aggiornamento di NextAuth update()
+        avatar, 
         oldPassword,
         newPassword,
         lang,
@@ -682,7 +681,7 @@ export const  userDelete= async () =>{
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/users/me`, 
       {method:"DELETE", 
         headers:{"Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
 
         },
       
@@ -715,3 +714,146 @@ if(isDeleting){
 await signOut({ redirectTo: "/" });
 
 }}
+
+
+//      const session = await auth();
+//     if(!session?.user?.id){
+//       console.error("Utente non autenticato");
+//       return {
+//         success: false as const,
+//         message: "user-not-authenticated",
+//         data: null
+//       };
+//     }
+
+    
+//             const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+//     if (!secret) {
+//       console.error("auth-secret-not-found");
+//       return {
+//         success: false as const,
+//         message: "auth-secret-not-found",
+//         data: null
+//       };
+//     }
+
+//     const token = jwt.sign(
+//       { sub: session.user.id, email: session.user.email },
+//       secret,
+//       { expiresIn: "5m" }
+//     );
+
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/users/me/export`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${token}`, 
+//       },
+//     });
+
+//     if (!response.ok) {
+//       console.error(`Error: ${response.status}`);
+//       return {
+//         success: false as const,
+//         message: "user-not-authenticated",
+//         data: null
+//       };
+//     }
+
+//     const blob = await response.blob();
+//     if (!blob) {
+//       console.error("blob-not-found");
+//       return {
+//         success: false as const,
+//         message: "blob-not-found",
+//         data: null
+//       };
+//     }
+//     const url = window.URL.createObjectURL(blob);
+    
+//     const a = document.createElement("a");
+//     a.href = url;
+//     a.download = `my-data-export.json`;
+//     document.body.appendChild(a);
+//     a.click();
+    
+//     a.remove();
+//     window.URL.revokeObjectURL(url);
+//   } catch (error) {
+//     console.error("Error:", error);
+//     return {
+//       success: false as const,
+//       message: "fatal-error",
+//     };
+//   }
+// };
+
+
+
+export const userExportData = async () => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      console.error("user-not-authenticated");
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+        data: null,
+        fileName: null,
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("auth-secret-not-found");
+      return {
+        success: false as const,
+        message: "auth-secret-not-found",
+        data: null,
+        fileName: null,
+      };
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_RENDER}/users/me/export`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      console.error(`Error: ${response.status}`);
+      return {
+        success: false as const,
+        message: "export-failed",
+        data: null,
+        fileName: null,
+      };
+    }
+
+    const jsonData = await response.text();
+
+    return {
+      success: true as const,
+      data: jsonData,
+      message: "ok",
+      fileName: `data-export-${session.user.id}-${Date.now()}.json`,
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      success: false as const,
+      message: "fatal-error",
+      data: null,
+      fileName: null,
+    };
+  }
+};

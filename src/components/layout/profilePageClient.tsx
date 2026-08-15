@@ -2,22 +2,17 @@
 import { useLanguage } from "@/context/maincontext";
 import  {DbEvidence} from "@/lib/type";
 import UserAvatar from "./userAvatar";
-import { useState } from "react";
 import { Stats } from "@/app/(auth)/profile/page";
 import ProfileEvidenceList from "./profileEvidenceList";
-import DeleteAccountButton from "./deleteAccountButton";
-
+import DeleteAccountButton from "./profileDeleteAccount";
+import ExportDataButton from "./profileExportButton";
 import { 
   FiPlusCircle, 
   FiShield, 
   FiCalendar, 
   FiDownload, 
-  FiTrash2, 
   FiFileText,
-  FiSend,
   FiActivity,
-  FiChevronDown,
-  FiChevronUp
 } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import { Session } from "next-auth";
@@ -32,15 +27,7 @@ interface ProfilePageClientProps {
 
 export default function ProfilePageClient({session, stats,userEvidenceList } : ProfilePageClientProps){ 
   // ---------------------------------------------------------------------------
-const [showAll, setShowAll] = useState(false);
 
-  // 2. Limite elementi da mostrare di default (es. 5)
-  const LIMIT = 5;
-  const displayedEvidence = showAll
-    ? userEvidenceList
-    : userEvidenceList.slice(0, LIMIT);
-
-  const hasMore = userEvidenceList.length > LIMIT;
 
 
 
@@ -217,9 +204,8 @@ const [showAll, setShowAll] = useState(false);
                   Scarica il report in formato JSON
                 </p>
               </div>
-              <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 rounded-lg transition-colors flex-shrink-0">
-                <FiDownload className="w-3.5 h-3.5" /> Esporta
-              </button>
+              <ExportDataButton />
+        
             </div>
 
             {/* Eliminazione Account */}

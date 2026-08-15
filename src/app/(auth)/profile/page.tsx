@@ -1,7 +1,6 @@
 
 import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
-import { DbEvidence } from "@/lib/type";
 import { getEvidenceByUserId } from "@/action/action";
 import ProfilePageClient from "@/components/layout/profilePageClient";
   export interface Stats {
