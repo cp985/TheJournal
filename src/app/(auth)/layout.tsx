@@ -10,7 +10,7 @@ export default function RootLayout({
 }>) {
   return (
 
- <SessionProvider>
+ <SessionProvider >
       <div className="min-h-full flex flex-col">
      
           {children}

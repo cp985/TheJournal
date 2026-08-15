@@ -961,6 +961,13 @@ export async function createEvidenceAction(
       { expiresIn: "5m" }
     );
 
+    const payload = new FormData();
+    payload.append("dossierId", dossierId);
+    payload.append("type", type);
+    payload.append("notes", notes);
+    payload.append("fileName", fileName);
+    payload.append("file", file, file.name);
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences`,
       {
@@ -968,7 +975,7 @@ export async function createEvidenceAction(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
+        body: payload,
       }
     );
 

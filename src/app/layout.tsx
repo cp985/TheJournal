@@ -1,12 +1,11 @@
-import type { Metadata, Viewport} from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/layout/navbar";
 import { LanguageProvider } from "@/context/maincontext";
-import {auth} from "@/auth/auth"
+import { auth } from "@/auth/auth";
 import { Session } from "next-auth";
-
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -20,11 +19,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 // Define default metadata configuration for the public site
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://the-journal-phi.vercel.app"
+    process.env.NEXT_PUBLIC_APP_URL || "https://the-journal-phi.vercel.app",
   ),
   // Configura il template per i titoli delle sotto-pagine (es: "Caso Garlasco | The Journal")
   title: {
@@ -45,7 +43,7 @@ export const metadata: Metadata = {
   authors: [{ name: "The Journal Editorial Team" }],
   creator: "DataInquest",
   publisher: "The Journal",
-  
+
   // Impostazioni per i motori di ricerca
   robots: {
     index: true,
@@ -63,7 +61,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "it_IT",
-    url: "https://the-journal-phi.vercel.app/", 
+    url: "https://the-journal-phi.vercel.app/",
     siteName: "The Journal",
     title: "The Journal — Data Journalism incontra la cronaca nera",
     description:
@@ -85,21 +83,16 @@ export const metadata: Metadata = {
     description:
       "Ricostruzione oggettiva di casi di cronaca tramite atti pubblici e dati verificati.",
     images: ["/og-image.png"],
-    creator: "@thejournal", 
+    creator: "@thejournal",
   },
- // Icone e Favicon
-icons: {
-  icon: [
-    { url: "/favicon.ico" },
-    { url: "/icon1.png", type: "image/png" },
-  ],
-  shortcut: "/favicon.ico",
-  apple: "/apple-icon.png",
-},
-manifest: "/manifest.json",
-category: "Journalism",
-
-
+  // Icone e Favicon
+  icons: {
+    icon: [{ url: "/favicon.ico" }, { url: "/icon1.png", type: "image/png" }],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
+  manifest: "/manifest.json",
+  category: "Journalism",
 };
 
 export const viewport: Viewport = {
@@ -108,15 +101,12 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-const session : Session | null  = await  auth()  
-
+  const session: Session | null = await auth();
 
   return (
     <html
@@ -130,12 +120,12 @@ const session : Session | null  = await  auth()
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col pt-16 bg-zinc-950">
-        <LanguageProvider>
+      <LanguageProvider>
+        <body className="min-h-full flex flex-col pt-16 bg-zinc-950">
           <Navbar session={session} />
           {children}
-        </LanguageProvider>
-      </body>
+        </body>
+      </LanguageProvider>
     </html>
   );
 }

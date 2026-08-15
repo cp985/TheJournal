@@ -24,12 +24,3 @@ export default auth((req) => {
 });
 export const config = { matcher: ["/profile/:path*", "/admin/:path*"] };
 
-// middleware.ts
-// import NextAuth from "next-auth";
-// import { authConfig } from "@/auth.config"; // 👈 Importa la versione leggera
-
-// export default NextAuth(authConfig).auth;
-
-// export const config = {
-//   matcher: ["/profile/:path*", "/admin/:path*"],
-// };
