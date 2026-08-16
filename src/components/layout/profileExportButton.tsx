@@ -1,12 +1,17 @@
+
+
 "use client";
 
 import { useState, useTransition } from "react";
 import { userExportData } from "@/action/action";
 import { FiDownload, FiLoader } from "react-icons/fi";
+import { useLanguage } from "@/context/maincontext";
 
 export default function ExportDataButton() {
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { t: dictionary } = useLanguage();
+  const t = dictionary.profile.exportData;
 
   const handleExport = () => {
     setErrorMessage(null);
@@ -15,7 +20,7 @@ export default function ExportDataButton() {
       const res = await userExportData();
 
       if (!res || !res.success || !res.data) {
-        setErrorMessage("Errore durante l'esportazione dei dati.");
+        setErrorMessage(t.error);
         return;
       }
 
@@ -42,12 +47,12 @@ export default function ExportDataButton() {
         {isPending ? (
           <>
             <FiLoader className="w-3.5 h-3.5 animate-spin text-amber-500" />
-            <span>Esportazione...</span>
+            <span>{t.exporting}</span>
           </>
         ) : (
           <>
             <FiDownload className="w-3.5 h-3.5" />
-            <span>Esporta</span>
+            <span>{t.button}</span>
           </>
         )}
       </button>

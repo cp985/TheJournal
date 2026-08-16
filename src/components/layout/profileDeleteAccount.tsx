@@ -1,7 +1,10 @@
+
+
 "use client";
 
 import { useState, useTransition } from "react";
 import { userDelete } from "@/action/action";
+import { useLanguage } from "@/context/maincontext";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,13 +21,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FiTrash2, FiLoader } from "react-icons/fi";
 
-const CONFIRMATION_TEXT = "Cancella il mio account";
-
 export default function DeleteAccountButton() {
+  const { t: dictionary } = useLanguage();
+  const t = dictionary.profile.deleteAccount;
+
   const [isPending, startTransition] = useTransition();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  
   const [confirmationInput, setConfirmationInput] = useState("");
 
   const handleDelete = () => {
@@ -34,7 +37,7 @@ export default function DeleteAccountButton() {
       if (res && res.success) {
         setOpen(false);
       } else {
-        setErrorMessage("Impossibile eliminare l'account. Riprova più tardi.");
+        setErrorMessage(t.errorMessage);
       }
     });
   };
@@ -47,7 +50,9 @@ export default function DeleteAccountButton() {
     }
   };
 
-  const isConfirmDisabled = confirmationInput.trim() !== CONFIRMATION_TEXT || isPending;
+  const isConfirmDisabled =
+    confirmationInput.trim().toLowerCase() !== t.confirmPhrase.toLowerCase() ||
+    isPending;
 
   return (
     <AlertDialog open={open} onOpenChange={handleOpenChange}>
@@ -57,17 +62,17 @@ export default function DeleteAccountButton() {
           className="px-3.5 py-2 rounded-lg border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-sm font-mono text-rose-400 flex items-center gap-2 transition-colors cursor-pointer"
         >
           <FiTrash2 className="w-4 h-4" />
-          Elimina Account
+          {t.triggerButton}
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="bg-zinc-950 border-2  border-rose-600/40 shadow-xl shadow-rose-600/5 text-zinc-100 sm:max-w-[550px] p-6 focus:outline-none">
+      <AlertDialogContent className="bg-zinc-950 border-2 border-rose-600/40 shadow-xl shadow-rose-600/5 text-zinc-100 sm:max-w-[550px] p-6 focus:outline-none">
         <AlertDialogHeader className="space-y-1.5 pb-2 border-b border-zinc-800/80">
-          <AlertDialogTitle className="text-zinc-100  text-center gap-2.5 text-lg font-bold w-full">
-            Sei assolutamente sicuro?
+          <AlertDialogTitle className="text-zinc-100 text-center gap-2.5 text-lg font-bold w-full">
+            {t.title}
           </AlertDialogTitle>
           <AlertDialogDescription className="text-zinc-400 text-sm text-center">
-            Questa azione è **irreversibile**. Il tuo account, tutti i dati personali e le prove inviate verranno eliminati o anonimizzati in modo permanente.
+            {t.description}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -78,17 +83,21 @@ export default function DeleteAccountButton() {
         )}
 
         <div className="py-2 space-y-2.5">
-          <Label htmlFor="confirmDeleteInput" className="text-sm font-mono text-zinc-200 font-medium flex flex-col">
-           <p>Per confermare, digita :</p>
-            <p className="text-rose-400 font-bold bg-zinc-900 px-1 rounded">{CONFIRMATION_TEXT}</p> 
-         
+          <Label
+            htmlFor="confirmDeleteInput"
+            className="text-sm font-mono text-zinc-200 font-medium flex flex-col"
+          >
+            <p>{t.labelPrompt}</p>
+            <p className="text-rose-400 font-bold bg-zinc-900 px-1 rounded">
+              {t.confirmPhrase}
+            </p>
           </Label>
           <Input
             id="confirmDeleteInput"
             type="text"
             value={confirmationInput}
             onChange={(e) => setConfirmationInput(e.target.value)}
-            placeholder={CONFIRMATION_TEXT}
+            placeholder={t.confirmPhrase}
             disabled={isPending}
             autoComplete="off"
             className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 h-10 placeholder:text-zinc-600 focus:border-rose-500/60"
@@ -100,12 +109,12 @@ export default function DeleteAccountButton() {
             disabled={isPending}
             className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100 text-sm font-mono px-4 py-2"
           >
-            Annulla
+            {t.buttons.cancel}
           </AlertDialogCancel>
 
           <AlertDialogAction
             onClick={(e) => {
-              e.preventDefault(); 
+              e.preventDefault();
               if (!isConfirmDisabled) {
                 handleDelete();
               }
@@ -116,10 +125,10 @@ export default function DeleteAccountButton() {
             {isPending ? (
               <>
                 <FiLoader className="w-4 h-4 animate-spin" />
-                Eliminazione...
+                {t.buttons.deleting}
               </>
             ) : (
-              "Sì, elimina il mio account"
+              t.buttons.confirm
             )}
           </AlertDialogAction>
         </AlertDialogFooter>

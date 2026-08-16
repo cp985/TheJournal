@@ -482,6 +482,120 @@ export const dictionary = {
           "Segnalazione inviata con successo. Un'email di conferma viene inviata.",
       },
     },
+    profile: {
+    defaultUser: "Utente",
+    activeAccount: "Account attivo",
+    stats: {
+      title: "Bilancio Prove & Segnalazioni",
+      totalSubmitted: "Totale Inviate",
+      pending: "Pendenti",
+      approved: "Accettate",
+      rejected: "Rifiutate",
+      tooltipPending: "In Sospeso",
+      tooltipApproved: "Accettate",
+      tooltipRejected: "Rifiutate",
+    },
+    evidence: {
+      title: "Prove e Segnalazioni",
+      subtitle: "Storico del materiale e delle associazioni inviate a tuo nome",
+    },
+    settings: {
+      title: "Gestione Account e Privacy",
+      exportDataTitle: "Esporta i Tuoi Dati",
+      exportDataDesc: "Scarica il report in formato JSON",
+      deleteAccountTitle: "Elimina Account",
+      deleteAccountDesc: "Rimuovi profilo e credenziali",
+    },
+    addEvidenceDialog: {
+    triggerButton: "Aggiungi Prova",
+    title: "Invia Nuova Prova",
+    description: "Seleziona il caso/dossier e carica un file da allegare.",
+    labels: {
+      selectDossier: "Seleziona Dossier / Caso",
+      noDossiers: "Nessun dossier disponibile",
+      fileType: "Tipo di File",
+      evidenceTitle: "Nome Prova / Titolo",
+      attachedFile: "File Allegato",
+      notes: "Note / Descrizione",
+    },
+    placeholders: {
+      evidenceTitle: "Inserisci un nome per identificare la prova...",
+      dropzoneDefault: "Clicca o trascina qui un file",
+      dropzoneHint: "PNG, JPG, PDF fino a 3 MB",
+      notes: "Aggiungi una breve descrizione o dettagli rilevanti...",
+    },
+    options: {
+      photo: "Foto / Immagine",
+      document: "Documento (PDF, DOCX)",
+    },
+    buttons: {
+      cancel: "Annulla",
+      submit: "Invia Prova",
+      submitting: "Invio in corso...",
+    },
+  },
+  
+    edit: {
+      triggerButton: "Modifica Profilo",
+      title: "Gestione Profilo",
+      description: "Gestisci i tuoi dati personali, l'avatar e le credenziali del tuo account.",
+      chooseAvatar: "Scegli il tuo avatar",
+      restorePhoto: "Ripristina foto originaria",
+      labels: {
+        username: "Username",
+        email: "Indirizzo Email",
+        oldPassword: "Password Attuale",
+        newPassword: "Nuova Password",
+      },
+      oauthVerified: "Account verificato tramite",
+      securityTitle: "Sicurezza Account (Opzionale)",
+      placeholders: {
+        password: "••••••••",
+      },
+      buttons: {
+        cancel: "Annulla",
+        saving: "Salvataggio...",
+        save: "Salva Modifiche Profilo",
+      },
+    },
+    evidenceList: {
+      defaultEmptyMessage: "Nessuna prova o segnalazione inviata finora.",
+      status: {
+        accepted: "Accettata",
+        rejected: "Rifiutata",
+        pending: "In Sospeso",
+      },
+      labels: {
+        type: "Tipo",
+        sentOn: "Inviato il",
+      },
+      buttons: {
+        showLess: "Mostra meno",
+        seeAll: "Vedi tutte",
+      },
+    },
+    exportData: {
+      button: "Esporta",
+      exporting: "Esportazione...",
+      error: "Errore durante l'esportazione dei dati.",
+    },
+    deleteAccount: {
+      triggerButton: "Elimina Account",
+      title: "Sei assolutamente sicuro?",
+      description: "Questa azione è **irreversibile**. Il tuo account, tutti i dati personali e le prove inviate verranno eliminati o anonimizzati in modo permanente.",
+      confirmPhrase: "Cancella il mio account",
+      labelPrompt: "Per confermare, digita :",
+      errorMessage: "Impossibile eliminare l'account. Riprova più tardi.",
+      buttons: {
+        cancel: "Annulla",
+        deleting: "Eliminazione...",
+        confirm: "Sì, elimina il mio account",
+      },
+    },
+  
+  },
+
+
   },
   EN: {
     nav: {
@@ -961,6 +1075,119 @@ export const dictionary = {
           "Report submitted successfully. A confirmation email has been sent.",
       },
     },
+    profile: {
+    defaultUser: "User",
+    activeAccount: "Active Account",
+    stats: {
+      title: "Evidence & Reports Overview",
+      totalSubmitted: "Total Submitted",
+      pending: "Pending",
+      approved: "Approved",
+      rejected: "Rejected",
+      tooltipPending: "Pending",
+      tooltipApproved: "Approved",
+      tooltipRejected: "Rejected",
+    },
+    evidence: {
+      title: "Evidence & Reports",
+      subtitle: "History of material and associations submitted in your name",
+    },
+    settings: {
+      title: "Account Management & Privacy",
+      exportDataTitle: "Export Your Data",
+      exportDataDesc: "Download report in JSON format",
+      deleteAccountTitle: "Delete Account",
+      deleteAccountDesc: "Remove profile and credentials",
+    },
+    addEvidenceDialog: {
+    triggerButton: "Add Evidence",
+    title: "Submit New Evidence",
+    description: "Select the case/dossier and upload a file to attach.",
+    labels: {
+      selectDossier: "Select Dossier / Case",
+      noDossiers: "No dossier available",
+      fileType: "File Type",
+      evidenceTitle: "Evidence Name / Title",
+      attachedFile: "Attached File",
+      notes: "Notes / Description",
+    },
+    placeholders: {
+      evidenceTitle: "Enter a name to identify the evidence...",
+      dropzoneDefault: "Click or drag a file here",
+      dropzoneHint: "PNG, JPG, PDF up to 3 MB",
+      notes: "Add a brief description or relevant details...",
+    },
+    options: {
+      photo: "Photo / Image",
+      document: "Document (PDF, DOCX)",
+    },
+    buttons: {
+      cancel: "Cancel",
+      submit: "Submit Evidence",
+      submitting: "Submitting...",
+    },
+  },
+
+  edit: {
+      triggerButton: "Edit Profile",
+      title: "Profile Management",
+      description: "Manage your personal details, avatar, and account credentials.",
+      chooseAvatar: "Choose your avatar",
+      restorePhoto: "Restore original photo",
+      labels: {
+        username: "Username",
+        email: "Email Address",
+        oldPassword: "Current Password",
+        newPassword: "New Password",
+      },
+      oauthVerified: "Account verified via",
+      securityTitle: "Account Security (Optional)",
+      placeholders: {
+        password: "••••••••",
+      },
+      buttons: {
+        cancel: "Cancel",
+        saving: "Saving...",
+        save: "Save Profile Changes",
+      },
+    },
+
+    evidenceList: {
+      defaultEmptyMessage: "No evidence or reports submitted yet.",
+      status: {
+        accepted: "Accepted",
+        rejected: "Rejected",
+        pending: "Pending",
+      },
+      labels: {
+        type: "Type",
+        sentOn: "Sent on",
+      },
+      buttons: {
+        showLess: "Show less",
+        seeAll: "See all",
+      },
+    },
+    exportData: {
+      button: "Export",
+      exporting: "Exporting...",
+      error: "An error occurred while exporting data.",
+    },
+
+    deleteAccount: {
+      triggerButton: "Delete Account",
+      title: "Are you absolutely sure?",
+      description: "This action is **irreversible**. Your account, all personal data, and submitted evidence will be permanently deleted or anonymized.",
+      confirmPhrase: "Delete my account",
+      labelPrompt: "To confirm, type:",
+      errorMessage: "Unable to delete account. Please try again later.",
+      buttons: {
+        cancel: "Cancel",
+        deleting: "Deleting...",
+        confirm: "Yes, delete my account",
+      },
+    },
+  },
   },
 } as const;
 

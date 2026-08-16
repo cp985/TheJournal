@@ -28,6 +28,7 @@ export interface Stats {
 export interface DossierStats {
   code: string;
   title: string;
+  title_en?: string;
 }
 
 interface ProfilePageClientProps {
@@ -38,7 +39,8 @@ interface ProfilePageClientProps {
 }
 
 export default function ProfilePageClient({ session, stats, userEvidenceList, dossiers }: ProfilePageClientProps) {
-  const { t } = useLanguage();
+  const { t: dictionary } = useLanguage();
+  const t = dictionary.profile;
 
   const total = stats.totalSubmitted || 1;
   const pendingPercent = stats.totalSubmitted > 0 ? (stats.pending / total) * 100 : 0;
@@ -60,7 +62,7 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
               <div className="space-y-1">
                 <div className="flex items-center gap-3 flex-wrap">
                   <h1 className="text-2xl font-bold text-zinc-100 tracking-tight">
-                    {session.user.name || "Utente"}
+                    {session.user.name || t.defaultUser}
                   </h1>
                   <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase tracking-wider">
                     {session.user.role || "USER"}
@@ -76,7 +78,7 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
                     <FaGoogle className="w-3 h-3 text-amber-500" /> OAuth
                   </span>
                   <span className="flex items-center gap-1">
-                    <FiCalendar className="w-3.5 h-3.5" /> Account attivo
+                    <FiCalendar className="w-3.5 h-3.5" /> {t.activeAccount}
                   </span>
                 </div>
               </div>
@@ -93,10 +95,10 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
           <div className="flex items-center justify-between border-b border-zinc-800/60 pb-3">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
               <FiActivity className="w-4 h-4 text-amber-500" />
-              Bilancio Prove & Segnalazioni
+              {t.stats.title}
             </h2>
             <span className="text-xs font-mono text-zinc-400">
-              Totale Inviate: <strong className="text-zinc-100 font-bold">{stats.totalSubmitted}</strong>
+              {t.stats.totalSubmitted}: <strong className="text-zinc-100 font-bold">{stats.totalSubmitted}</strong>
             </span>
           </div>
 
@@ -105,17 +107,17 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
             <div 
               style={{ width: `${pendingPercent}%` }} 
               className="bg-amber-500 h-full rounded-l-sm transition-all duration-500"
-              title="In Sospeso"
+              title={t.stats.tooltipPending}
             />
             <div 
               style={{ width: `${approvedPercent}%` }} 
               className="bg-emerald-500 h-full transition-all duration-500"
-              title="Accettate"
+              title={t.stats.tooltipApproved}
             />
             <div 
               style={{ width: `${rejectedPercent}%` }} 
               className="bg-rose-500 h-full rounded-r-sm transition-all duration-500"
-              title="Rifiutate"
+              title={t.stats.tooltipRejected}
             />
           </div>
 
@@ -126,7 +128,7 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
                 {stats.pending}<span className="text-xs font-normal text-zinc-400">/{stats.totalSubmitted}</span>
               </span>
               <span className="text-[10px] font-sans uppercase tracking-wider text-zinc-400 font-semibold">
-                Pendenti
+                {t.stats.pending}
               </span>
             </div>
 
@@ -135,7 +137,7 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
                 {stats.approved}<span className="text-xs font-normal text-zinc-400">/{stats.totalSubmitted}</span>
               </span>
               <span className="text-[10px] font-sans uppercase tracking-wider text-zinc-400 font-semibold">
-                Accettate
+                {t.stats.approved}
               </span>
             </div>
 
@@ -144,7 +146,7 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
                 {stats.rejected}<span className="text-xs font-normal text-zinc-400">/{stats.totalSubmitted}</span>
               </span>
               <span className="text-[10px] font-sans uppercase tracking-wider text-zinc-400 font-semibold">
-                Rifiutate
+                {t.stats.rejected}
               </span>
             </div>
           </div>
@@ -156,10 +158,10 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
             <div>
               <h2 className="text-lg font-semibold text-zinc-100 flex items-center gap-2">
                 <FiFileText className="w-5 h-5 text-amber-500" />
-                Prove e Segnalazioni
+                {t.evidence.title}
               </h2>
               <p className="text-xs text-zinc-400">
-                Storico del materiale e delle associazioni inviate a tuo nome
+                {t.evidence.subtitle}
               </p>
             </div>
 
@@ -176,17 +178,17 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
         <section className="bg-zinc-900/90 border border-zinc-800/80 rounded-2xl p-6 shadow-xl space-y-6 backdrop-blur-sm">
           <h2 className="text-lg font-semibold text-zinc-100 flex items-center gap-2">
             <FiShield className="w-5 h-5 text-amber-500" />
-            Gestione Account e Privacy
+            {t.settings.title}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-zinc-950/50 border border-zinc-800/80 rounded-xl flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-zinc-200">
-                  Esporta i Tuoi Dati
+                  {t.settings.exportDataTitle}
                 </p>
                 <p className="text-xs text-zinc-500">
-                  Scarica il report in formato JSON
+                  {t.settings.exportDataDesc}
                 </p>
               </div>
               <ExportDataButton />
@@ -195,10 +197,10 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
             <div className="p-4 bg-rose-500/5 border border-rose-500/20 rounded-xl flex items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-rose-400">
-                  Elimina Account
+                  {t.settings.deleteAccountTitle}
                 </p>
                 <p className="text-xs text-zinc-500">
-                  Rimuovi profilo e credenziali
+                  {t.settings.deleteAccountDesc}
                 </p>
               </div>
               <DeleteAccountButton />
