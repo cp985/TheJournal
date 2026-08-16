@@ -18,13 +18,9 @@ import { FiChevronDown, FiSend } from "react-icons/fi";
 import { DbEvidence } from "@/lib/type";
 
 interface EvidenceListProps {
-  /** Lista completa delle prove/segnalazioni dell'utente. */
   evidenceList: DbEvidence[];
-  /** Numero di elementi mostrati prima di "Vedi tutte". Default: 5. */
   limit?: number;
-  /** Testo mostrato quando la lista è vuota. */
   emptyMessage?: string;
-  /** Classi extra per il contenitore esterno, se serve adattarlo altrove. */
   className?: string;
 }
 

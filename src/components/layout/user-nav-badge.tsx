@@ -1,13 +1,13 @@
 
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
-import { User, LayoutDashboard, LogOut, ChevronDown, Shield, UserCheck } from "lucide-react";
+import { User, LayoutDashboard, LogOut, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/context/maincontext"; 
+import UserAvatar from "@/components/layout/userAvatar"; // 🟢 Importa il componente avatar
 
 export function UserNavDesktop({ session }: { session: Session }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +20,9 @@ export function UserNavDesktop({ session }: { session: Session }) {
   const username = user?.username || user?.email?.split("@")[0] || t.defaultAgent;
   const role = user?.role || "USER";
   const isAdmin = role.toUpperCase() === "ADMIN";
+
+  // Recupera il valore dell'avatar dalla sessione (se presente)
+  const avatarValue = (user as { avatar?: string | null })?.avatar || null;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -35,14 +38,11 @@ export function UserNavDesktop({ session }: { session: Session }) {
     <div className="relative inline-block text-left" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 rounded-full border border-amber-900/60 bg-zinc-900/90 py-1 pl-1.5 pr-3 text-xs font-medium text-zinc-200 transition-all hover:border-amber-500/80 hover:bg-zinc-800/80 focus:outline-none"
+        className="flex items-center gap-2.5 rounded-full border border-amber-900/60 bg-zinc-900/90 py-1 pl-1 pr-3 text-xs font-medium text-zinc-200 transition-all hover:border-amber-500/80 hover:bg-zinc-800/80 focus:outline-none"
       >
-        <div className="flex h-7 w-7 items-center justify-center rounded-full border border-amber-700/50 bg-amber-950/40 text-amber-400 shadow-inner">
-          {isAdmin ? (
-            <Shield className="h-3.5 w-3.5 text-amber-400" />
-          ) : (
-            <UserCheck className="h-3.5 w-3.5 text-amber-400" />
-          )}
+        {/* 🟢 Avatar Utente Desktop con scala ridotta per il badge */}
+        <div className="[&>div]:w-7 [&>div]:h-7 [&>div]:border-amber-700/50 [&>div_svg]:w-4 [&>div_svg]:h-4 [&>img]:w-7 [&>img]:h-7">
+          <UserAvatar avatarValue={avatarValue} />
         </div>
 
         <div className="flex flex-col items-start text-left">
@@ -128,6 +128,9 @@ export function UserNavMobile({ session, onCloseMenu }: UserNavMobileProps) {
   const role = user?.role || "USER";
   const isAdmin = role.toUpperCase() === "ADMIN";
 
+  // Recupera il valore dell'avatar dalla sessione (se presente)
+  const avatarValue = (user as { avatar?: string | null })?.avatar || null;
+
   const handleLinkClick = () => {
     setIsOpen(false);
     if (onCloseMenu) onCloseMenu();
@@ -141,12 +144,9 @@ export function UserNavMobile({ session, onCloseMenu }: UserNavMobileProps) {
         className="flex w-full items-center justify-between p-3 text-left hover:bg-zinc-800/50 transition-colors"
       >
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-md border border-amber-800/60 bg-amber-950/40 text-amber-400">
-            {isAdmin ? (
-              <Shield className="h-4 w-4" />
-            ) : (
-              <UserCheck className="h-4 w-4" />
-            )}
+          {/* 🟢 Avatar Utente Mobile ridimensionato a h-9 w-9 */}
+          <div className="[&>div]:w-9 [&>div]:h-9 [&>div]:border-amber-700/50 [&>div_svg]:w-5 [&>div_svg]:h-5 [&>img]:w-9 [&>img]:h-9">
+            <UserAvatar avatarValue={avatarValue} />
           </div>
           <div className="flex flex-col">
             <span className="font-mono text-xs font-bold text-zinc-100">

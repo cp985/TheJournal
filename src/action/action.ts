@@ -990,7 +990,7 @@ export async function createEvidenceAction(
         success: false,
       };
     }
-
+ revalidatePath("/profile");
     return {
       errors: null,
       message: "evidence-created",

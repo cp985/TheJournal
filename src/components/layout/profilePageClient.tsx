@@ -40,7 +40,6 @@ interface ProfilePageClientProps {
 export default function ProfilePageClient({ session, stats, userEvidenceList, dossiers }: ProfilePageClientProps) {
   const { t } = useLanguage();
 
-  // Calcolo sicuro per evitare NaN% in caso di 0 elementi
   const total = stats.totalSubmitted || 1;
   const pendingPercent = stats.totalSubmitted > 0 ? (stats.pending / total) * 100 : 0;
   const approvedPercent = stats.totalSubmitted > 0 ? (stats.approved / total) * 100 : 0;
