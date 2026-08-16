@@ -557,6 +557,22 @@ export const dictionary = {
         saving: "Salvataggio...",
         save: "Salva Modifiche Profilo",
       },
+            errors:{
+        ["username-too-long"]:
+          "L'username deve essere al massimo 20 caratteri.",        
+          ["username-too-short"]: "L'username deve essere almeno 4 caratteri.",
+       ["username-no-symbols" ]: "L'username non può contenere caratteri speciali.",
+        ["invalid-email"]: "Email non valida.",
+        ["invalid-password"]: "Password non valida.",
+        ["password-too-weak-8-Aa-@$!%*?&"]:"La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
+      ["old-password-required"]: "Password attuale richiesta.",
+      ["user-not-authenticated"] :"Utente non autenticato.",
+      ["fatal-error"]: "Errore critico, contattare l'assistenza.",
+     ["invalid-old-password"]: "Password attuale non valida.",
+    ["invalid-credentials"]: "Password corrente non valida.",
+     ["invalid-new-password"]: "Password nuova non valida.",
+["new-password-required"] :"Nuova password richiesta.",
+    }
     },
     evidenceList: {
       defaultEmptyMessage: "Nessuna prova o segnalazione inviata finora.",
@@ -1150,6 +1166,24 @@ export const dictionary = {
         saving: "Saving...",
         save: "Save Profile Changes",
       },
+      errors:{
+        ["username-too-long"]:
+          "The username must be at most 20 characters long.",
+        ["username-too-short"]: "Username must be at least 4 characters long.",
+       ["username-no-symbols" ]: "Username must not contain special characters.",
+        ["invalid-email"]: "Email not valid.",
+        ["invalid-password"]: "Password not valid.",
+        ["password-too-weak-8-Aa-@$!%*?&"]:"Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
+      ["old-password-required"]: "Current password is required.",
+      ["user-not-authenticated"] :"User not authenticated.",
+      ["fatal-error"]: "Fatal error occurred. Please try again later.",
+           ["invalid-old-password"]: "Invalid current password.",
+["invalid-credentials"]: "Invalid current password.",
+     ["invalid-new-password"]: "Invalid new password.",
+["new-password-required"] :"New password is required.",
+
+
+    }
     },
 
     evidenceList: {

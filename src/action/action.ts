@@ -468,34 +468,43 @@ const profileZodSchema = z
       .regex(/^[a-zA-Z0-9_-]+$/, { message: "username-no-symbols" }),
     email: z.string().email({ message: "invalid-email" }),
     lang: z.enum(["IT", "EN"]),
-    avatar: z.string().optional(), // 👈 Aggiunto avatar allo schema Zod
+    avatar: z.string().optional(), 
     oldPassword: z.string().nullable().optional().or(z.literal("")),
     newPassword: z.string().nullable().optional().or(z.literal("")),
   })
-  .superRefine((data, ctx) => {
-    const hasNewPassword = data.newPassword && data.newPassword.trim() !== "";
+ .superRefine((data, ctx) => {
+  const hasNewPassword = data.newPassword && data.newPassword.trim() !== "";
+  const hasOldPassword = data.oldPassword && data.oldPassword.trim() !== "";
 
-    if (hasNewPassword) {
-      const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  if (hasNewPassword) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-      if (!passwordRegex.test(data.newPassword!)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "password-too-weak-8-Aa-@$!%*?&",
-          path: ["newPassword"],
-        });
-      }
-
-      if (!data.oldPassword || data.oldPassword.trim() === "") {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "old-password-required",
-          path: ["oldPassword"],
-        });
-      }
+    if (!passwordRegex.test(data.newPassword!)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "password-too-weak-8-Aa-@$!%*?&",
+        path: ["newPassword"],
+      });
     }
-  });
+
+    if (!hasOldPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "old-password-required",
+        path: ["oldPassword"],
+      });
+    }
+  }
+
+  if (hasOldPassword && !hasNewPassword) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "new-password-required",
+      path: ["newPassword"],
+    });
+  }
+});
 
 export const userUpdate = async (
   prevS: any,
@@ -503,7 +512,7 @@ export const userUpdate = async (
 ): Promise<InitialStateProfile> => {
   const username = formData.get("username") as string;
   const email = formData.get("email") as string;
-  const avatar = (formData.get("avatar") as string) || "icon:detective"; // 👈 Lettura del valore avatar
+  const avatar = (formData.get("avatar") as string) || "icon:detective"; 
   const lang = ((formData.get("lang") as string) || "IT") as "IT" | "EN";
   const oldPassword = formData.get("oldPassword") as string;
   const newPassword = formData.get("newPassword") as string;
@@ -518,7 +527,6 @@ export const userUpdate = async (
   });
 
   if (!validated.success) {
-    console.log("Dettaglio errori Zod:", validated.error.flatten().fieldErrors);
     return {
       success: false as const,
       errors: validated.error.flatten().fieldErrors,
@@ -714,78 +722,6 @@ if(isDeleting){
 await signOut({ redirectTo: "/" });
 
 }}
-
-
-//      const session = await auth();
-//     if(!session?.user?.id){
-//       console.error("Utente non autenticato");
-//       return {
-//         success: false as const,
-//         message: "user-not-authenticated",
-//         data: null
-//       };
-//     }
-
-    
-//             const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
-//     if (!secret) {
-//       console.error("auth-secret-not-found");
-//       return {
-//         success: false as const,
-//         message: "auth-secret-not-found",
-//         data: null
-//       };
-//     }
-
-//     const token = jwt.sign(
-//       { sub: session.user.id, email: session.user.email },
-//       secret,
-//       { expiresIn: "5m" }
-//     );
-
-//     const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/users/me/export`, {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer ${token}`, 
-//       },
-//     });
-
-//     if (!response.ok) {
-//       console.error(`Error: ${response.status}`);
-//       return {
-//         success: false as const,
-//         message: "user-not-authenticated",
-//         data: null
-//       };
-//     }
-
-//     const blob = await response.blob();
-//     if (!blob) {
-//       console.error("blob-not-found");
-//       return {
-//         success: false as const,
-//         message: "blob-not-found",
-//         data: null
-//       };
-//     }
-//     const url = window.URL.createObjectURL(blob);
-    
-//     const a = document.createElement("a");
-//     a.href = url;
-//     a.download = `my-data-export.json`;
-//     document.body.appendChild(a);
-//     a.click();
-    
-//     a.remove();
-//     window.URL.revokeObjectURL(url);
-//   } catch (error) {
-//     console.error("Error:", error);
-//     return {
-//       success: false as const,
-//       message: "fatal-error",
-//     };
-//   }
-// };
 
 
 
