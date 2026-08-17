@@ -120,12 +120,12 @@ export default async function RootLayout({
         inter.variable,
       )}
     >
-      <LanguageProvider>
-        <body className="min-h-full flex flex-col pt-16 bg-zinc-950">
+      <body className="min-h-full flex flex-col pt-16 bg-zinc-950">
+        <LanguageProvider>
           <Navbar session={session} />
           {children}
-        </body>
-      </LanguageProvider>
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

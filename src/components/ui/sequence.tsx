@@ -31,14 +31,13 @@ export function Step({ title, subtitle, children, className, ...props }: StepPro
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Attiva lo step quando entra per almeno il 30% nel viewport
         if (entry.isIntersecting) {
           setIsActive(true);
         }
       },
       {
         threshold: 0.3,
-        rootMargin: "0px 0px -10% 0px", // Attiva prima che arrivi a fine schermo
+        rootMargin: "0px 0px -10% 0px", 
       }
     );
 

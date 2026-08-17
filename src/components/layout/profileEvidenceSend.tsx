@@ -123,27 +123,7 @@ export default function AddEvidenceDialog({
         <form action={formAction} className="space-y-5 pt-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 1. Select Dossier / Caso */}
-            {/* <div className="space-y-2">
-              <label className="text-sm font-mono text-zinc-200 flex items-center gap-1.5 font-medium">
-                <FiFolder className="w-4 h-4 text-amber-500" />
-                {t.labels.selectDossier}
-              </label>
-              <select
-                name="dossierId"
-                defaultValue={activeDossierId}
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 focus:outline-none focus:border-amber-500/60"
-              >
-                {safeDossiers.map((dossier) => (
-                  <option
-                    key={dossier.code}
-                    value={dossier.code}
-                    disabled={!dossier.code}
-                  >
-                    {dossier.title} {dossier.code ? `(${dossier.code})` : ""}
-                  </option>
-                ))}
-              </select>
-            </div> */}
+ 
 <div className="space-y-2">
       <label className="text-sm font-mono text-zinc-200 flex items-center gap-1.5 font-medium">
         <FiFolder className="w-4 h-4 text-amber-500" />
@@ -188,8 +168,8 @@ export default function AddEvidenceDialog({
             </div>
 
             {/* 3. Input Nome File Personalizzato */}
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-mono text-zinc-200 font-medium">
+            <div className="space-y-2  md:col-span-2">
+              <label className="text-sm  font-mono text-zinc-200 font-medium">
                 {t.labels.evidenceTitle}
               </label>
               <Input
@@ -198,7 +178,7 @@ export default function AddEvidenceDialog({
                 type="text"
                 name="fileName"
                 placeholder={t.placeholders.evidenceTitle}
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 h-10 focus:outline-none focus:border-amber-500/60 placeholder:text-zinc-500"
+                className="w-full mt-2 bg-zinc-900 border border-zinc-800 rounded-lg px-3.5 py-2.5 text-sm text-zinc-100 h-10 focus:outline-none focus:border-amber-500/60 placeholder:text-zinc-500"
               />
             </div>
 
@@ -251,11 +231,8 @@ export default function AddEvidenceDialog({
           </div>
 
           {/* Box Errori */}
-          {!isPending &&
-          (formEvidence.errors ||
-            (formEvidence.message && !formEvidence.success)) ? (
-            <ErrorsBox formData={formEvidence} isPending={isPending} />
-          ) : null}
+
+          <ErrorsBox formData={formEvidence} isPending={isPending} page = "profile.addEvidenceDialog"/>
 
           <DialogFooter className="gap-3 sm:gap-2 pt-3 border-t border-zinc-800/80">
             <Button

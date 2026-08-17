@@ -8,14 +8,13 @@ export const dictionary = {
       login: "Area Riservata",
       casesArchive: "Archivio Casi",
       userNav: {
-  defaultAgent: "Agente",
-  activeIdentity: "Identità Attiva",
-  noEmail: "Nessuna email",
-  profile: "Profilo",
-  adminDashboard: "Dashboard Admin",
-  logout: "Disconnetti"
-}
-
+        defaultAgent: "Agente",
+        activeIdentity: "Identità Attiva",
+        noEmail: "Nessuna email",
+        profile: "Profilo",
+        adminDashboard: "Dashboard Admin",
+        logout: "Disconnetti",
+      },
     },
     casesPage: {
       loading: "Caricamento dossier in corso",
@@ -333,7 +332,7 @@ export const dictionary = {
         ["wrong-password"]: "Password non valida.",
         ["username-already-exist"]: "Username già esistente.",
         ["email-already-exist"]: "Email già esistente.",
-      ["auth-error"]:"Autenticazione fallita. Verifica le credenziali.",
+        ["auth-error"]: "Autenticazione fallita. Verifica le credenziali.",
       },
       success: {
         ["user-signed-up"]: "Registrazione completata con successo!",
@@ -483,135 +482,173 @@ export const dictionary = {
       },
     },
     profile: {
-    defaultUser: "Utente",
-    activeAccount: "Account attivo",
-    stats: {
-      title: "Bilancio Prove & Segnalazioni",
-      totalSubmitted: "Totale Inviate",
-      pending: "Pendenti",
-      approved: "Accettate",
-      rejected: "Rifiutate",
-      tooltipPending: "In Sospeso",
-      tooltipApproved: "Accettate",
-      tooltipRejected: "Rifiutate",
-    },
-    evidence: {
-      title: "Prove e Segnalazioni",
-      subtitle: "Storico del materiale e delle associazioni inviate a tuo nome",
-    },
-    settings: {
-      title: "Gestione Account e Privacy",
-      exportDataTitle: "Esporta i Tuoi Dati",
-      exportDataDesc: "Scarica il report in formato JSON",
-      deleteAccountTitle: "Elimina Account",
-      deleteAccountDesc: "Rimuovi profilo e credenziali",
-    },
-    addEvidenceDialog: {
-    triggerButton: "Aggiungi Prova",
-    title: "Invia Nuova Prova",
-    description: "Seleziona il caso/dossier e carica un file da allegare.",
-    labels: {
-      selectDossier: "Seleziona Dossier / Caso",
-      noDossiers: "Nessun dossier disponibile",
-      fileType: "Tipo di File",
-      evidenceTitle: "Nome Prova / Titolo",
-      attachedFile: "File Allegato",
-      notes: "Note / Descrizione",
-    },
-    placeholders: {
-      evidenceTitle: "Inserisci un nome per identificare la prova...",
-      dropzoneDefault: "Clicca o trascina qui un file",
-      dropzoneHint: "PNG, JPG, PDF fino a 3 MB",
-      notes: "Aggiungi una breve descrizione o dettagli rilevanti...",
-    },
-    options: {
-      photo: "Foto / Immagine",
-      document: "Documento (PDF, DOCX)",
-    },
-    buttons: {
-      cancel: "Annulla",
-      submit: "Invia Prova",
-      submitting: "Invio in corso...",
-    },
-  },
-  
-    edit: {
-      triggerButton: "Modifica Profilo",
-      title: "Gestione Profilo",
-      description: "Gestisci i tuoi dati personali, l'avatar e le credenziali del tuo account.",
-      chooseAvatar: "Scegli il tuo avatar",
-      restorePhoto: "Ripristina foto originaria",
-      labels: {
-        username: "Username",
-        email: "Indirizzo Email",
-        oldPassword: "Password Attuale",
-        newPassword: "Nuova Password",
+      defaultUser: "Utente",
+      activeAccount: "Account attivo",
+      stats: {
+        title: "Bilancio Prove & Segnalazioni",
+        totalSubmitted: "Totale Inviate",
+        pending: "Pendenti",
+        approved: "Accettate",
+        rejected: "Rifiutate",
+        tooltipPending: "In Sospeso",
+        tooltipApproved: "Accettate",
+        tooltipRejected: "Rifiutate",
       },
-      oauthVerified: "Account verificato tramite",
-      securityTitle: "Sicurezza Account (Opzionale)",
-      placeholders: {
-        password: "••••••••",
+      evidence: {
+        title: "Prove e Segnalazioni",
+        subtitle:
+          "Storico del materiale e delle associazioni inviate a tuo nome",
       },
-      buttons: {
-        cancel: "Annulla",
-        saving: "Salvataggio...",
-        save: "Salva Modifiche Profilo",
+      settings: {
+        title: "Gestione Account e Privacy",
+        exportDataTitle: "Esporta i Tuoi Dati",
+        exportDataDesc: "Scarica il report in formato JSON",
+        deleteAccountTitle: "Elimina Account",
+        deleteAccountDesc: "Rimuovi profilo e credenziali",
       },
-            errors:{
-        ["username-too-long"]:
-          "L'username deve essere al massimo 20 caratteri.",        
+      addEvidenceDialog: {
+        triggerButton: "Aggiungi Prova",
+        title: "Invia Nuova Prova",
+        description: "Seleziona il caso/dossier e carica un file da allegare.",
+        labels: {
+          selectDossier: "Seleziona Dossier / Caso",
+          noDossiers: "Nessun dossier disponibile",
+          fileType: "Tipo di File",
+          evidenceTitle: "Nome Prova / Titolo",
+          attachedFile: "File Allegato",
+          notes: "Note / Descrizione",
+        },
+        placeholders: {
+          evidenceTitle: "Inserisci un nome per identificare la prova...",
+          dropzoneDefault: "Clicca o trascina qui un file",
+          dropzoneHint: "PNG, JPG, PDF fino a 3 MB",
+          notes: "Aggiungi una breve descrizione o dettagli rilevanti...",
+        },
+        options: {
+          photo: "Foto / Immagine",
+          document: "Documento (PDF, DOCX)",
+        },
+        buttons: {
+          cancel: "Annulla",
+          submit: "Invia Prova",
+          submitting: "Invio in corso...",
+        },
+        errors:{
+          ["evidence-title-too-long"]:
+            "Il titolo della prova deve essere al massimo 50 caratteri.",
+          ["evidence-title-too-short"]:
+            "Il titolo della prova deve essere almeno 10 caratteri.",
+          ["evidence-file-too-large"]:
+            "Il file allegato deve essere inferiore a 3 MB.",
+          ["evidence-file-type-not-allowed"]:
+            "Il file allegato deve essere di tipo PNG, JPG o PDF.",
+          ["evidence-file-missing"]:
+            "Seleziona un file da allegare.",
+            ["dossierId-not-selected"]:
+            "Seleziona un dossier per la prova.",
+         ["notes-too-short" ]:
+            "Le note devono essere almeno 15 caratteri.",
+            ["notes-too-long" ]:
+            "Le note devono essere al massimo 60 caratteri.",
+            ["file-name-too-long" ]:
+            "Il nome del file deve essere al massimo 40 caratteri.",
+["file-name-too-short" ]:
+            "Il nome del file deve essere almeno 3 caratteri.",
+            ["file-missing" ]:
+            "Seleziona un file da allegare.",
+["file-too-large" ]:
+            "Il file deve essere inferiore a 3 MB.",
+            ["invalid-file-format" ]:
+            "Il file allegato deve essere di tipo PNG, JPG o PDF.",
+["user-not-authenticated" ]:
+            "Utente non autenticato.",
+            ["error-creating-evidence" ]:
+            "Si è verificato un errore durante la creazione della prova.",
+          ["file-upload-failed" ]:
+            "Si è verificato un errore durante il caricamento del file.",
+          
+          
+          }
+      },
+
+      edit: {
+        triggerButton: "Modifica Profilo",
+        title: "Gestione Profilo",
+        description:
+          "Gestisci i tuoi dati personali, l'avatar e le credenziali del tuo account.",
+        chooseAvatar: "Scegli il tuo avatar",
+        restorePhoto: "Ripristina foto originaria",
+        labels: {
+          username: "Username",
+          email: "Indirizzo Email",
+          oldPassword: "Password Attuale",
+          newPassword: "Nuova Password",
+        },
+        oauthVerified: "Account verificato tramite",
+        securityTitle: "Sicurezza Account (Opzionale)",
+        placeholders: {
+          password: "••••••••",
+        },
+        buttons: {
+          cancel: "Annulla",
+          saving: "Salvataggio...",
+          save: "Salva Modifiche Profilo",
+        },
+        errors: {
+          ["username-too-long"]:
+            "L'username deve essere al massimo 20 caratteri.",
           ["username-too-short"]: "L'username deve essere almeno 4 caratteri.",
-       ["username-no-symbols" ]: "L'username non può contenere caratteri speciali.",
-        ["invalid-email"]: "Email non valida.",
-        ["invalid-password"]: "Password non valida.",
-        ["password-too-weak-8-Aa-@$!%*?&"]:"La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
-      ["old-password-required"]: "Password attuale richiesta.",
-      ["user-not-authenticated"] :"Utente non autenticato.",
-      ["fatal-error"]: "Errore critico, contattare l'assistenza.",
-     ["invalid-old-password"]: "Password attuale non valida.",
-    ["invalid-credentials"]: "Password corrente non valida.",
-     ["invalid-new-password"]: "Password nuova non valida.",
-["new-password-required"] :"Nuova password richiesta.",
-    }
-    },
-    evidenceList: {
-      defaultEmptyMessage: "Nessuna prova o segnalazione inviata finora.",
-      status: {
-        accepted: "Accettata",
-        rejected: "Rifiutata",
-        pending: "In Sospeso",
+          ["username-no-symbols"]:
+            "L'username non può contenere caratteri speciali.",
+          ["invalid-email"]: "Email non valida.",
+          ["invalid-password"]: "Password non valida.",
+          ["password-too-weak-8-Aa-@$!%*?&"]:
+            "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
+          ["old-password-required"]: "Password attuale richiesta.",
+          ["user-not-authenticated"]: "Utente non autenticato.",
+          ["fatal-error"]: "Errore critico, contattare l'assistenza.",
+          ["invalid-old-password"]: "Password attuale non valida.",
+          ["invalid-credentials"]: "Password corrente non valida.",
+          ["invalid-new-password"]: "Password nuova non valida.",
+          ["new-password-required"]: "Nuova password richiesta.",
+        },
       },
-      labels: {
-        type: "Tipo",
-        sentOn: "Inviato il",
+      evidenceList: {
+        defaultEmptyMessage: "Nessuna prova o segnalazione inviata finora.",
+        status: {
+          accepted: "Accettata",
+          rejected: "Rifiutata",
+          pending: "In Sospeso",
+        },
+        labels: {
+          type: "Tipo",
+          sentOn: "Inviato il",
+        },
+        buttons: {
+          showLess: "Mostra meno",
+          seeAll: "Vedi tutte",
+        },
       },
-      buttons: {
-        showLess: "Mostra meno",
-        seeAll: "Vedi tutte",
+      exportData: {
+        button: "Esporta",
+        exporting: "Esportazione...",
+        error: "Errore durante l'esportazione dei dati.",
+      },
+      deleteAccount: {
+        triggerButton: "Elimina Account",
+        title: "Sei assolutamente sicuro?",
+        description:
+          "Questa azione è **irreversibile**. Il tuo account, tutti i dati personali e le prove inviate verranno eliminati o anonimizzati in modo permanente.",
+        confirmPhrase: "Cancella il mio account",
+        labelPrompt: "Per confermare, digita :",
+        errorMessage: "Impossibile eliminare l'account. Riprova più tardi.",
+        buttons: {
+          cancel: "Annulla",
+          deleting: "Eliminazione...",
+          confirm: "Sì, elimina il mio account",
+        },
       },
     },
-    exportData: {
-      button: "Esporta",
-      exporting: "Esportazione...",
-      error: "Errore durante l'esportazione dei dati.",
-    },
-    deleteAccount: {
-      triggerButton: "Elimina Account",
-      title: "Sei assolutamente sicuro?",
-      description: "Questa azione è **irreversibile**. Il tuo account, tutti i dati personali e le prove inviate verranno eliminati o anonimizzati in modo permanente.",
-      confirmPhrase: "Cancella il mio account",
-      labelPrompt: "Per confermare, digita :",
-      errorMessage: "Impossibile eliminare l'account. Riprova più tardi.",
-      buttons: {
-        cancel: "Annulla",
-        deleting: "Eliminazione...",
-        confirm: "Sì, elimina il mio account",
-      },
-    },
-  
-  },
-
-
   },
   EN: {
     nav: {
@@ -622,13 +659,13 @@ export const dictionary = {
       login: "Restricted Area",
       casesArchive: "Case Archive",
       userNav: {
-  defaultAgent: "Agent",
-  activeIdentity: "Active Identity",
-  noEmail: "No email provided",
-  profile: "Profile",
-  adminDashboard: "Admin Dashboard",
-  logout: "Sign Out"
-}
+        defaultAgent: "Agent",
+        activeIdentity: "Active Identity",
+        noEmail: "No email provided",
+        profile: "Profile",
+        adminDashboard: "Admin Dashboard",
+        logout: "Sign Out",
+      },
     },
     casesPage: {
       loading: "Loading dossiers",
@@ -943,7 +980,7 @@ export const dictionary = {
         ["wrong-password"]: "Wrong password.",
         ["username-already-exist"]: "Username already exists.",
         ["email-already-exist"]: "Email already exists.",
-      ["auth-error"]:"Authentication failed. Please check your credentials.",
+        ["auth-error"]: "Authentication failed. Please check your credentials.",
       },
       success: {
         ["user-signed-up"]: "Sign up completed successfully!",
@@ -1092,136 +1129,175 @@ export const dictionary = {
       },
     },
     profile: {
-    defaultUser: "User",
-    activeAccount: "Active Account",
-    stats: {
-      title: "Evidence & Reports Overview",
-      totalSubmitted: "Total Submitted",
-      pending: "Pending",
-      approved: "Approved",
-      rejected: "Rejected",
-      tooltipPending: "Pending",
-      tooltipApproved: "Approved",
-      tooltipRejected: "Rejected",
-    },
-    evidence: {
-      title: "Evidence & Reports",
-      subtitle: "History of material and associations submitted in your name",
-    },
-    settings: {
-      title: "Account Management & Privacy",
-      exportDataTitle: "Export Your Data",
-      exportDataDesc: "Download report in JSON format",
-      deleteAccountTitle: "Delete Account",
-      deleteAccountDesc: "Remove profile and credentials",
-    },
-    addEvidenceDialog: {
-    triggerButton: "Add Evidence",
-    title: "Submit New Evidence",
-    description: "Select the case/dossier and upload a file to attach.",
-    labels: {
-      selectDossier: "Select Dossier / Case",
-      noDossiers: "No dossier available",
-      fileType: "File Type",
-      evidenceTitle: "Evidence Name / Title",
-      attachedFile: "Attached File",
-      notes: "Notes / Description",
-    },
-    placeholders: {
-      evidenceTitle: "Enter a name to identify the evidence...",
-      dropzoneDefault: "Click or drag a file here",
-      dropzoneHint: "PNG, JPG, PDF up to 3 MB",
-      notes: "Add a brief description or relevant details...",
-    },
-    options: {
-      photo: "Photo / Image",
-      document: "Document (PDF, DOCX)",
-    },
-    buttons: {
-      cancel: "Cancel",
-      submit: "Submit Evidence",
-      submitting: "Submitting...",
-    },
-  },
-
-  edit: {
-      triggerButton: "Edit Profile",
-      title: "Profile Management",
-      description: "Manage your personal details, avatar, and account credentials.",
-      chooseAvatar: "Choose your avatar",
-      restorePhoto: "Restore original photo",
-      labels: {
-        username: "Username",
-        email: "Email Address",
-        oldPassword: "Current Password",
-        newPassword: "New Password",
-      },
-      oauthVerified: "Account verified via",
-      securityTitle: "Account Security (Optional)",
-      placeholders: {
-        password: "••••••••",
-      },
-      buttons: {
-        cancel: "Cancel",
-        saving: "Saving...",
-        save: "Save Profile Changes",
-      },
-      errors:{
-        ["username-too-long"]:
-          "The username must be at most 20 characters long.",
-        ["username-too-short"]: "Username must be at least 4 characters long.",
-       ["username-no-symbols" ]: "Username must not contain special characters.",
-        ["invalid-email"]: "Email not valid.",
-        ["invalid-password"]: "Password not valid.",
-        ["password-too-weak-8-Aa-@$!%*?&"]:"Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
-      ["old-password-required"]: "Current password is required.",
-      ["user-not-authenticated"] :"User not authenticated.",
-      ["fatal-error"]: "Fatal error occurred. Please try again later.",
-           ["invalid-old-password"]: "Invalid current password.",
-["invalid-credentials"]: "Invalid current password.",
-     ["invalid-new-password"]: "Invalid new password.",
-["new-password-required"] :"New password is required.",
-
-
-    }
-    },
-
-    evidenceList: {
-      defaultEmptyMessage: "No evidence or reports submitted yet.",
-      status: {
-        accepted: "Accepted",
-        rejected: "Rejected",
+      defaultUser: "User",
+      activeAccount: "Active Account",
+      stats: {
+        title: "Evidence & Reports Overview",
+        totalSubmitted: "Total Submitted",
         pending: "Pending",
+        approved: "Approved",
+        rejected: "Rejected",
+        tooltipPending: "Pending",
+        tooltipApproved: "Approved",
+        tooltipRejected: "Rejected",
       },
-      labels: {
-        type: "Type",
-        sentOn: "Sent on",
+      evidence: {
+        title: "Evidence & Reports",
+        subtitle: "History of material and associations submitted in your name",
       },
-      buttons: {
-        showLess: "Show less",
-        seeAll: "See all",
+      settings: {
+        title: "Account Management & Privacy",
+        exportDataTitle: "Export Your Data",
+        exportDataDesc: "Download report in JSON format",
+        deleteAccountTitle: "Delete Account",
+        deleteAccountDesc: "Remove profile and credentials",
       },
-    },
-    exportData: {
-      button: "Export",
-      exporting: "Exporting...",
-      error: "An error occurred while exporting data.",
-    },
+      addEvidenceDialog: {
+        triggerButton: "Add Evidence",
+        title: "Submit New Evidence",
+        description: "Select the case/dossier and upload a file to attach.",
+        labels: {
+          selectDossier: "Select Dossier / Case",
+          noDossiers: "No dossier available",
+          fileType: "File Type",
+          evidenceTitle: "Evidence Name / Title",
+          attachedFile: "Attached File",
+          notes: "Notes / Description",
+        },
+        placeholders: {
+          evidenceTitle: "Enter a name to identify the evidence...",
+          dropzoneDefault: "Click or drag a file here",
+          dropzoneHint: "PNG, JPG, PDF up to 3 MB",
+          notes: "Add a brief description or relevant details...",
+        },
+        options: {
+          photo: "Photo / Image",
+          document: "Document (PDF, DOCX)",
+        },
+        buttons: {
+          cancel: "Cancel",
+          submit: "Submit Evidence",
+          submitting: "Submitting...",
+        },
+           errors:{
+          ["evidence-title-too-long"]:
+            "The title of the evidence must be at most 50 characters.",
+          ["evidence-title-too-short"]:
+            "The title of the evidence must be at least 10 characters.",
+          ["evidence-file-too-large"]:
+            "File must be less than 3 MB.",
+          ["evidence-file-type-not-allowed"]:
+            "File must be of type PNG, JPG or PDF.",
+          ["evidence-file-missing"]:
+            "Select a file to attach.",
+            ["dossierId-not-selected"]:
+            "Select a dossier to attach the evidence to.",
+         ["notes-too-short" ]:
+            "Notes must be at least 15 characters.",
+            ["notes-too-long" ]:
+            "Notes must be at most 60 characters.",
+            ["file-name-too-long" ]:
+            "Name file must be at most 40 characters.",
+["file-name-too-short" ]:
+            "File name must be at least 3 characters.",
+            ["file-missing" ]:
+            "Select a file to attach.",
+["file-too-large" ]:
+            "File must be less than 3 MB.",
+            ["invalid-file-format" ]:
+            "File must be of type PNG, JPG or PDF.",
+["user-not-authenticated" ]:
+            "User not authenticated.",
+            ["error-creating-evidence" ]:
+            "An error occurred while creating the evidence.",
+          ["file-upload-failed" ]:
+            "An error occurred while uploading the file.",
+          
+          
+          }
+      },
 
-    deleteAccount: {
-      triggerButton: "Delete Account",
-      title: "Are you absolutely sure?",
-      description: "This action is **irreversible**. Your account, all personal data, and submitted evidence will be permanently deleted or anonymized.",
-      confirmPhrase: "Delete my account",
-      labelPrompt: "To confirm, type:",
-      errorMessage: "Unable to delete account. Please try again later.",
-      buttons: {
-        cancel: "Cancel",
-        deleting: "Deleting...",
-        confirm: "Yes, delete my account",
+      edit: {
+        triggerButton: "Edit Profile",
+        title: "Profile Management",
+        description:
+          "Manage your personal details, avatar, and account credentials.",
+        chooseAvatar: "Choose your avatar",
+        restorePhoto: "Restore original photo",
+        labels: {
+          username: "Username",
+          email: "Email Address",
+          oldPassword: "Current Password",
+          newPassword: "New Password",
+        },
+        oauthVerified: "Account verified via",
+        securityTitle: "Account Security (Optional)",
+        placeholders: {
+          password: "••••••••",
+        },
+        buttons: {
+          cancel: "Cancel",
+          saving: "Saving...",
+          save: "Save Profile Changes",
+        },
+        errors: {
+          ["username-too-long"]:
+            "The username must be at most 20 characters long.",
+          ["username-too-short"]:
+            "Username must be at least 4 characters long.",
+          ["username-no-symbols"]:
+            "Username must not contain special characters.",
+          ["invalid-email"]: "Email not valid.",
+          ["invalid-password"]: "Password not valid.",
+          ["password-too-weak-8-Aa-@$!%*?&"]:
+            "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
+          ["old-password-required"]: "Current password is required.",
+          ["user-not-authenticated"]: "User not authenticated.",
+          ["fatal-error"]: "Fatal error occurred. Please try again later.",
+          ["invalid-old-password"]: "Invalid current password.",
+          ["invalid-credentials"]: "Invalid current password.",
+          ["invalid-new-password"]: "Invalid new password.",
+          ["new-password-required"]: "New password is required.",
+        },
+      },
+
+      evidenceList: {
+        defaultEmptyMessage: "No evidence or reports submitted yet.",
+        status: {
+          accepted: "Accepted",
+          rejected: "Rejected",
+          pending: "Pending",
+        },
+        labels: {
+          type: "Type",
+          sentOn: "Sent on",
+        },
+        buttons: {
+          showLess: "Show less",
+          seeAll: "See all",
+        },
+      },
+      exportData: {
+        button: "Export",
+        exporting: "Exporting...",
+        error: "An error occurred while exporting data.",
+      },
+
+      deleteAccount: {
+        triggerButton: "Delete Account",
+        title: "Are you absolutely sure?",
+        description:
+          "This action is **irreversible**. Your account, all personal data, and submitted evidence will be permanently deleted or anonymized.",
+        confirmPhrase: "Delete my account",
+        labelPrompt: "To confirm, type:",
+        errorMessage: "Unable to delete account. Please try again later.",
+        buttons: {
+          cancel: "Cancel",
+          deleting: "Deleting...",
+          confirm: "Yes, delete my account",
+        },
       },
     },
-  },
   },
 } as const;
 
