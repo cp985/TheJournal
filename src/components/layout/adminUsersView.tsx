@@ -3,7 +3,6 @@
 import { MOCK_USERS } from "@/app/mockAdmin";
 import { FiTrash2, FiUserCheck } from "react-icons/fi";
 
-
 export default function AdminUsersView({q}: {q: string}) {
 
 const filteredUsers = MOCK_USERS.filter((user) => 

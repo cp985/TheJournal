@@ -10,7 +10,7 @@ import {
   FiShield,
   FiMenu,
 } from "react-icons/fi";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger,SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import AdminDossiersView from "@/components/layout/adminDossiersView";
 import AdminUsersView from "@/components/layout/adminUsersView";
@@ -18,9 +18,7 @@ import AdminEvidencesView from "@/components/layout/adminEvidencesView";
 import AdminMapView from "@/components/layout/adminMapView";
 import AdminOverview from "@/components/layout/adminOverview";
 import AdminSearch from "@/components/layout/adminSearch";
-interface AdminPageProps {
-  searchParams: Promise<{ tab?: string }>;
-}
+import MobileMenu from "@/components/layout/adminMenuMobile";
 
 const NAV_ITEMS = [
   { id: "overview", label: "Panoramica", icon: FiPieChart },
@@ -84,7 +82,7 @@ export default async function AdminPage({ searchParams,
       </aside>
 
       {/* Header Mobile con Drawer (Sheet) */}
-      <div className="md:hidden flex items-center justify-between p-4 border-b border-zinc-800/80 bg-zinc-950">
+      {/* <div className="md:hidden flex items-center justify-between p-4 border-b border-zinc-800/80 bg-zinc-950">
         <div className="flex items-center gap-2">
           <FiShield className="w-5 h-5 text-amber-500" />
           <span className="font-bold text-sm font-mono">ADMIN PANEL</span>
@@ -95,24 +93,25 @@ export default async function AdminPage({ searchParams,
             <Button
               variant="ghost"
               size="icon"
-              className="text-zinc-300 hover:bg-zinc-900"
+              className="text-zinc-400 hover:bg-zinc-900"
             >
               <FiMenu className="w-5 h-5" />
             </Button>
           </SheetTrigger>
           <SheetContent
             side="left"
-            className="bg-zinc-950 border-r border-zinc-800 text-zinc-100 p-4 w-72"
+            className="bg-zinc-950 border-r border-zinc-800 text-zinc-500 p-4 w-72"
           >
             <div className="flex items-center gap-2.5 px-2 py-3 mb-4 border-b border-zinc-800">
               <FiShield className="w-5 h-5 text-amber-500" />
-              <span className="font-bold text-sm font-mono">ADMIN PANEL</span>
+              <span className="font-bold text-sm text-zinc-100 font-mono">ADMIN PANEL</span>
             </div>
             <nav className="space-y-1.5">
               {NAV_ITEMS.map((item) => {
                 const Icon = item.icon;
                 const isActive = currentTab === item.id;
                 return (
+                  <SheetClose asChild key={item.id}>
                   <Link
                     key={item.id}
                     href={`/admin?tab=${item.id}`}
@@ -125,12 +124,14 @@ export default async function AdminPage({ searchParams,
                     <Icon className="w-4 h-4" />
                     {item.label}
                   </Link>
+                  </SheetClose>
                 );
               })}
             </nav>
           </SheetContent>
         </Sheet>
-      </div>
+      </div> */}
+      <MobileMenu  currentTab={currentTab} />
 
       {/* Area Contenuto Principale */}
       <main className="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl">

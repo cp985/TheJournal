@@ -34,6 +34,7 @@ export const getDossiers = async (limit?: number): Promise<DbDossier[]> => {
       : process.env.NEXT_PUBLIC_URL_RENDER + "/dossiers";
     const response = await fetch(url);
     const data = await response.json();
+    
     return data as DbDossier[];
   } catch (error) {
     console.log(error);
@@ -49,6 +50,21 @@ export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
     );
     const data = await response.json();
     return data as DbDossier[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+//get users
+export const getUsers = async (): Promise<DbUser[]> => {
+  try {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_RENDER + "/users",);
+   
+      const data = await response.json();
+    
+    return data as DbUser[];
   } catch (error) {
     console.log(error);
     return [];

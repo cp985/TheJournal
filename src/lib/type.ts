@@ -31,6 +31,8 @@ export interface DbDossier {
   description: string;
   description_en: string;
   status: DossierStatus; 
+  createdAt: string;
+  updatedAt: string;
   user: DbUser; 
   evidences: DbEvidence[]; 
 }

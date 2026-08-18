@@ -84,7 +84,7 @@ export function UserNavDesktop({ session }: { session: Session }) {
 
             {isAdmin && (
               <Link
-                href="/dashboard"
+                href="/admin"
                 onClick={() => setIsOpen(false)}
                 className="flex w-full items-center gap-2.5 rounded px-2.5 py-2 font-medium text-amber-400 hover:bg-amber-950/30 transition-colors"
               >
@@ -178,7 +178,7 @@ export function UserNavMobile({ session, onCloseMenu }: UserNavMobileProps) {
 
           {isAdmin && (
             <Link
-              href="/dashboard"
+              href="/admin"
               onClick={handleLinkClick}
               className="flex items-center gap-2.5 rounded px-3 py-2 text-xs font-medium text-amber-400 hover:bg-amber-950/30 transition-colors"
             >
