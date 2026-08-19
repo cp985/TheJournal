@@ -895,6 +895,7 @@ export const userDeleteAdmin = async (userId: string) => {
     }
 
     const data = await response.json();
+    revalidatePath("/admin");
 
     return {
       success: true as const,
