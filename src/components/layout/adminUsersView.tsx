@@ -1,8 +1,9 @@
 
 
 import { FiTrash2, FiUserCheck } from "react-icons/fi";
-import { getUsers } from "@/action/action";
+import { getUsers , userDeleteAdmin} from "@/action/action";
 import { formatDate } from "@/lib/utils";
+
 export default async  function AdminUsersView({q}: {q: string}) {
 const usersList = await  getUsers();
 const safeUsersList = Array.isArray(usersList) ? usersList : [];
@@ -45,7 +46,7 @@ if(user.email === noEmail){
                 <button className="p-1.5 rounded bg-zinc-800 text-zinc-300 hover:bg-zinc-700 cursor-pointer" title="Modifica ruolo">
                   <FiUserCheck className="w-3.5 h-3.5" />
                 </button>
-                <button className="p-1.5 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 cursor-pointer" title="Elimina">
+                <button onClick={async () => await userDeleteAdmin(user.id)} className="p-1.5 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 cursor-pointer" title="Elimina">
                   <FiTrash2 className="w-3.5 h-3.5" />
                 </button>
               </div>

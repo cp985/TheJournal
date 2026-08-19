@@ -32,24 +32,23 @@ role?:string;
 export const getDossiers = async (): Promise<DbDossier[]> => {
   try {
     const session = await auth();
+
+    if (!session?.user) {
+      return [];
+    }
     const headers: Record<string, string> = {};
 
-    if (session?.user?.id) {
   const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
-  if (secret) {
+  if(!secret){
+    return [];
+  }
     const token = jwt.sign(
       { sub: session.user.id, email: session.user.email },
       secret,
       { expiresIn: "5m" }
     );
     headers["Authorization"] = `Bearer ${token}`;
-    console.log("TOKEN GENERATO LATO FRONTEND:", !!token); // 👈
-  } else {
-    console.log("SECRET MANCANTE LATO FRONTEND"); // 👈 se stampa questo, hai la causa
-  }
-} else {
-  console.log("SESSION O USER.ID MANCANTE:", session); // 👈 magari session è null qui
-}
+
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/dossiers`, {
       headers, 
@@ -845,6 +844,73 @@ await signOut({ redirectTo: "/" });
 
 }}
 
+export const userDeleteAdmin = async (userId: string) => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      console.error("user-not-authenticated");
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("auth-secret-not-found");
+      return {
+        success: false as const,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email ,role: session.user.role},
+      secret,
+      { expiresIn: "5m" }
+
+    );
+    
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_RENDER}/users/admin`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.error(`Error: ${response.status}`);
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const data = await response.json();
+
+    return {
+      success: true as const,
+      message: "user-deleted",
+      data,
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      success: false as const,
+      errors: null,
+      message: "fatal-error",
+      data: null,
+    };
+  }
+};
 
 
 export const userExportData = async () => {

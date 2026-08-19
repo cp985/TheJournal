@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import Loader from "@/components/layout/loader";
 import { getDossiers } from "@/action/action";
-import {auth} from "@/auth/auth"
 
 import CasesPageMainCompo from "@/components/layout/casePageMainCompo";
 
