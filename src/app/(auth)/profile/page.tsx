@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
-import { getEvidenceByUserId, getDossiers } from "@/action/action";
+import { getEvidenceByUserId, getDossiers,getHealth } from "@/action/action";
 import ProfilePageClient, { Stats } from "@/components/layout/profilePageClient";
 
 export default async function ProfilePageServer() {
@@ -14,6 +14,7 @@ export default async function ProfilePageServer() {
 
   const userEvidenceList = (await getEvidenceByUserId()) || [];
   const dossiersList = (await getDossiers()) || [];
+  const healthList = (await getHealth()) || [];
 
   const stats: Stats = {
     totalSubmitted: userEvidenceList.length,
@@ -34,6 +35,7 @@ export default async function ProfilePageServer() {
       userEvidenceList={userEvidenceList}
       session={session}
       dossiers={dossiersList}
+      health={healthList}
     />
   );
 }

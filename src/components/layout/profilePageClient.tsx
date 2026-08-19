@@ -8,6 +8,7 @@ import ProfileEvidenceList from "./profileEvidenceList";
 import DeleteAccountButton from "./profileDeleteAccount";
 import ExportDataButton from "./profileExportButton";
 import AddEvidenceButton from "./profileEvidenceSend";
+import { cn } from "@/lib/utils";
 import { 
   FiShield, 
   FiCalendar, 
@@ -36,9 +37,10 @@ interface ProfilePageClientProps {
   stats: Stats;
   userEvidenceList: DbEvidence[];
   dossiers: DossierStats[];
+  health ?: { online: boolean };
 }
 
-export default function ProfilePageClient({ session, stats, userEvidenceList, dossiers }: ProfilePageClientProps) {
+export default function ProfilePageClient({ session, stats, userEvidenceList, dossiers,health }: ProfilePageClientProps) {
   const { t: dictionary } = useLanguage();
   const t = dictionary.profile;
 
@@ -84,10 +86,20 @@ export default function ProfilePageClient({ session, stats, userEvidenceList, do
               </div>
             </div>
 
-            <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+            <div className="flex items-center md:flex-col gap-3 w-full md:w-auto justify-end">
               <ProfileEditDialog session={session} />
+                           <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 space-y-1">
+                  <span className="text-xs font-mono text-zinc-400">Stato Sistema</span>
+                  <p className={cn("text-xs font-mono font-bold  bg-emerald-500/10 px-2 py-1 rounded w-fit mt-1",{
+                    "text-emerald-400 border border-emerald-500/30": health?.online,
+                    "text-red-500 border border-amber-500/30": !health?.online
+                  })}>
+                    {health?.online ? "Online" : "Offline"}
+                  </p>
+                </div>
             </div>
           </div>
+
         </section>
 
         {/* STATISTICHE COMPATTE */}

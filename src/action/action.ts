@@ -476,7 +476,56 @@ export const sendEmail = async (
   }
 }
 
+//evidence get all
 
+export const getEvidences = async (): Promise<DbEvidence[]> => {
+  try {
+  
+           const session = await auth();
+
+    if (!session?.user?.id) {
+      console.error("user-not-authenticated");
+      return [];
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("jwt-secret-not-set");
+      return [];
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email, role: session.user.role },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const headers: Record<string, string> = {};
+
+
+
+ 
+
+    headers["Authorization"] = `Bearer ${token}`;
+
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/evidences`, {
+      headers, 
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("Errore Fetch Dossiers Status:", response.status);
+      return [];
+    }
+
+    const data = await response.json();
+    return data as DbEvidence[];
+  } catch (error) {
+    console.error("Errore getDossiers:", error);
+    return [];
+  }
+};
 
 //evidence by id user
 
@@ -1016,3 +1065,48 @@ export async function createEvidenceAction(
     };
   }
 }
+
+//health check
+
+
+
+export type HealthStatus = {
+  online: boolean;
+  message?: string;
+  timestamp?: string;
+};
+
+export const getHealth = async (): Promise<HealthStatus> => {
+  const baseUrl = process.env.RENDER_API_URL || process.env.NEXT_PUBLIC_URL_RENDER;
+
+  if (!baseUrl) {
+    console.error("[HealthCheck] backend-url-not-found");
+    return { online: false, message: "Configuration Error" };
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/health`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error(`[HealthCheck] error: ${response.status}`);
+      return { online: false, message: `HTTP ${response.status}` };
+    }
+
+    const data = await response.json();
+
+    return {
+      online: true,
+      message: data.status || "ok",
+      timestamp: data.timestamp,
+    };
+  } catch (error) {
+    console.error("[HealthCheck] error (catch):", error);
+    return { online: false, message: "Network Error" };
+  }
+};
