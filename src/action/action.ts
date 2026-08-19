@@ -887,7 +887,7 @@ export const userDeleteAdmin = async (userId: string) => {
     );
 
     if (!response.ok) {
-      console.error(`Error: ${response.status}`);
+      console.error(`[Express Error] Status: ${response.status}`, response);
       return {
         success: false as const,
         message: "user-not-authenticated",
