@@ -8,10 +8,7 @@ import {
   FiMapPin,
   FiPieChart,
   FiShield,
-  FiMenu,
 } from "react-icons/fi";
-import { Sheet, SheetContent, SheetTrigger,SheetClose } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import AdminDossiersView from "@/components/layout/adminDossiersView";
 import AdminUsersView from "@/components/layout/adminUsersView";
 import AdminEvidencesView from "@/components/layout/adminEvidencesView";
@@ -82,55 +79,7 @@ export default async function AdminPage({ searchParams,
       </aside>
 
       {/* Header Mobile con Drawer (Sheet) */}
-      {/* <div className="md:hidden flex items-center justify-between p-4 border-b border-zinc-800/80 bg-zinc-950">
-        <div className="flex items-center gap-2">
-          <FiShield className="w-5 h-5 text-amber-500" />
-          <span className="font-bold text-sm font-mono">ADMIN PANEL</span>
-        </div>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-zinc-400 hover:bg-zinc-900"
-            >
-              <FiMenu className="w-5 h-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent
-            side="left"
-            className="bg-zinc-950 border-r border-zinc-800 text-zinc-500 p-4 w-72"
-          >
-            <div className="flex items-center gap-2.5 px-2 py-3 mb-4 border-b border-zinc-800">
-              <FiShield className="w-5 h-5 text-amber-500" />
-              <span className="font-bold text-sm text-zinc-100 font-mono">ADMIN PANEL</span>
-            </div>
-            <nav className="space-y-1.5">
-              {NAV_ITEMS.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentTab === item.id;
-                return (
-                  <SheetClose asChild key={item.id}>
-                  <Link
-                    key={item.id}
-                    href={`/admin?tab=${item.id}`}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-mono transition-colors ${
-                      isActive
-                        ? "bg-amber-500/10 text-amber-400 border border-amber-500/30"
-                        : "text-zinc-400 hover:bg-zinc-900"
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                  </SheetClose>
-                );
-              })}
-            </nav>
-          </SheetContent>
-        </Sheet>
-      </div> */}
       <MobileMenu  currentTab={currentTab} />
 
       {/* Area Contenuto Principale */}

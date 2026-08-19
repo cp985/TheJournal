@@ -7,17 +7,11 @@ import { useLanguage } from "@/context/maincontext";
 import { useRouter, useSearchParams } from "next/navigation";
 import {motion,AnimatePresence} from "framer-motion";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CaseFileExplorer } from "@/components/layout/file-explorer-case";
 
 
-const FRAME_GRADIENTS = [
-  "bg-gradient-to-br from-zinc-800 to-zinc-950",
-  "bg-gradient-to-br from-amber-950/30 to-zinc-950",
-  "bg-gradient-to-br from-zinc-900 to-neutral-950",
-  "bg-gradient-to-br from-stone-800 to-zinc-950",
-  "bg-gradient-to-br from-zinc-800 to-neutral-950",
-];
+
 
 
 
@@ -131,22 +125,20 @@ function FilmFrame({
 // ---------------------------------------------------------------------------
 
 interface CasePageProps {
-  isPublic: boolean;
   dossiersList: DbDossier[];
+  isPublic: boolean;
 }
 
-export default function CasesPageMainCompo({ isPublic, dossiersList }: CasePageProps) {
+export default function CasesPageMainCompo({ dossiersList, isPublic }: CasePageProps) {
   const { t, lang } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const codeFromUrl = searchParams.get("code");
 
-  // Calcolo derivato direttamente durante il render
   const selectedCase = codeFromUrl
     ? dossiersList.find((c) => c.code.toLowerCase() === codeFromUrl.toLowerCase()) || null
     : null;
 
-  // Inizializzazione lazy dello stato da localStorage (evita setState dentro gli effetti)
   const [savedCases, setSavedCases] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -164,7 +156,6 @@ export default function CasesPageMainCompo({ isPublic, dossiersList }: CasePageP
     });
   };
 
-  // Se la lista restituita dal DB è vuota
   if (dossiersList.length === 0) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-zinc-400">

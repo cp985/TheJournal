@@ -27,17 +27,44 @@ role?:string;
 
 
 //auth dossiers list
-export const getDossiers = async (limit?: number): Promise<DbDossier[]> => {
+
+
+export const getDossiers = async (): Promise<DbDossier[]> => {
   try {
-    const url = limit
-      ? process.env.NEXT_PUBLIC_URL_RENDER + "/dossiers?limit=" + limit
-      : process.env.NEXT_PUBLIC_URL_RENDER + "/dossiers";
-    const response = await fetch(url);
+    const session = await auth();
+    const headers: Record<string, string> = {};
+
+    if (session?.user?.id) {
+  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+  if (secret) {
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email },
+      secret,
+      { expiresIn: "5m" }
+    );
+    headers["Authorization"] = `Bearer ${token}`;
+    console.log("TOKEN GENERATO LATO FRONTEND:", !!token); // 👈
+  } else {
+    console.log("SECRET MANCANTE LATO FRONTEND"); // 👈 se stampa questo, hai la causa
+  }
+} else {
+  console.log("SESSION O USER.ID MANCANTE:", session); // 👈 magari session è null qui
+}
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/dossiers`, {
+      headers, 
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      console.error("Errore Fetch Dossiers Status:", response.status);
+      return [];
+    }
+
     const data = await response.json();
-    
     return data as DbDossier[];
   } catch (error) {
-    console.log(error);
+    console.error("Errore getDossiers:", error);
     return [];
   }
 };
@@ -59,8 +86,38 @@ export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
 //get users
 export const getUsers = async (): Promise<DbUser[]> => {
   try {
+       const session = await auth();
+
+    if (!session?.user?.id) {
+      console.error("user-not-authenticated");
+      return [];
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("jwt-secret-not-set");
+      return [];
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email, role: session.user.role },
+      secret,
+      { expiresIn: "5m" }
+    );
     const response = await fetch(
-      process.env.NEXT_PUBLIC_URL_RENDER + "/users",);
+      process.env.NEXT_PUBLIC_URL_RENDER + "/users", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        console.error("Error Fetch Status:", response.status);
+        return [];
+      }
    
       const data = await response.json();
     

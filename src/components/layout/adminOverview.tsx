@@ -1,6 +1,8 @@
-import { MOCK_DOSSIERS, MOCK_EVIDENCES, MOCK_USERS } from "@/app/mockAdmin";
-
-export default function AdminOverview() {
+import {  MOCK_EVIDENCES } from "@/app/mockAdmin";
+import { getUsers,getDossiers } from "@/action/action";
+export default async function AdminOverview() {
+  const dossiersList = await getDossiers();
+  const usersList = await getUsers();
   return (
     <div className="space-y-6">
       <h1 className="text-xl font-bold font-mono text-zinc-100">Panoramica Generale</h1>
@@ -9,11 +11,11 @@ export default function AdminOverview() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 space-y-1">
           <span className="text-xs font-mono text-zinc-400">Utenti Totali</span>
-          <p className="text-2xl font-bold font-mono text-zinc-100">{MOCK_USERS.length}</p>
+          <p className="text-2xl font-bold font-mono text-zinc-100">{usersList.length}</p>
         </div>
         <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 space-y-1">
           <span className="text-xs font-mono text-zinc-400">Dossier Attivi</span>
-          <p className="text-2xl font-bold font-mono text-zinc-100">{MOCK_DOSSIERS.length}</p>
+          <p className="text-2xl font-bold font-mono text-zinc-100">{dossiersList.length}</p>
         </div>
         <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 space-y-1">
           <span className="text-xs font-mono text-zinc-400">Prove in Sospeso</span>

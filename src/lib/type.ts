@@ -8,6 +8,8 @@ export interface DbUser {
   email: string | null;
   role: Role;
   avatar: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DbEvidence {
