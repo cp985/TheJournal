@@ -1356,7 +1356,7 @@ export async function deleteDossierAdmin(formData: FormData) {
 
 
 // --- CREA EVIDENCE ---
-export async function createEvidence(
+export async function createEvidenceAdmin(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
@@ -1407,7 +1407,7 @@ export async function createEvidence(
 }
 
 // --- MODIFICA EVIDENCE ---
-export async function updateEvidence(
+export async function updateEvidenceAdmin(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
@@ -1458,7 +1458,7 @@ export async function updateEvidence(
 }
 
 // --- ELIMINA EVIDENCE (ID inviato nel Body JSON) ---
-export async function deleteEvidence(formData: FormData) {
+export async function deleteEvidenceAdmin(formData: FormData) {
   const id = formData.get("id") as string;
   if (!id) return;
 
