@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import {userRoleAdmin} from "@/action/action";
-import { FiShield, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import { FiShield, FiAlertCircle, FiCheckCircle,FiUserCheck } from "react-icons/fi";
 import {
   Dialog,
   DialogContent,
@@ -25,7 +25,7 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
   const [isPending, startTransition] = useTransition();
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (isPending) return; // Impedisce la chiusura durante la richiesta HTTP
+    if (isPending) return;
 
     setOpen(newOpen);
     if (!newOpen) {
@@ -38,7 +38,6 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
     setErrorMessage(null);
 
     startTransition(async () => {
-      // Passa soltanto l'ID utente
       const res = await userRoleAdmin(userId);
 
       if (!res.success) {
@@ -61,7 +60,7 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
           className="p-1.5 rounded bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 cursor-pointer disabled:opacity-50 transition-colors"
           title="Cambia Ruolo"
         >
-          <FiShield className="w-3.5 h-3.5" />
+          <FiUserCheck className="w-3.5 h-3.5" />
         </button>
       </DialogTrigger>
 

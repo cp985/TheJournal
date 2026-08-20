@@ -1,12 +1,12 @@
-import { MOCK_DOSSIERS } from "@/app/mockAdmin";
-import { FiTrash2, FiEdit2 } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 import { formatDate } from "@/lib/utils";
 import { getDossiers } from "@/action/action";
 import { DbDossier } from "@/lib/type";
+import DossierFormDialog from "@/components/layout/adminDossierDialog"
+import {createDossierAdmin, deleteDossierAdmin,updateDossierAdmin} from "@/action/action"
 
 export default async function AdminDossiersView({q}: {q: string}) {
  const DOSSIERS_LIST : DbDossier[] = await getDossiers();
- console.log('list from',DOSSIERS_LIST);
   const filteredUsers = DOSSIERS_LIST.filter((dossier) => 
     dossier.title.toLowerCase().includes(q.toLowerCase()) || dossier.id.toLowerCase().includes(q.toLowerCase())
   );
@@ -14,9 +14,7 @@ export default async function AdminDossiersView({q}: {q: string}) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold font-mono text-zinc-100">Gestione Dossier</h1>
-        <button className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-mono text-zinc-200 cursor-pointer">
-          + Nuovo Dossier
-        </button>
+<DossierFormDialog mode="create" action={createDossierAdmin} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -37,9 +35,11 @@ export default async function AdminDossiersView({q}: {q: string}) {
              </div>
        
               <div className="space-x-2">
-                <button className="p-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300">
-                  <FiEdit2 className="w-3.5 h-3.5" />
-                </button>
+              <DossierFormDialog
+                    mode="edit"
+                    initialData={dossier}
+                    action={updateDossierAdmin}
+                  />
                 <button className="p-1.5 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400">
                   <FiTrash2 className="w-3.5 h-3.5" />
                 </button>

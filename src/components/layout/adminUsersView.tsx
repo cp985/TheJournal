@@ -44,7 +44,7 @@ if(user.email === noEmail){
             <p className="text-xs text-zinc-400">{user.email}</p>
             <div className="flex justify-between items-center pt-2 border-t border-zinc-800/80">
               <span className="text-[10px] text-zinc-500">Creato il: {formatDate(user.createdAt)}</span>
-              <div className="space-x-2">
+              <div className="space-x-2  r">
                 <ToggleRoleButton userId={user.id}/>
                 <DeleteUserButton userId={user.id} />
               </div>
@@ -76,8 +76,8 @@ if(user.email === noEmail){
                   </span>
                 </td>
                 <td className="p-3 text-zinc-400">{formatDate(user.createdAt)}</td>
-                <td className="p-3 text-right space-x-2">
-                  <button className="p-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 cursor-pointer" title="Modifica ruolo">
+                <td className="p-3 text-right space-x-2 flex items-center">
+                  <button className="p-1.5 rounded text-amber-400 hover:bg-amber-500/20  cursor-pointer" title="Modifica ruolo">
                     <FiUserCheck className="w-3.5 h-3.5" />
                   </button>
                   <button className="p-1.5 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 cursor-pointer" title="Elimina">

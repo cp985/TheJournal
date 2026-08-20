@@ -16,8 +16,7 @@ import {
   userSignUp,
   userLogin,
   userOauth,
-  type SignUpFormState,
-  type LoginFormState,
+
 } from "@/action/action";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -30,6 +29,8 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
+
+import {type LoginFormState, type SignUpFormState } from "@/lib/type"
 
 import { FaGoogle, FaGithub } from "react-icons/fa6";
 

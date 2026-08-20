@@ -1,8 +1,9 @@
 
 
 import { getEvidences } from "@/action/action";
-import { FiEdit2, FiCheck,  FiTrash2 } from "react-icons/fi";
-
+import {  FiCheck,  FiTrash2 } from "react-icons/fi";
+import EvidenceFormDialog from "./adminEvidenceDialog";
+import {createEvidenceAdmin, deleteEvidenceAdmin, updateEvidenceAdmin} from "@/action/action"
 export default async function AdminEvidencesView({q}: {q: string}) {
 const evidencesList = await getEvidences();
 const filteredUsers = evidencesList.filter((evidence) => {
@@ -20,6 +21,7 @@ const filteredUsers = evidencesList.filter((evidence) => {
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-zinc-100">Revisione Prove</h1>
         <span className="text-xs text-zinc-400">{evidencesList.length} totali</span>
+     <EvidenceFormDialog mode="create" action={createEvidenceAdmin} />
       </div>
 
       <div className="space-y-3">
@@ -48,13 +50,7 @@ const filteredUsers = evidencesList.filter((evidence) => {
 
             {/* Gruppo Azioni Admin */}
             <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
-              <button
-                className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs flex items-center gap-1 cursor-pointer"
-                title="Modifica contenuto prova"
-              >
-                <FiEdit2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Modifica</span>
-              </button>
+         <EvidenceFormDialog mode="edit" initialData={ev} action={updateEvidenceAdmin} />
 
               {ev.status === "PENDING" && (
                 <button

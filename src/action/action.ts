@@ -9,17 +9,11 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import {auth} from '@/auth/auth'
 import { InitialStateProfile } from "@/components/layout/profileEditDialog";
+import { type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
 
 
 
 
-export type AuthUserByEmail = {
-  email?: string;
-  password?: string;
-  username?: string;
-id?:string;
-role?:string;
-};
 
 
 
@@ -150,18 +144,7 @@ const userSignUpZodSchema = z
     path: ["confirmPassword"],
   });
 
-export type SignUpFormState = {
-  success: boolean;
-  errors?: Record<string, string[] | undefined> | null;
-  message?: string | null;
-  data?: {
-    username?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-    lang?: string;
-  };
-};
+
 export const userSignUp = async (
   _prevs: SignUpFormState,
   formData: FormData,
@@ -247,21 +230,11 @@ export const userSignUp = async (
 
 // login
 
-export type AuthFormData = {
-  email?: string;
-  password?: string;
-  username?: string;
-  confirmPassword?: string;
-};
 
 
 
-export type LoginFormState = {
-  success: boolean;
-  errors?: Record<string, string[] | undefined> | null;
-  message?: string | null;
-  data?:AuthFormData;
-}
+
+
 
 const userLogInZodSchema = z
   .object({
@@ -394,18 +367,7 @@ const userSendEmailZodSchema = z
 
   })
 
-export type SendEmailFormState = {
-  success: boolean;
-  errors?: Record<string, string[] | undefined> | null;
-  message?: string | null;
-  data?: {
-    username?: string;
-    email?: string;
-   subject?: string;
-    textarea?: string;
-    lang?: string
-  };
-};
+
 export const sendEmail = async (
   _prevs: SendEmailFormState,
   formData: FormData,
@@ -1086,17 +1048,7 @@ const evidenceSchema = z.object({
     }),
 });
 
-type FormActionState = {
-  errors?: Record<string, string[]> | null;
-  message?: string;
-  data?: {
-    dossierId?: string;
-    type?: string;
-    notes?: string;
-    fileName?: string | undefined;
-  };
-  success: boolean;
-};
+
 
 export async function createEvidenceAction(
   prevState: FormActionState,
@@ -1205,11 +1157,7 @@ export async function createEvidenceAction(
 
 
 
-export type HealthStatus = {
-  online: boolean;
-  message?: string;
-  timestamp?: string;
-};
+
 
 export const getHealth = async (): Promise<HealthStatus> => {
   const baseUrl = process.env.RENDER_API_URL || process.env.NEXT_PUBLIC_URL_RENDER;
@@ -1245,3 +1193,284 @@ export const getHealth = async (): Promise<HealthStatus> => {
     return { online: false, message: "Network Error" };
   }
 };
+
+//dossier admin edit/create
+
+// --- DOSSIER SCHEMAS ---
+ const dossierSchemaAdmin = z.object({
+  id: z.string().optional(), 
+    code: z
+    .string()
+    .min(3, "Il codice deve contenere almeno 3 caratteri")
+    .max(20, "Il codice non può superare 20 caratteri")
+    .regex(/^[A-Za-z0-9-_]+$/, "Solo lettere, numeri, trattini e underscore"),
+  title: z.string().min(2, "Il titolo è obbligatorio"),
+  title_en: z.string().optional().nullable(),
+  description: z.string().min(5, "La descrizione deve contenere almeno 5 caratteri"),
+  description_en: z.string().optional().nullable(),
+  coverUrl: z.string().min(1, "L'URL della copertina è obbligatorio"),
+  status: z.enum(["Open" , "Archived" , "Closed"]).default("Open"),
+});
+
+
+
+
+
+
+
+// --- CREA DOSSIER ---
+export async function createDossierAdmin(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const rawData = Object.fromEntries(formData.entries());
+  const validatedFields = dossierSchemaAdmin.safeParse(rawData);
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: "Controlla i campi inseriti e riprova.",
+      errors: validatedFields.error.flatten().fieldErrors,
+      fields: rawData,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/dossier`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: result.message || "Errore durante la creazione del dossier.",
+        errors: result.errors || null,
+        fields: rawData,
+      };
+    }
+
+    revalidatePath("/admin");
+    return {
+      success: true,
+      message: "Dossier creato con successo!",
+      errors: null,
+    };
+  } catch (error) {
+    console.error("Errore fetch createDossier:", error);
+    return {
+      success: false,
+      message: "Impossibile contattare il server per creare il dossier.",
+      fields: rawData,
+    };
+  }
+}
+
+// --- MODIFICA DOSSIER ---
+export async function updateDossierAdmin(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const rawData = Object.fromEntries(formData.entries());
+  const validatedFields = dossierSchemaAdmin.safeParse(rawData);
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: "Controlla i dati inseriti.",
+      errors: validatedFields.error.flatten().fieldErrors,
+      fields: rawData,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/dossier`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: result.message || "Errore durante la modifica del dossier.",
+        errors: result.errors || null,
+        fields: rawData,
+      };
+    }
+
+    revalidatePath("/admin");
+    return {
+      success: true,
+      message: "Dossier aggiornato con successo!",
+      errors: null,
+    };
+  } catch (error) {
+    console.error("Errore fetch updateDossier:", error);
+    return {
+      success: false,
+      message: "Impossibile contattare il server per aggiornare il dossier.",
+      fields: rawData,
+    };
+  }
+}
+
+// --- ELIMINA DOSSIER ---
+export async function deleteDossierAdmin(formData: FormData) {
+  const id = formData.get("id") as string;
+  if (!id) return;
+
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/dossiers`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    revalidatePath("/admin");
+  } catch (error) {
+    console.error("Errore eliminazione dossier:", error);
+  }
+}
+
+//evidence admin create update 
+
+// --- EVIDENCE SCHEMAS ---
+ const evidenceSchemaAdmin = z.object({
+  id: z.string().optional(),
+  dossierId: z.string().min(1, "Il codice del Dossier è obbligatorio"),
+  type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
+    message: "Seleziona un tipo di prova valido",
+  }),
+  fileUrl: z.string().min(1, "L'URL del file è obbligatorio"),
+  notes: z.string().min(3, "Le note devono contenere almeno 3 caratteri"),
+  notes_en: z.string().optional().nullable(),
+  status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
+});
+
+
+
+
+// --- CREA EVIDENCE ---
+export async function createEvidence(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const rawData = Object.fromEntries(formData.entries());
+  const validatedFields = evidenceSchemaAdmin.safeParse(rawData);
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: "Controlla i dati della prova inseriti.",
+      errors: validatedFields.error.flatten().fieldErrors,
+      fields: rawData,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/evidence`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: result.message || "Errore durante il salvataggio della prova.",
+        errors: result.errors || null,
+        fields: rawData,
+      };
+    }
+
+    revalidatePath("/admin");
+    return {
+      success: true,
+      message: "Prova aggiunta con successo!",
+      errors: null,
+    };
+  } catch (error) {
+    console.error("Errore fetch createEvidence:", error);
+    return {
+      success: false,
+      message: "Impossibile contattare il server per salvare la prova.",
+      fields: rawData,
+    };
+  }
+}
+
+// --- MODIFICA EVIDENCE ---
+export async function updateEvidence(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const rawData = Object.fromEntries(formData.entries());
+  const validatedFields = evidenceSchemaAdmin.safeParse(rawData);
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: "Controlla i dati della prova inseriti.",
+      errors: validatedFields.error.flatten().fieldErrors,
+      fields: rawData,
+    };
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/evidence`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        message: result.message || "Errore durante l'aggiornamento della prova.",
+        errors: result.errors || null,
+        fields: rawData,
+      };
+    }
+
+    revalidatePath("/admin");
+    return {
+      success: true,
+      message: "Prova aggiornata con successo!",
+      errors: null,
+    };
+  } catch (error) {
+    console.error("Errore fetch updateEvidence:", error);
+    return {
+      success: false,
+      message: "Impossibile contattare il server per aggiornare la prova.",
+      fields: rawData,
+    };
+  }
+}
+
+// --- ELIMINA EVIDENCE (ID inviato nel Body JSON) ---
+export async function deleteEvidence(formData: FormData) {
+  const id = formData.get("id") as string;
+  if (!id) return;
+
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/evidence`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+
+    revalidatePath("/admin");
+  } catch (error) {
+    console.error("Errore eliminazione prova:", error);
+  }
+}

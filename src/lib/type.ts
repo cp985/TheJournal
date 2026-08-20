@@ -38,3 +38,79 @@ export interface DbDossier {
   user: DbUser; 
   evidences: DbEvidence[]; 
 }
+
+export type SignUpFormState = {
+  success: boolean;
+  errors?: Record<string, string[] | undefined> | null;
+  message?: string | null;
+  data?: {
+    username?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+    lang?: string;
+  };
+};
+
+export type AuthFormData = {
+  email?: string;
+  password?: string;
+  username?: string;
+  confirmPassword?: string;
+};
+
+export type AuthUserByEmail = {
+  email?: string;
+  password?: string;
+  username?: string;
+id?:string;
+role?:string;
+};
+
+export type LoginFormState = {
+  success: boolean;
+  errors?: Record<string, string[] | undefined> | null;
+  message?: string | null;
+  data?:AuthFormData;
+}
+
+export type SendEmailFormState = {
+  success: boolean;
+  errors?: Record<string, string[] | undefined> | null;
+  message?: string | null;
+  data?: {
+    username?: string;
+    email?: string;
+   subject?: string;
+    textarea?: string;
+    lang?: string
+  };
+};
+
+export type FormActionState = {
+  errors?: Record<string, string[]> | null;
+  message?: string;
+  data?: {
+    dossierId?: string;
+    type?: string;
+    notes?: string;
+    fileName?: string | undefined;
+  };
+  success: boolean;
+};
+
+export type HealthStatus = {
+  online: boolean;
+  message?: string;
+  timestamp?: string;
+};
+
+
+
+export type ActionState = {
+  success: boolean;
+  message: string | null;
+  errors?: Record<string, string[]> | null;
+  fields?: Record<string, any>;
+};
+
