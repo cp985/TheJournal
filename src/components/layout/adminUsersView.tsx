@@ -1,9 +1,10 @@
 
 
 import { FiTrash2, FiUserCheck } from "react-icons/fi";
-import { getUsers , userDeleteAdmin} from "@/action/action";
+import { getUsers } from "@/action/action";
 import { formatDate } from "@/lib/utils";
 import DeleteUserButton from "./adminDeleteUserButton";
+import ToggleRoleButton from "./adminRoleButton";
 
 export default async  function AdminUsersView({q}: {q: string}) {
 const usersList = await  getUsers();
@@ -44,9 +45,7 @@ if(user.email === noEmail){
             <div className="flex justify-between items-center pt-2 border-t border-zinc-800/80">
               <span className="text-[10px] text-zinc-500">Creato il: {formatDate(user.createdAt)}</span>
               <div className="space-x-2">
-                <button className="p-1.5 rounded bg-zinc-800 text-zinc-300 hover:bg-zinc-700 cursor-pointer" title="Modifica ruolo">
-                  <FiUserCheck className="w-3.5 h-3.5" />
-                </button>
+                <ToggleRoleButton userId={user.id}/>
                 <DeleteUserButton userId={user.id} />
               </div>
             </div>

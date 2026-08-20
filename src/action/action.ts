@@ -778,6 +778,74 @@ export const userUpdate = async (
   }
 };
 
+export const userRoleAdmin = async (userId: string) => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      console.error("user-not-authenticated");
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      console.error("auth-secret-not-found");
+      return {
+        success: false as const,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { sub: session.user.id, email: session.user.email ,role: session.user.role},
+      secret,
+      { expiresIn: "5m" }
+
+    );
+    
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_RENDER}/users/admin`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.error(`[Express Error] Status: ${response.status}`, response);
+      return {
+        success: false as const,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const data = await response.json();
+    revalidatePath("/admin");
+
+    return {
+      success: true as const,
+      message: "user-updated-role",
+      data,
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      success: false as const,
+      errors: null,
+      message: "fatal-error",
+      data: null,
+    };
+  }
+};
 
 export const  userDelete= async () =>{
  let isDeleting = false;
