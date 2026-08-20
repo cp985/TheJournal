@@ -4,6 +4,8 @@ import { getEvidences } from "@/action/action";
 import {  FiCheck,  FiTrash2 } from "react-icons/fi";
 import EvidenceFormDialog from "./adminEvidenceDialog";
 import {createEvidenceAdmin, deleteEvidenceAdmin, updateEvidenceAdmin} from "@/action/action"
+import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
+
 export default async function AdminEvidencesView({q}: {q: string}) {
 const evidencesList = await getEvidences();
 const filteredUsers = evidencesList.filter((evidence) => {
@@ -62,13 +64,7 @@ const filteredUsers = evidencesList.filter((evidence) => {
                 </button>
               )}
 
-              <button
-                className="p-2 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs flex items-center gap-1 border border-rose-500/30 cursor-pointer"
-                title="Elimina prova"
-              >
-                <FiTrash2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Elimina</span>
-              </button>
+                <DeleteConfirmDialog itemType="evidence" itemId={ev.id} itemTitle={ev.notes} onDelete={deleteEvidenceAdmin} />
             </div>
           </div>
         ))}

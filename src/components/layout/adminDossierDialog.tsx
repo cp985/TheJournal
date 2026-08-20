@@ -64,22 +64,22 @@ export default function DossierFormDialog({
       <DialogTrigger asChild>
         {isEdit ? (
           <button
-            className="p-1.5 rounded bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 cursor-pointer transition-colors"
+            className="p-1.5 rounded bg-amber-600/10 text-amber-500 hover:bg-amber-500/20 cursor-pointer transition-colors"
             title="Modifica Dossier"
           >
             <FiEdit2 className="w-3.5 h-3.5" />
           </button>
         ) : (
-          <Button className="bg-rose-600 hover:bg-rose-700 text-white flex items-center gap-2 cursor-pointer">
+          <Button className="px-3.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
             <FiPlus className="w-4 h-4" />
             <span>Nuovo Dossier</span>
           </Button>
         )}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-2xl bg-zinc-900 border-zinc-800 text-zinc-100 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-zinc-950 border-2 border-amber-500/40 shadow-xl shadow-amber-500/5 text-zinc-100 sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-6">
         <DialogHeader>
-          <div className="flex items-center gap-3 text-rose-400 mb-1">
+          <div className="flex items-center gap-3 text-amber-400 mb-1">
             <div className="p-2 rounded-full bg-rose-500/10">
               <FiFolder className="w-5 h-5" />
             </div>
@@ -128,7 +128,7 @@ export default function DossierFormDialog({
                 name="code"
                 defaultValue={initialData?.code || ""}
                 placeholder="es. DOS-2026-001"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full focus:border-zinc-500 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none  text-sm"
               />
               {state?.errors?.code && (
                 <p className="text-xs text-rose-400 mt-1">{state.errors.code[0]}</p>
@@ -142,7 +142,7 @@ export default function DossierFormDialog({
               <select
                 name="status"
                 defaultValue={initialData?.status || "Open"}
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
                 <option value="Open">Aperto (Open)</option>
                 <option value="In Progress">In Corso (In Progress)</option>
@@ -163,7 +163,7 @@ export default function DossierFormDialog({
                 name="title"
                 defaultValue={initialData?.title || ""}
                 placeholder="Titolo del dossier"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border focus:border-zinc-500 border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none  text-sm"
               />
               {state?.errors?.title && (
                 <p className="text-xs text-rose-400 mt-1">{state.errors.title[0]}</p>
@@ -179,7 +179,7 @@ export default function DossierFormDialog({
                 name="title_en"
                 defaultValue={initialData?.title_en || ""}
                 placeholder="Title in English (opzionale)"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none  focus:border-zinc-500 text-sm"
               />
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function DossierFormDialog({
               name="coverUrl"
               defaultValue={initialData?.coverUrl || ""}
               placeholder="https://... o /images/cover.jpg"
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
             />
             {state?.errors?.coverUrl && (
               <p className="text-xs text-rose-400 mt-1">{state.errors.coverUrl[0]}</p>
@@ -211,7 +211,7 @@ export default function DossierFormDialog({
               rows={3}
               defaultValue={initialData?.description || ""}
               placeholder="Dettagli e contesto del dossier..."
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm resize-none"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
             {state?.errors?.description && (
               <p className="text-xs text-rose-400 mt-1">
@@ -230,7 +230,7 @@ export default function DossierFormDialog({
               rows={3}
               defaultValue={initialData?.description_en || ""}
               placeholder="English description (optional)..."
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm resize-none"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
           </div>
 
@@ -248,7 +248,7 @@ export default function DossierFormDialog({
             <Button
               type="submit"
               disabled={isPending || state?.success}
-              className="bg-rose-600 hover:bg-rose-700 text-white min-w-[120px]"
+              className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
             >
               {isPending ? (
                 <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />

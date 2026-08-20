@@ -77,12 +77,8 @@ if(user.email === noEmail){
                 </td>
                 <td className="p-3 text-zinc-400">{formatDate(user.createdAt)}</td>
                 <td className="p-3 text-right space-x-2 flex items-center">
-                  <button className="p-1.5 rounded text-amber-400 hover:bg-amber-500/20  cursor-pointer" title="Modifica ruolo">
-                    <FiUserCheck className="w-3.5 h-3.5" />
-                  </button>
-                  <button className="p-1.5 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 cursor-pointer" title="Elimina">
-                    <FiTrash2 className="w-3.5 h-3.5" />
-                  </button>
+                     <ToggleRoleButton userId={user.id}/>
+                <DeleteUserButton userId={user.id} />
                 </td>
               </tr>
             ))}

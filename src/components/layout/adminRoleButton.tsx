@@ -52,6 +52,30 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
     });
   };
 
+//   const handleToggleRole = () => {
+//   console.log("🟢 CLIENT [1/3]: Pulsante cliccato per userId:", userId);
+//   setErrorMessage(null);
+
+//   startTransition(async () => {
+//     console.log("🟢 CLIENT [2/3]: Avvio chiamata Server Action...");
+//     try {
+//       const res = await userRoleAdmin(userId);
+//       console.log("🟢 CLIENT [3/3]: Risposta ricevuta dalla Server Action:", res);
+
+//       if (!res.success) {
+//         setErrorMessage(res.message || "Si è verificato un errore imprevisto.");
+//       } else {
+//         setSuccessMessage("Ruolo utente aggiornato con successo!");
+//         setTimeout(() => {
+//           setOpen(false);
+//           setSuccessMessage(null);
+//         }, 1500);
+//       }
+//     } catch (error) {
+//       console.error("🔴 CLIENT ERRORE CRITICO: La Server Action è crashata:", error);
+//     }
+//   });
+// };
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
@@ -60,7 +84,7 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
           className="p-1.5 rounded bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 cursor-pointer disabled:opacity-50 transition-colors"
           title="Cambia Ruolo"
         >
-          <FiUserCheck className="w-3.5 h-3.5" />
+          <FiUserCheck className="w-4 h-4" />
         </button>
       </DialogTrigger>
 

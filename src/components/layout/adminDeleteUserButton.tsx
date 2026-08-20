@@ -62,7 +62,7 @@ export default function DeleteUserButton({ userId }: DeleteUserButtonProps) {
           className="p-1.5 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 cursor-pointer disabled:opacity-50 transition-colors"
           title="Elimina"
         >
-          <FiTrash2 className="w-3.5 h-3.5" />
+          <FiTrash2 className="w-4 h-4" />
         </button>
       </DialogTrigger>
 

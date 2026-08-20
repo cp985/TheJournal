@@ -4,7 +4,7 @@ import { getDossiers } from "@/action/action";
 import { DbDossier } from "@/lib/type";
 import DossierFormDialog from "@/components/layout/adminDossierDialog"
 import {createDossierAdmin, deleteDossierAdmin,updateDossierAdmin} from "@/action/action"
-
+import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
 export default async function AdminDossiersView({q}: {q: string}) {
  const DOSSIERS_LIST : DbDossier[] = await getDossiers();
   const filteredUsers = DOSSIERS_LIST.filter((dossier) => 
@@ -34,15 +34,13 @@ export default async function AdminDossiersView({q}: {q: string}) {
 
              </div>
        
-              <div className="space-x-2">
+              <div className="space-x-0.4 flex items-center justify-center">
               <DossierFormDialog
                     mode="edit"
                     initialData={dossier}
                     action={updateDossierAdmin}
                   />
-                <button className="p-1.5 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-400">
-                  <FiTrash2 className="w-3.5 h-3.5" />
-                </button>
+                <DeleteConfirmDialog itemType="dossier" itemId={dossier.id} itemTitle={dossier.title} onDelete={deleteDossierAdmin} />
               </div>
             </div>
           </div>

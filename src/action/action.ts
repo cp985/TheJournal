@@ -23,45 +23,54 @@ import { type FormActionState  ,type SendEmailFormState, type LoginFormState,  t
 //auth dossiers list
 
 
-export const getDossiers = async (): Promise<DbDossier[]> => {
+
+
+export const getDossiers = async () => {
   try {
     const session = await auth();
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
 
-    if (!session?.user) {
+    if (session?.user?.id && secret) {
+      const token = jwt.sign(
+        { 
+          id: session.user.id, 
+          sub: session.user.id,
+          role: session.user.role || "USER" 
+        },
+        secret,
+        { expiresIn: "5m" }
+      );
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER || process.env.BACKEND_URL;
+    if (!baseUrl) {
+      console.error("URL Backend mancante in getDossiers");
       return [];
     }
-    const headers: Record<string, string> = {};
 
-  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
-  if(!secret){
-    return [];
-  }
-    const token = jwt.sign(
-      { sub: session.user.id, email: session.user.email },
-      secret,
-      { expiresIn: "5m" }
-    );
-    headers["Authorization"] = `Bearer ${token}`;
-
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_RENDER}/dossiers`, {
-      headers, 
-      cache: "no-store",
+    const response = await fetch(`${baseUrl}/dossiers`, {
+      method: "GET",
+      headers,
+      cache: "no-store", 
     });
 
     if (!response.ok) {
-      console.error("Errore Fetch Dossiers Status:", response.status);
+      console.error("Express ha risposto con errore:", response.status);
       return [];
     }
 
-    const data = await response.json();
-    return data as DbDossier[];
+    return await response.json();
+
   } catch (error) {
-    console.error("Errore getDossiers:", error);
+    console.error("Errore critico nella Server Action getDossiers:", error);
     return [];
   }
 };
-
 
 export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
   try {
@@ -1158,7 +1167,6 @@ export async function createEvidenceAction(
 
 
 
-
 export const getHealth = async (): Promise<HealthStatus> => {
   const baseUrl = process.env.RENDER_API_URL || process.env.NEXT_PUBLIC_URL_RENDER;
 
@@ -1211,8 +1219,6 @@ export const getHealth = async (): Promise<HealthStatus> => {
   coverUrl: z.string().min(1, "L'URL della copertina è obbligatorio"),
   status: z.enum(["Open" , "Archived" , "Closed"]).default("Open"),
 });
-
-
 
 
 

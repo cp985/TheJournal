@@ -67,16 +67,16 @@ export default function EvidenceFormDialog({
             <FiEdit2 className="w-3.5 h-3.5" />
           </button>
         ) : (
-          <Button className="bg-rose-600 hover:bg-rose-700 text-white flex items-center gap-2 cursor-pointer">
+          <Button className="px-3.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
             <FiPlus className="w-4 h-4" />
             <span>Nuova Prova</span>
           </Button>
         )}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-xl bg-zinc-900 border-zinc-800 text-zinc-100 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-zinc-950 border-2 border-amber-500/40 shadow-xl shadow-amber-500/5 text-zinc-100 sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-6">
         <DialogHeader>
-          <div className="flex items-center gap-3 text-rose-400 mb-1">
+          <div className="flex items-center gap-3 text-amber-400 mb-1">
             <div className="p-2 rounded-full bg-rose-500/10">
               <FiFileText className="w-5 h-5" />
             </div>
@@ -124,7 +124,7 @@ export default function EvidenceFormDialog({
                 name="dossierId"
                 defaultValue={initialData?.dossierId || defaultDossierCode || ""}
                 placeholder="es. DOS-2026-001"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
               />
               {state?.errors?.dossierId && (
                 <p className="text-xs text-rose-400 mt-1">{state.errors.dossierId[0]}</p>
@@ -138,7 +138,7 @@ export default function EvidenceFormDialog({
               <select
                 name="type"
                 defaultValue={initialData?.type || "PHOTO"}
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:-border-zinc-500 text-sm"
               >
                 <option value="PHOTO">Foto (PHOTO)</option>
                 <option value="VIDEO">Video (VIDEO)</option>
@@ -163,7 +163,7 @@ export default function EvidenceFormDialog({
                 name="fileUrl"
                 defaultValue={initialData?.fileUrl || ""}
                 placeholder="https://... o /uploads/evidence.jpg"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
               />
               {state?.errors?.fileUrl && (
                 <p className="text-xs text-rose-400 mt-1">{state.errors.fileUrl[0]}</p>
@@ -177,7 +177,7 @@ export default function EvidenceFormDialog({
               <select
                 name="status"
                 defaultValue={initialData?.status || "PENDING"}
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-rose-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
                 <option value="PENDING">In Attesa (PENDING)</option>
                 <option value="VERIFIED">Verificata (VERIFIED)</option>
@@ -196,7 +196,7 @@ export default function EvidenceFormDialog({
               rows={3}
               defaultValue={initialData?.notes || ""}
               placeholder="Descrizione dell'evidenza e rilievi..."
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm resize-none"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
             {state?.errors?.notes && (
               <p className="text-xs text-rose-400 mt-1">{state.errors.notes[0]}</p>
@@ -213,7 +213,7 @@ export default function EvidenceFormDialog({
               rows={3}
               defaultValue={initialData?.notes_en || ""}
               placeholder="English notes (optional)..."
-              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-rose-500 text-sm resize-none"
+              className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
           </div>
 
@@ -231,7 +231,7 @@ export default function EvidenceFormDialog({
             <Button
               type="submit"
               disabled={isPending || state?.success}
-              className="bg-rose-600 hover:bg-rose-700 text-white min-w-[120px]"
+              className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
             >
               {isPending ? (
                 <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />
