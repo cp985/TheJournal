@@ -19,8 +19,8 @@ interface DeleteConfirmDialogProps {
   itemType: "dossier" | "evidence";
   itemId: string;
   itemTitle?: string;
-onDelete: (id: string) => Promise<DeleteActionResult>;}
-
+onDelete: (id: string) => Promise<DeleteActionResult>;
+}
 export default function DeleteConfirmDialog({
   itemType,
   itemId,

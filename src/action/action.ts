@@ -1550,6 +1550,7 @@ export async function deleteDossierAdmin(
 
 
 // --- CREA EVIDENCE ---
+
 export async function createEvidenceAdmin(
   prevState: ActionState,
   formData: FormData
@@ -1560,47 +1561,100 @@ export async function createEvidenceAdmin(
   if (!validatedFields.success) {
     return {
       success: false,
-      message: "Controlla i dati della prova inseriti.",
+      message: "validation-error",
       errors: validatedFields.error.flatten().fieldErrors,
       fields: rawData,
     };
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/evidence`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validatedFields.data),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
+    const session = await auth();
+    if (!session?.user?.id) {
       return {
         success: false,
-        message: result.message || "Errore durante il salvataggio della prova.",
-        errors: result.errors || null,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { 
+        id: session.user.id, 
+        sub: session.user.id, 
+        email: session.user.email, 
+        role: session.user.role 
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+      return {
+        success: false,
+        message: "backend-url-missing",
         fields: rawData,
       };
     }
 
+    const response = await fetch(`${baseUrl}/evidences/admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        fields: rawData,
+      };
+    }
+
+    const textResponse = await response.text();
+    const result = textResponse ? JSON.parse(textResponse) : {};
+
     revalidatePath("/admin");
+
     return {
       success: true,
-      message: "Prova aggiunta con successo!",
+      message: "evidence-created!",
       errors: null,
     };
   } catch (error) {
-    console.error("Errore fetch createEvidence:", error);
+    console.error("Error:", error);
     return {
       success: false,
-      message: "Impossibile contattare il server per salvare la prova.",
+      message: "errors-creating-evidence-catch",
       fields: rawData,
     };
   }
 }
 
 // --- MODIFICA EVIDENCE ---
+
 export async function updateEvidenceAdmin(
   prevState: ActionState,
   formData: FormData
@@ -1611,60 +1665,192 @@ export async function updateEvidenceAdmin(
   if (!validatedFields.success) {
     return {
       success: false,
-      message: "Controlla i dati della prova inseriti.",
+      message: "validation-error",
       errors: validatedFields.error.flatten().fieldErrors,
       fields: rawData,
     };
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/evidence`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validatedFields.data),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
+    const session = await auth();
+    if (!session?.user?.id) {
       return {
         success: false,
-        message: result.message || "Errore durante l'aggiornamento della prova.",
-        errors: result.errors || null,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { 
+        id: session.user.id, 
+        sub: session.user.id, 
+        email: session.user.email, 
+        role: session.user.role 
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+      return {
+        success: false,
+        message: "backend-url-missing",
         fields: rawData,
       };
     }
 
+    const response = await fetch(`${baseUrl}/evidences/admin`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        fields: rawData,
+      };
+    }
+
+    const textResponse = await response.text();
+    const result = textResponse ? JSON.parse(textResponse) : {};
+
     revalidatePath("/admin");
+
     return {
       success: true,
-      message: "Prova aggiornata con successo!",
+      message: "evidence-updated!",
       errors: null,
     };
   } catch (error) {
-    console.error("Errore fetch updateEvidence:", error);
+    console.error("Errore critico nella Action updateEvidenceAdmin:", error);
     return {
       success: false,
-      message: "Impossibile contattare il server per aggiornare la prova.",
+      message: "errors-updating-evidence-catch",
       fields: rawData,
     };
   }
 }
 
-// --- ELIMINA EVIDENCE (ID inviato nel Body JSON) ---
-export async function deleteEvidenceAdmin(formData: FormData) {
-  const id = formData.get("id") as string;
-  if (!id) return;
+// --- ELIMINA EVIDENCE ---
+
+export async function deleteEvidenceAdmin(
+  idItem: string
+): Promise<DeleteActionResult> {
+  if (!idItem) {
+    return {
+      success: false,
+      message: "evidence-id-not-found",
+    };
+  }
 
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/evidence`, {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { 
+        id: session.user.id, 
+        sub: session.user.id, 
+        email: session.user.email, 
+        role: session.user.role 
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+      return {
+        success: false,
+        message: "backend-url-missing",
+        idItem,
+      };
+    }
+
+    const response = await fetch(`${baseUrl}/evidences/admin`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id: idItem }),
     });
 
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        idItem,
+      };
+    }
+
+    const textResponse = await response.text();
+    const result = textResponse ? JSON.parse(textResponse) : {};
+
     revalidatePath("/admin");
+
+    return {
+      success: true,
+      message: "evidence-deleted!",
+      errors: null,
+    };
   } catch (error) {
-    console.error("Errore eliminazione prova:", error);
+    console.error("Errore critico nella Action deleteEvidenceAdmin:", error);
+    return {
+      success: false,
+      message: "errors-deleting-evidence-catch",
+      idItem,
+    };
   }
 }
