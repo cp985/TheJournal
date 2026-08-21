@@ -64,7 +64,7 @@ const filteredUsers = evidencesList.filter((evidence) => {
                 </button>
               )}
 
-                <DeleteConfirmDialog itemType="evidence" itemId={ev.id} itemTitle={ev.notes} onDelete={deleteEvidenceAdmin} />
+                <DeleteConfirmDialog itemType="evidence" itemId={ev.id} itemTitle={ev.notes} onDelete={(id) => deleteEvidenceAdmin(id)} />
             </div>
           </div>
         ))}
