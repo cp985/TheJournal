@@ -1,6 +1,8 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import { DossierStatus } from "@/lib/type";
+import ErrorsBox from "./errorsBox";
 import { FiPlus, FiEdit2, FiFolder, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 import {
   Dialog,
@@ -13,13 +15,12 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-// Tipo delle prop per i dati del Dossier (utilizzati per il pre-fill in modalità Edit)
 export interface DossierData {
   id?: string;
   code: string;
   title: string;
   description: string;
-  status?: string;
+  status?: DossierStatus ;
   author?: string | null;
   title_en?: string | null;
   description_en?: string | null;
@@ -29,7 +30,6 @@ export interface DossierData {
 interface DossierFormDialogProps {
   mode: "create" | "edit";
   initialData?: DossierData;
-  // La Server Action verrà definita dopo con Zod e useActionState
   action: (prevState: any, formData: FormData) => Promise<any>;
 }
 
@@ -40,14 +40,12 @@ export default function DossierFormDialog({
 }: DossierFormDialogProps) {
   const [open, setOpen] = useState(false);
 
-  // useActionState gestisce lo stato di invio, errori di validazione e risposta
   const [state, formAction, isPending] = useActionState(action, {
     success: false,
     message: null,
     errors: null,
   });
 
-  // Chiude il dialogo automaticamente dopo l'esito positivo
   useEffect(() => {
     if (state?.success) {
       const timer = setTimeout(() => {
@@ -70,7 +68,7 @@ export default function DossierFormDialog({
             <FiEdit2 className="w-3.5 h-3.5" />
           </button>
         ) : (
-          <Button className="px-3.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
+          <Button className="px-1.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
             <FiPlus className="w-4 h-4" />
             <span>Nuovo Dossier</span>
           </Button>
@@ -101,21 +99,7 @@ export default function DossierFormDialog({
             <input type="hidden" name="id" value={initialData.id} />
           )}
 
-          {/* Banner di Errore Generale */}
-          {state?.message && !state?.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
-              <FiAlertCircle className="w-4 h-4 shrink-0" />
-              <span>{state.message}</span>
-            </div>
-          )}
-
-          {/* Banner di Successo */}
-          {state?.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
-              <FiCheckCircle className="w-4 h-4 shrink-0" />
-              <span>{state.message || "Operazione completata con successo!"}</span>
-            </div>
-          )}
+    
 
           {/* Riga 1: Codice Identificativo e Stato */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -145,7 +129,6 @@ export default function DossierFormDialog({
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
                 <option value="Open">Aperto (Open)</option>
-                <option value="In Progress">In Corso (In Progress)</option>
                 <option value="Closed">Chiuso (Closed)</option>
                 <option value="Archived">Archiviato (Archived)</option>
               </select>
@@ -233,9 +216,11 @@ export default function DossierFormDialog({
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
           </div>
+<ErrorsBox formData={state} isPending={isPending} /> 
 
-          <DialogFooter className="gap-2 sm:gap-0 mt-6 pt-2 border-t border-zinc-800">
-            <Button
+          <DialogFooter className=" w-full flex mt-6 pt-2 border-t border-zinc-800">
+                        {/* Banner di Errore Generale */}
+  <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
@@ -247,7 +232,7 @@ export default function DossierFormDialog({
 
             <Button
               type="submit"
-              disabled={isPending || state?.success}
+              disabled={isPending}
               className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
             >
               {isPending ? (
@@ -257,7 +242,10 @@ export default function DossierFormDialog({
               ) : (
                 "Crea Dossier"
               )}
-            </Button>
+            </Button>         
+
+
+
           </DialogFooter>
         </form>
       </DialogContent>

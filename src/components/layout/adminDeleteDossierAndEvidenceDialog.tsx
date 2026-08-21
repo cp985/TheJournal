@@ -14,13 +14,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FiTrash2, FiAlertTriangle } from "react-icons/fi";
-
+import { DeleteActionResult } from "@/lib/type";
 interface DeleteConfirmDialogProps {
   itemType: "dossier" | "evidence";
   itemId: string;
   itemTitle?: string;
-  onDelete: (formData: FormData) => Promise<void>;
-}
+onDelete: (id: string) => Promise<DeleteActionResult>;}
 
 export default function DeleteConfirmDialog({
   itemType,
@@ -32,13 +31,11 @@ export default function DeleteConfirmDialog({
   const [confirmText, setConfirmText] = useState("");
   const [isPending, setIsPending] = useState(false);
 
-  // Definizione dinamica del testo di sblocco e delle etichette
   const isDossier = itemType === "dossier";
   const expectedPhrase = isDossier ? "Cancella Dossier" : "Cancella Prova";
   const entityLabel = isDossier ? "Dossier" : "Prova";
 
-  const isUnlocked = confirmText.trim().toLowerCase() === expectedPhrase;
-
+const isUnlocked = confirmText.trim().toLowerCase() === expectedPhrase.toLowerCase();
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
     if (!newOpen) {
@@ -52,9 +49,7 @@ export default function DeleteConfirmDialog({
 
     setIsPending(true);
     try {
-      const formData = new FormData();
-      formData.append("id", itemId);
-      await onDelete(formData);
+      await onDelete(itemId);
       setOpen(false);
     } catch (error) {
       console.error(`Errore eliminazione ${itemType}:`, error);
@@ -77,24 +72,24 @@ export default function DeleteConfirmDialog({
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px] border-rose-600 border bg-zinc-950 text-zinc-100">
-        <DialogHeader>
+        <DialogHeader className="space-y-1.5 flex items-center">
           <div className="flex items-center gap-2 text-zinc-100 mb-1">
             <FiAlertTriangle className="w-5 h-5" />
             <DialogTitle className="text-lg font-bold">
               Elimina {entityLabel}
             </DialogTitle>
           </div>
-          <DialogDescription className="text-zinc-400 text-sm">
+          <DialogDescription className="text-zinc-400 text-sm flex items-center flex-col">
             Stai per eliminare permanentemente {isDossier ? "il dossier" : "la prova"}{" "}
-            {itemTitle && <strong className="text-zinc-200">&quot;{itemTitle}&quot;</strong>}.
+            {itemTitle && <strong className="text-zinc-200">&quot;{itemTitle}&quot;.</strong>}
             Questa azione è irreversibile.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           <div className="space-y-2">
-            <Label htmlFor="confirm-input" className="text-s text-zinc-300">
-              Per confermare, digita <span className="font-bold text-red-400">&quot;{expectedPhrase}&quot;</span> qui sotto:
+            <Label htmlFor="confirm-input" className="text-s flex flex-col ali text-zinc-300">
+              Per confermare, digita: <span className="font-bold text-red-400">&quot;{expectedPhrase}&quot;</span> qui sotto:
             </Label>
             <Input
               id="confirm-input"

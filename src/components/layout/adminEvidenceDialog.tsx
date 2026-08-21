@@ -67,7 +67,7 @@ export default function EvidenceFormDialog({
             <FiEdit2 className="w-3.5 h-3.5" />
           </button>
         ) : (
-          <Button className="px-3.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
+          <Button className="px-1.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
             <FiPlus className="w-4 h-4" />
             <span>Nuova Prova</span>
           </Button>

@@ -55,11 +55,17 @@ function FilmFrame({
   language: string;
   t: any;
 }) {
+  
+
+const [imgError, setImgError] = useState(false);
 
   const computedFrameCode = `#${String(index + 1).padStart(3, "0")}`;
-  const frameTitle =
-    language === "en" ? data.title_en || data.title : data.title;
+  const frameTitle = language === "en" ? data.title_en || data.title : data.title;
 
+  const rawUrl = data.coverUrl?.trim();
+  const validCoverUrl = rawUrl 
+    ? (rawUrl.startsWith("http") || rawUrl.startsWith("/") ? rawUrl : `/${rawUrl}`)
+    : null;
   return (
     <button
       type="button"
@@ -85,21 +91,24 @@ function FilmFrame({
   <div className="absolute -inset-[100%] z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/35 via-amber-900/10 to-transparent animate-spin [animation-duration:8s]" />
 
   <div className="absolute inset-2 z-0 rounded-full bg-amber-500/30 blur-lg animate-ping opacity-90 [animation-duration:1.8s]" />  
-  {data.coverUrl ? (
-          <Image
-            sizes="(max-width: 768px) 100vw, 40vw"
-            fill
-            placeholder="blur"
-            blurDataURL={AMBER_GRADIENT_BLUR}
-            src={data.coverUrl}
-            alt={frameTitle}
-            className="h-full w-full object-cover transition-opacity duration-500 grayscale group-hover:grayscale-0"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Film className="h-6 w-6 text-zinc-600" strokeWidth={1.5} />
-          </div>
-        )}
+
+
+        {validCoverUrl && !imgError ? (
+  <Image
+    sizes="(max-width: 768px) 100vw, 40vw"
+    fill
+    placeholder="blur"
+    blurDataURL={AMBER_GRADIENT_BLUR}
+    src={validCoverUrl}
+    alt={frameTitle}
+    onError={() => setImgError(true)} 
+    className="h-full w-full object-cover transition-opacity duration-500 grayscale group-hover:grayscale-0"
+  />
+) : (
+  <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950/80 text-zinc-600">
+    <Film className="h-6 w-6" strokeWidth={1.5} />
+  </div>
+)}
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 

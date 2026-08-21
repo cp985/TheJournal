@@ -33,7 +33,7 @@ const filteredUsers = evidencesList.filter((evidence) => {
             className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/40 flex flex-col md:flex-row md:items-center justify-between gap-4"
           >
             <div className="space-y-1">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between gap-2">
                 <span className="font-bold text-xs text-zinc-100">{ev.notes}</span>
                 <span
                   className={`px-2 py-0.5 rounded text-[10px] ${

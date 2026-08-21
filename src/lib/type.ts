@@ -114,3 +114,10 @@ export type ActionState = {
   fields?: Record<string, any>;
 };
 
+export type DeleteActionResult = {
+  success: boolean;
+  message: string;
+  errors?: any;
+  idItem?: string;
+};
+

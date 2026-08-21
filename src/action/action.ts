@@ -1,6 +1,6 @@
 "use server";
 
-import { DbEvidence, type DbDossier, type DbUser } from "@/lib/type";
+import { DbEvidence, type DbDossier, type DbUser,DeleteActionResult } from "@/lib/type";
 import z from "zod";
 import { signIn, signOut } from "@/auth/auth";
 import { AuthError } from "next-auth";
@@ -1225,6 +1225,7 @@ export const getHealth = async (): Promise<HealthStatus> => {
 
 
 // --- CREA DOSSIER ---
+
 export async function createDossierAdmin(
   prevState: ActionState,
   formData: FormData
@@ -1235,47 +1236,101 @@ export async function createDossierAdmin(
   if (!validatedFields.success) {
     return {
       success: false,
-      message: "Controlla i campi inseriti e riprova.",
+      message: "validation-error",
       errors: validatedFields.error.flatten().fieldErrors,
       fields: rawData,
     };
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/dossier`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validatedFields.data),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
+    const session = await auth();
+    if (!session?.user?.id) {
       return {
         success: false,
-        message: result.message || "Errore durante la creazione del dossier.",
-        errors: result.errors || null,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { 
+        id: session.user.id, 
+        sub: session.user.id, 
+        email: session.user.email, 
+        role: session.user.role 
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+      return {
+        success: false,
+        message: "backend-url-missing",
         fields: rawData,
       };
     }
 
+    const response = await fetch(`${baseUrl}/dossiers/admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        fields: rawData,
+      };
+    }
+
+    const textResponse = await response.text();
+    const result = textResponse ? JSON.parse(textResponse) : {};
+
     revalidatePath("/admin");
+
     return {
       success: true,
-      message: "Dossier creato con successo!",
+      message: "dossier-created!",
       errors: null,
     };
   } catch (error) {
-    console.error("Errore fetch createDossier:", error);
+    console.error("Error:", error);
     return {
       success: false,
-      message: "Impossibile contattare il server per creare il dossier.",
+      message: "errors-creating-dossier-catch",
       fields: rawData,
     };
   }
 }
 
 // --- MODIFICA DOSSIER ---
+
+
 export async function updateDossierAdmin(
   prevState: ActionState,
   formData: FormData
@@ -1286,63 +1341,196 @@ export async function updateDossierAdmin(
   if (!validatedFields.success) {
     return {
       success: false,
-      message: "Controlla i dati inseriti.",
+      message: "validation-error",
       errors: validatedFields.error.flatten().fieldErrors,
       fields: rawData,
     };
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/dossier`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(validatedFields.data),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
+    const session = await auth();
+    if (!session?.user?.id) {
       return {
         success: false,
-        message: result.message || "Errore durante la modifica del dossier.",
-        errors: result.errors || null,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { 
+        id: session.user.id, 
+        sub: session.user.id, 
+        email: session.user.email, 
+        role: session.user.role 
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+      return {
+        success: false,
+        message: "backend-url-missing",
         fields: rawData,
       };
     }
 
+    const response = await fetch(`${baseUrl}/dossiers/admin`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(validatedFields.data),
+    });
+
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        fields: rawData,
+      };
+    }
+
+    const textResponse = await response.text();
+    const result = textResponse ? JSON.parse(textResponse) : {};
+
     revalidatePath("/admin");
+
     return {
       success: true,
-      message: "Dossier aggiornato con successo!",
+      message: "dossier-updated!",
       errors: null,
     };
   } catch (error) {
-    console.error("Errore fetch updateDossier:", error);
+    console.error("Errore critico nella Action updateDossierAdmin:", error);
     return {
       success: false,
-      message: "Impossibile contattare il server per aggiornare il dossier.",
+      message: "errors-updating-dossier-catch",
       fields: rawData,
     };
   }
 }
 
 // --- ELIMINA DOSSIER ---
-export async function deleteDossierAdmin(formData: FormData) {
-  const id = formData.get("id") as string;
-  if (!id) return;
+
+
+export async function deleteDossierAdmin(
+  idItem: string
+): Promise<DeleteActionResult> {
+  if (!idItem) {
+    return {
+      success: false,
+      message: "dossier-id-not-found",
+    };
+  }
 
   try {
-    await fetch(`${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/dossiers`, {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      { 
+        id: session.user.id, 
+        sub: session.user.id, 
+        email: session.user.email, 
+        role: session.user.role 
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+      return {
+        success: false,
+        message: "backend-url-missing",
+        idItem,
+      };
+    }
+
+    const response = await fetch(`${baseUrl}/dossiers/admin`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id: idItem }),
     });
+
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        idItem,
+      };
+    }
+
+    const textResponse = await response.text();
+    const result = textResponse ? JSON.parse(textResponse) : {};
+
     revalidatePath("/admin");
+
+    return {
+      success: true,
+      message: "item-deleted!",
+      errors: null,
+    };
   } catch (error) {
-    console.error("Errore eliminazione dossier:", error);
+    console.error("Errore critico nella Action deleteDossierAdmin:", error);
+    return {
+      success: false,
+      message: "errors-deleting-item-catch",
+      idItem,
+    };
   }
 }
-
 //evidence admin create update 
 
 // --- EVIDENCE SCHEMAS ---
