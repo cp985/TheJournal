@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
 import { DossierStatus } from "@/lib/type";
 import ErrorsBox from "./errorsBox";
 import { FiPlus, FiEdit2, FiFolder, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
@@ -39,7 +40,7 @@ export default function DossierFormDialog({
   action,
 }: DossierFormDialogProps) {
   const [open, setOpen] = useState(false);
-
+const router = useRouter();
   const [state, formAction, isPending] = useActionState(action, {
     success: false,
     message: null,
@@ -48,6 +49,7 @@ export default function DossierFormDialog({
 
   useEffect(() => {
     if (state?.success) {
+      router.refresh();
       const timer = setTimeout(() => {
         setOpen(false);
       }, 1200);
@@ -75,7 +77,7 @@ export default function DossierFormDialog({
         )}
       </DialogTrigger>
 
-      <DialogContent className="bg-zinc-950 border-2 border-amber-500/40 shadow-xl shadow-amber-500/5 text-zinc-100 sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-6">
+      <DialogContent key={initialData?.id || "create"} className="bg-zinc-950 border-2 border-amber-500/40 shadow-xl shadow-amber-500/5 text-zinc-100 sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-6">
         <DialogHeader>
           <div className="flex items-center gap-3 text-amber-400 mb-1">
             <div className="p-2 rounded-full bg-rose-500/10">

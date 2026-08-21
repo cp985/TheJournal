@@ -40,7 +40,7 @@ export default async function AdminDossiersView({q}: {q: string}) {
                     initialData={dossier}
                     action={updateDossierAdmin}
                   />
-                <DeleteConfirmDialog itemType="dossier" itemId={dossier.id} itemTitle={dossier.title} onDelete={(id) => deleteDossierAdmin(id)} />
+                <DeleteConfirmDialog itemType="dossier" itemId={dossier.id} itemTitle={dossier.title} onDelete={ deleteDossierAdmin} />
               </div>
             </div>
           </div>

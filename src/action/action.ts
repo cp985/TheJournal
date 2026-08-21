@@ -1206,12 +1206,12 @@ export const getHealth = async (): Promise<HealthStatus> => {
 
 // --- DOSSIER SCHEMAS ---
  const dossierSchemaAdmin = z.object({
-  id: z.string().optional(), 
+   id: z.string().min(1, "ID obbligatorio per la modifica"),
     code: z
     .string()
     .min(3, "Il codice deve contenere almeno 3 caratteri")
     .max(20, "Il codice non può superare 20 caratteri")
-    .regex(/^[A-Za-z0-9-_]+$/, "Solo lettere, numeri, trattini e underscore"),
+    .regex(/^[A-Za-z0-9_-]+$/, "Solo lettere, numeri, trattini e underscore"),
   title: z.string().min(2, "Il titolo è obbligatorio"),
   title_en: z.string().optional().nullable(),
   description: z.string().min(5, "La descrizione deve contenere almeno 5 caratteri"),
@@ -1312,6 +1312,8 @@ export async function createDossierAdmin(
     const result = textResponse ? JSON.parse(textResponse) : {};
 
     revalidatePath("/admin");
+revalidatePath("/cases");  
+revalidatePath("/"); 
 
     return {
       success: true,
@@ -1416,7 +1418,9 @@ export async function updateDossierAdmin(
     const textResponse = await response.text();
     const result = textResponse ? JSON.parse(textResponse) : {};
 
-    revalidatePath("/admin");
+       revalidatePath("/admin");
+revalidatePath("/cases");  
+revalidatePath("/"); 
 
     return {
       success: true,
@@ -1515,7 +1519,9 @@ export async function deleteDossierAdmin(
     const textResponse = await response.text();
     const result = textResponse ? JSON.parse(textResponse) : {};
 
-    revalidatePath("/admin");
+        revalidatePath("/admin");
+revalidatePath("/cases");  
+revalidatePath("/"); 
 
     return {
       success: true,
