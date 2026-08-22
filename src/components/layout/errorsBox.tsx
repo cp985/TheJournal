@@ -42,7 +42,7 @@ export default function ErrorsBox(props: ErrorsBoxProps) {
         <div
           key="boxError"
           className={cn(
-            "mt-4 rounded-md border border-red-900/50 bg-red-950/30 p-3",
+            " rounded-md border border-red-900/50 bg-red-950/30 p-3",
             { hidden: isPending }
           )}
         >

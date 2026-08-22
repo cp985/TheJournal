@@ -60,15 +60,7 @@ const dossiersCode = dossiersList.map(d  => ({ code: d.code, title: d.title}))
             <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
          <EvidenceFormDialog mode="edit" initialData={ev} id={ev.id} dossierOptions={dossiersCode} />
 
-              {ev.status === "PENDING" && (
-                <button
-                  className="p-2 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs flex items-center gap-1 border border-emerald-500/30 cursor-pointer"
-                  title="Approva prova"
-                >
-                  <FiCheck className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Approva</span>
-                </button>
-              )}
+          
 
                 <DeleteConfirmDialog itemType="evidence" itemId={ev.id} itemTitle={ev.notes} onDelete={deleteEvidenceAdmin} />
             </div>

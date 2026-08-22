@@ -129,9 +129,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
                 placeholder="es. DOS-2026-001"
                 className="w-full focus:border-zinc-500 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none text-sm"
               />
-              {state?.errors?.code && (
-                <p className="text-xs text-rose-400 mt-1">{state.errors.code[0]}</p>
-              )}
+          
             </div>
 
             <div>
@@ -161,9 +159,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
                 placeholder="Titolo del dossier"
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border focus:border-zinc-500 border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none text-sm"
               />
-              {state?.errors?.title && (
-                <p className="text-xs text-rose-400 mt-1">{state.errors.title[0]}</p>
-              )}
+          
             </div>
 
             <div>
@@ -192,9 +188,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
               placeholder="https://... o /images/cover.jpg"
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
             />
-            {state?.errors?.coverUrl && (
-              <p className="text-xs text-rose-400 mt-1">{state.errors.coverUrl[0]}</p>
-            )}
+         
           </div>
 
           {/* Descrizione IT */}
@@ -209,9 +203,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
               placeholder="Dettagli e contesto del dossier..."
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
-            {state?.errors?.description && (
-              <p className="text-xs text-rose-400 mt-1">{state.errors.description[0]}</p>
-            )}
+        
           </div>
 
           {/* Descrizione EN */}
@@ -228,33 +220,39 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
             />
           </div>
 
-          <ErrorsBox formData={state} isPending={isPending} />
 
-          <DialogFooter className="w-full flex mt-6 pt-2 border-t border-zinc-800">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleOpenChange(false)}
-              disabled={isPending || state.success}
-              className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
-            >
-              Annulla
-            </Button>
+       <DialogFooter className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pt-4 border-t border-zinc-800">
+  {/* Box Errori a sinistra su desktop, in alto su mobile */}
+  <div className="w-full sm:w-auto flex-1">
+    <ErrorsBox formData={state} isPending={isPending} />
+  </div>
 
-            <Button
-              type="submit"
-              disabled={isPending}
-              className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
-            >
-              {isPending ? (
-                <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />
-              ) : isEdit ? (
-                "Salva Modifiche"
-              ) : (
-                "Crea Dossier"
-              )}
-            </Button>
-          </DialogFooter>
+  <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
+    <Button
+      type="button"
+      variant="outline"
+      onClick={() => handleOpenChange(false)}
+      disabled={isPending || state.success}
+      className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
+    >
+      Annulla
+    </Button>
+
+    <Button
+      type="submit"
+      disabled={isPending}
+      className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
+    >
+      {isPending ? (
+        <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />
+      ) : isEdit ? (
+        "Salva Modifiche"
+      ) : (
+        "Crea Dossier"
+      )}
+    </Button>
+  </div>
+     </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>

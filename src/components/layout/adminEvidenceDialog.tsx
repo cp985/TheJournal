@@ -124,9 +124,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
     <option className="py-2 px-3 bg-zinc-800" key={d.code} value={d.code}>{d.code} — {d.title}</option>
   ))}
 </select>
-              {state?.errors?.dossierId && (
-                <p className="text-xs text-rose-400 mt-1">{state.errors.dossierId[0]}</p>
-              )}
+         
             </div>
 
             <div>
@@ -142,9 +140,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
                 <option value="PDF">PDF</option>
                 <option value="DOCUMENT">Documento (DOCUMENT)</option>
               </select>
-              {state?.errors?.type && (
-                <p className="text-xs text-rose-400 mt-1">{state.errors.type[0]}</p>
-              )}
+         
             </div>
           </div>
 
@@ -161,9 +157,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
                 placeholder="https://... o /uploads/evidence.jpg"
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
               />
-              {state?.errors?.fileUrl && (
-                <p className="text-xs text-rose-400 mt-1">{state.errors.fileUrl[0]}</p>
-              )}
+        
             </div>
 
             <div>
@@ -194,9 +188,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
               placeholder="Descrizione dell'evidenza e rilievi..."
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
-            {state?.errors?.notes && (
-              <p className="text-xs text-rose-400 mt-1">{state.errors.notes[0]}</p>
-            )}
+       
           </div>
 
           {/* Note EN */}
@@ -213,33 +205,40 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
             />
           </div>
 
-          <ErrorsBox formData={state} isPending={isPending} />
 
-          <DialogFooter className="gap-2 sm:gap-0 mt-6 pt-2 border-t border-zinc-800">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => handleOpenChange(false)}
-              disabled={isPending || state.success}
-              className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
-            >
-              Annulla
-            </Button>
 
-            <Button
-              type="submit"
-              disabled={isPending || state.success}
-              className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
-            >
-              {isPending ? (
-                <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />
-              ) : isEdit ? (
-                "Salva Modifiche"
-              ) : (
-                "Aggiungi Prova"
-              )}
-            </Button>
-          </DialogFooter>
+           <DialogFooter className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pt-4 border-t border-zinc-800">
+            {/* Box Errori a sinistra su desktop, in alto su mobile */}
+            <div className="w-full sm:w-auto flex-1">
+              <ErrorsBox formData={state} isPending={isPending} />
+            </div>
+          
+            <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => handleOpenChange(false)}
+                disabled={isPending || state.success}
+                className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
+              >
+                Annulla
+              </Button>
+          
+              <Button
+                type="submit"
+                disabled={isPending}
+                className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
+              >
+                {isPending ? (
+                  <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />
+                ) : isEdit ? (
+                  "Salva Modifiche"
+                ) : (
+                  "Crea Dossier"
+                )}
+              </Button>
+            </div>
+               </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
