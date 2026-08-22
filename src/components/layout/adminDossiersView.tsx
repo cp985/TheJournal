@@ -14,7 +14,7 @@ export default async function AdminDossiersView({q}: {q: string}) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold font-mono text-zinc-100">Gestione Dossier</h1>
-<DossierFormDialog mode="create" action={createDossierAdmin} />
+<DossierFormDialog mode="create"  />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -38,7 +38,7 @@ export default async function AdminDossiersView({q}: {q: string}) {
               <DossierFormDialog
                     mode="edit"
                     initialData={dossier}
-                    action={updateDossierAdmin}
+                    id={dossier.id}
                   />
                 <DeleteConfirmDialog itemType="dossier" itemId={dossier.id} itemTitle={dossier.title} onDelete={ deleteDossierAdmin} />
               </div>

@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FiTrash2, FiAlertTriangle } from "react-icons/fi";
 import { DeleteActionResult } from "@/lib/type";
+import { useRouter } from "next/navigation";
 interface DeleteConfirmDialogProps {
   itemType: "dossier" | "evidence";
   itemId: string;
@@ -34,7 +35,7 @@ export default function DeleteConfirmDialog({
   const isDossier = itemType === "dossier";
   const expectedPhrase = isDossier ? "Cancella Dossier" : "Cancella Prova";
   const entityLabel = isDossier ? "Dossier" : "Prova";
-
+const router = useRouter();
 const isUnlocked = confirmText.trim().toLowerCase() === expectedPhrase.toLowerCase();
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
@@ -43,21 +44,44 @@ const isUnlocked = confirmText.trim().toLowerCase() === expectedPhrase.toLowerCa
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!isUnlocked || isPending) return;
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!isUnlocked || isPending) return;
 
-    setIsPending(true);
-    try {
-      await onDelete(itemId);
+  //   setIsPending(true);
+  //   try {
+  //     await onDelete(itemId);
+  //     setOpen(false);
+  //   } catch (error) {
+  //     console.error(`Errore eliminazione ${itemType}:`, error);
+  //   } finally {
+  //     setIsPending(false);
+  //   }
+  // };
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  if (!isUnlocked || isPending) return;
+
+  setIsPending(true);
+  setErrorMessage(null);
+  try {
+    const result = await onDelete(itemId);
+    if (result.success) {
+      router.refresh();
       setOpen(false);
-    } catch (error) {
-      console.error(`Errore eliminazione ${itemType}:`, error);
-    } finally {
-      setIsPending(false);
+    } else {
+      setErrorMessage(result.message || "Errore durante l'eliminazione.");
     }
-  };
-
+  } catch (error) {
+    console.error(`Errore eliminazione ${itemType}:`, error);
+    setErrorMessage("Errore di connessione.");
+  } finally {
+    setIsPending(false);
+  }
+};
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
@@ -101,7 +125,12 @@ const isUnlocked = confirmText.trim().toLowerCase() === expectedPhrase.toLowerCa
               className="bg-zinc-900 border-zinc-800 text-zinc-100 placeholder:text-zinc-600 "
             />
           </div>
-
+{errorMessage && (
+  <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+    <FiAlertTriangle className="w-4 h-4 shrink-0" />
+    <span>{errorMessage}</span>
+  </div>
+)}
           <DialogFooter className="gap-2 sm:gap-0">
             <Button
               type="button"

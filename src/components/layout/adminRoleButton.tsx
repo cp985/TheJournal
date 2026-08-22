@@ -41,7 +41,7 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
       const res = await userRoleAdmin(userId);
 
       if (!res.success) {
-        setErrorMessage(res.message || "Si è verificato un errore imprevisto.");
+        setErrorMessage(res.message || "error-occurred.");
       } else {
         setSuccessMessage("Ruolo utente aggiornato con successo!");
         setTimeout(() => {
@@ -52,9 +52,6 @@ export default function ToggleRoleButton({ userId }: ToggleRoleButtonProps) {
     });
   };
 
-//   const handleToggleRole = () => {
-//   console.log("🟢 CLIENT [1/3]: Pulsante cliccato per userId:", userId);
-//   setErrorMessage(null);
 
 //   startTransition(async () => {
 //     console.log("🟢 CLIENT [2/3]: Avvio chiamata Server Action...");
