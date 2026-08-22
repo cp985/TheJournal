@@ -1205,14 +1205,19 @@ export const getHealth = async (): Promise<HealthStatus> => {
 //dossier admin edit/create
 
 // --- DOSSIER SCHEMAS ---
- const dossierSchemaAdmin = z.object({
+ 
+
+const dossierSchemaAdmin = z.object({
 id: z.string().optional(),    
 code: z
     .string()
     .min(3, "Il codice deve contenere almeno 3 caratteri")
     .max(20, "Il codice non può superare 20 caratteri")
-    .regex( /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9_-]+$/, "Solo lettere, numeri, trattini e underscore"),
-  title: z.string().min(2, "Il titolo è obbligatorio"),
+.regex(
+  /^[a-z]+-\d{3}$/,
+  "Formato non valido: deve essere lettera/e minuscole, trattino, tre cifre (es. dos-001)"
+),  
+title: z.string().min(2, "Il titolo è obbligatorio"),
   title_en: z.string().optional().nullable(),
   description: z.string().min(5, "La descrizione deve contenere almeno 5 caratteri"),
   description_en: z.string().optional().nullable(),
@@ -1540,8 +1545,15 @@ revalidatePath("/");
 // --- EVIDENCE SCHEMAS ---
  const evidenceSchemaAdmin = z.object({
   id: z.string().optional(),
-  dossierId: z.string().min(1, "Il codice del Dossier è obbligatorio"),
-  type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
+dossierId: z
+    .string()
+    .min(3, "Il codice deve contenere almeno 3 caratteri")
+    .max(20, "Il codice non può superare 20 caratteri")
+.regex(
+  /^[a-z]+-\d{3}$/,
+  "Formato non valido: deve essere lettera/e minuscole, trattino, tre cifre (es. dos-001)"
+),  
+type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
     message: "Seleziona un tipo di prova valido",
   }),
   fileUrl: z.string().min(1, "L'URL del file è obbligatorio"),
@@ -1640,8 +1652,9 @@ export async function createEvidenceAdmin(
     const textResponse = await response.text();
     const result = textResponse ? JSON.parse(textResponse) : {};
 
-    revalidatePath("/admin");
-
+       revalidatePath("/admin");
+revalidatePath("/cases");  
+revalidatePath("/"); 
     return {
       success: true,
       message: "evidence-created!",
@@ -1744,8 +1757,9 @@ export async function updateEvidenceAdmin(
     const textResponse = await response.text();
     const result = textResponse ? JSON.parse(textResponse) : {};
 
-    revalidatePath("/admin");
-
+       revalidatePath("/admin");
+revalidatePath("/cases");  
+revalidatePath("/"); 
     return {
       success: true,
       message: "evidence-updated!",
@@ -1842,8 +1856,9 @@ export async function deleteEvidenceAdmin(
     const textResponse = await response.text();
     const result = textResponse ? JSON.parse(textResponse) : {};
 
-    revalidatePath("/admin");
-
+       revalidatePath("/admin");
+revalidatePath("/cases");  
+revalidatePath("/"); 
     return {
       success: true,
       message: "evidence-deleted!",

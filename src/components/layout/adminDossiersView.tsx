@@ -1,9 +1,8 @@
-import { FiTrash2 } from "react-icons/fi";
 import { formatDate } from "@/lib/utils";
 import { getDossiers } from "@/action/action";
 import { DbDossier } from "@/lib/type";
 import DossierFormDialog from "@/components/layout/adminDossierDialog"
-import {createDossierAdmin, deleteDossierAdmin,updateDossierAdmin} from "@/action/action"
+import {deleteDossierAdmin} from "@/action/action"
 import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
 export default async function AdminDossiersView({q}: {q: string}) {
  const DOSSIERS_LIST : DbDossier[] = await getDossiers();

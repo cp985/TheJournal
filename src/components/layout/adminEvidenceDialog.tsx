@@ -1,7 +1,14 @@
+
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
-import { FiPlus, FiEdit2, FiFileText, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+
+
+import { useState, useTransition, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { createEvidenceAdmin, updateEvidenceAdmin } from "@/action/action";
+import { ActionState } from "@/lib/type";
+import ErrorsBox from "./errorsBox";
+import { FiPlus, FiEdit2, FiFileText } from "react-icons/fi";
 import {
   Dialog,
   DialogContent,
@@ -12,52 +19,59 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {EvidenceStatus,EvidenceType} from "@/lib/type"
 
 export interface EvidenceData {
   id?: string;
-  dossierId: string; // Corrisponde al 'code' del Dossier
-  type: "PHOTO" | "PDF" | "DOCUMENT";
+  dossierId: string;
+  type: EvidenceType;
   fileUrl: string;
   notes: string;
   notes_en?: string | null;
-  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  status: EvidenceStatus;
 }
 
-interface EvidenceFormDialogProps {
-  mode: "create" | "edit";
-  initialData?: EvidenceData;
-  // Opzionale: Se il form viene aperto da un contesto dove il codice Dossier è già fisso
-  defaultDossierCode?: string;
-  action: (prevState: any, formData: FormData) => Promise<any>;
-}
+type EvidenceFormDialogProps =
+  | { mode: "create"; defaultDossierCode?: string; dossierOptions: { code: string; title: string }[] }
+  | { mode: "edit"; id: string; initialData: EvidenceData; dossierOptions: { code: string; title: string }[] };  
+  const EMPTY_STATE: ActionState = { success: false, message: null, errors: null };
 
-export default function EvidenceFormDialog({
-  mode,
-  initialData,
-  defaultDossierCode,
-  action,
-}: EvidenceFormDialogProps) {
-  const [open, setOpen] = useState(false);
-
-  const [state, formAction, isPending] = useActionState(action, {
-    success: false,
-    message: null,
-    errors: null,
-  });
-
-  useEffect(() => {
-    if (state?.success) {
-      const timer = setTimeout(() => {
-        setOpen(false);
-      }, 1200);
-      return () => clearTimeout(timer);
-    }
-  }, [state?.success]);
-
+export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
+  
+  const { mode } = props;
   const isEdit = mode === "edit";
+  const initialData = isEdit ? props.initialData : undefined;
+  const defaultDossierCode = !isEdit ? props.defaultDossierCode : undefined;
+
+  const [open, setOpen] = useState(false);
+  const [state, setState] = useState<ActionState>(EMPTY_STATE);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (isPending) return;
+    setOpen(newOpen);
+    if (!newOpen) setState(EMPTY_STATE);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    startTransition(async () => {
+      const action = isEdit ? updateEvidenceAdmin : createEvidenceAdmin;
+      const res = await action(EMPTY_STATE, formData);
+      setState(res);
+
+      if (res.success) {
+        router.refresh();
+        setTimeout(() => setOpen(false), 1200);
+      }
+    });
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {isEdit ? (
           <button
@@ -74,7 +88,10 @@ export default function EvidenceFormDialog({
         )}
       </DialogTrigger>
 
-      <DialogContent className="bg-zinc-950 border-2 border-amber-500/40 shadow-xl shadow-amber-500/5 text-zinc-100 sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-6">
+      <DialogContent
+        key={isEdit ? props.id : "create"}
+        className="bg-zinc-950 border-2 border-amber-500/40 shadow-xl shadow-amber-500/5 text-zinc-100 sm:max-w-[700px] max-h-[90vh] overflow-y-auto p-6"
+      >
         <DialogHeader>
           <div className="flex items-center gap-3 text-amber-400 mb-1">
             <div className="p-2 rounded-full bg-rose-500/10">
@@ -91,27 +108,9 @@ export default function EvidenceFormDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form action={formAction} className="space-y-4 mt-2">
-          {/* ID inviato in hidden se siamo in fase di modifica */}
-          {isEdit && initialData?.id && (
-            <input type="hidden" name="id" value={initialData.id} />
-          )}
-
-          {/* Banner Errore */}
-          {state?.message && !state?.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
-              <FiAlertCircle className="w-4 h-4 shrink-0" />
-              <span>{state.message}</span>
-            </div>
-          )}
-
-          {/* Banner Successo */}
-          {state?.success && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
-              <FiCheckCircle className="w-4 h-4 shrink-0" />
-              <span>{state.message || "Operazione completata con successo!"}</span>
-            </div>
-          )}
+        <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+          {/* In edit inviamo l'ID come campo nascosto */}
+          {isEdit && <input type="hidden" name="id" value={props.id} />}
 
           {/* Riga 1: Codice Dossier e Tipo Prova */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -119,13 +118,12 @@ export default function EvidenceFormDialog({
               <label className="block text-xs font-medium text-zinc-300 mb-1">
                 Codice Dossier (dossierId) *
               </label>
-              <input
-                type="text"
-                name="dossierId"
-                defaultValue={initialData?.dossierId || defaultDossierCode || ""}
-                placeholder="es. DOS-2026-001"
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
-              />
+              <select     className="w-full px-3 py-2 pr-8 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm  cursor-pointer" name="dossierId" defaultValue={initialData?.dossierId || defaultDossierCode || ""}>
+  <option value="" className="py-2 px-3 bg-zinc-800" disabled>Seleziona un dossier...</option>
+  {props.dossierOptions.map(d => (
+    <option className="py-2 px-3 bg-zinc-800" key={d.code} value={d.code}>{d.code} — {d.title}</option>
+  ))}
+</select>
               {state?.errors?.dossierId && (
                 <p className="text-xs text-rose-400 mt-1">{state.errors.dossierId[0]}</p>
               )}
@@ -138,13 +136,11 @@ export default function EvidenceFormDialog({
               <select
                 name="type"
                 defaultValue={initialData?.type || "PHOTO"}
-                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:-border-zinc-500 text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
                 <option value="PHOTO">Foto (PHOTO)</option>
-                <option value="VIDEO">Video (VIDEO)</option>
-                <option value="AUDIO">Audio (AUDIO)</option>
+                <option value="PDF">PDF</option>
                 <option value="DOCUMENT">Documento (DOCUMENT)</option>
-                <option value="OTHER">Altro (OTHER)</option>
               </select>
               {state?.errors?.type && (
                 <p className="text-xs text-rose-400 mt-1">{state.errors.type[0]}</p>
@@ -180,7 +176,7 @@ export default function EvidenceFormDialog({
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
                 <option value="PENDING">In Attesa (PENDING)</option>
-                <option value="VERIFIED">Verificata (VERIFIED)</option>
+                <option value="ACCEPTED">Accettata (ACCEPTED)</option>
                 <option value="REJECTED">Rifiutata (REJECTED)</option>
               </select>
             </div>
@@ -217,12 +213,14 @@ export default function EvidenceFormDialog({
             />
           </div>
 
+          <ErrorsBox formData={state} isPending={isPending} />
+
           <DialogFooter className="gap-2 sm:gap-0 mt-6 pt-2 border-t border-zinc-800">
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
-              disabled={isPending || state?.success}
+              onClick={() => handleOpenChange(false)}
+              disabled={isPending || state.success}
               className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
             >
               Annulla
@@ -230,7 +228,7 @@ export default function EvidenceFormDialog({
 
             <Button
               type="submit"
-              disabled={isPending || state?.success}
+              disabled={isPending || state.success}
               className="bg-amber-600 hover:bg-amber-700 text-white min-w-[120px]"
             >
               {isPending ? (

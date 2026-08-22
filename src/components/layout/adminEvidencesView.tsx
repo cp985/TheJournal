@@ -1,13 +1,16 @@
 
 
 import { getEvidences } from "@/action/action";
-import {  FiCheck,  FiTrash2 } from "react-icons/fi";
+import {  FiCheck } from "react-icons/fi";
 import EvidenceFormDialog from "./adminEvidenceDialog";
-import {createEvidenceAdmin, deleteEvidenceAdmin, updateEvidenceAdmin} from "@/action/action"
+import {getDossiers, deleteEvidenceAdmin, } from "@/action/action"
 import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
-
+import {DbDossier} from "@/lib/type"
 export default async function AdminEvidencesView({q}: {q: string}) {
 const evidencesList = await getEvidences();
+const dossiersList : DbDossier[] = await getDossiers();
+
+
 const filteredUsers = evidencesList.filter((evidence) => {
   const searchTerm = q.toLowerCase();
 
@@ -18,13 +21,16 @@ const filteredUsers = evidencesList.filter((evidence) => {
   return notesMatch || usernameMatch;
 })
 
+const dossiersCode = dossiersList.map(d  => ({ code: d.code, title: d.title}))
   return (
     <div className="space-y-6 font-mono">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-zinc-100">Revisione Prove</h1>
         <span className="text-xs text-zinc-400">{evidencesList.length} totali</span>
-     <EvidenceFormDialog mode="create" action={createEvidenceAdmin} />
-      </div>
+<EvidenceFormDialog
+  mode="create"
+  dossierOptions={dossiersCode}
+/>      </div>
 
       <div className="space-y-3">
         {filteredUsers.map((ev) => (
@@ -52,7 +58,7 @@ const filteredUsers = evidencesList.filter((evidence) => {
 
             {/* Gruppo Azioni Admin */}
             <div className="flex items-center gap-2 self-end md:self-auto shrink-0">
-         <EvidenceFormDialog mode="edit" initialData={ev} action={updateEvidenceAdmin} />
+         <EvidenceFormDialog mode="edit" initialData={ev} id={ev.id} dossierOptions={dossiersCode} />
 
               {ev.status === "PENDING" && (
                 <button
