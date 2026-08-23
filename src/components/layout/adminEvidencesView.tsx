@@ -78,6 +78,7 @@ import EvidenceFormDialog from "./adminEvidenceDialog";
 import { deleteEvidenceAdmin } from "@/action/action";
 import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
 import { DbDossier, DbEvidence } from "@/lib/type";
+import { cn } from "@/lib/utils";
 
 interface AdminEvidencesViewProps {
   q: string;
@@ -90,7 +91,7 @@ export default function AdminEvidencesView({
   evidencesList = [],
   dossiersList = [],
 }: AdminEvidencesViewProps) {
-  const { t } = useLanguage();
+  const { t,lang } = useLanguage();
 
   const filteredUsers = evidencesList.filter((evidence) => {
     const searchTerm = q.toLowerCase();
@@ -104,7 +105,7 @@ export default function AdminEvidencesView({
 
   const dossiersCode = dossiersList.map((d) => ({
     code: d.code,
-    title: d.title,
+    title: lang==="IT" ? d.title : d.title_en,
   }));
 
   return (
@@ -133,14 +134,18 @@ export default function AdminEvidencesView({
               <div className="space-y-1">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-bold text-xs text-zinc-100">
-                    {ev.notes}
+                    {lang === "IT" ? ev.notes : ev.notes_en}
                   </span>
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] ${
-                      ev.status === "ACCEPTED"
-                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                        : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                    }`}
+            
+                    className={cn(
+    "px-2 py-0.5 rounded text-[10px] font-mono",
+    {
+      "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20": ev.status === "ACCEPTED",
+      "bg-amber-500/10 text-amber-400 border border-amber-500/20": ev.status === "PENDING",
+      "bg-rose-500/10 text-rose-400 border border-rose-500/20": ev.status === "REJECTED",
+    }
+  )}
                   >
                     {ev.status === "ACCEPTED"
                       ? t.admin.adminEvidences.statusAccepted
@@ -166,7 +171,7 @@ export default function AdminEvidencesView({
                 <DeleteConfirmDialog
                   itemType="evidence"
                   itemId={ev.id}
-                  itemTitle={ev.notes}
+                  itemTitle={lang === "IT" ? ev.notes : ev.notes_en}
                   onDelete={deleteEvidenceAdmin}
                 />
               </div>

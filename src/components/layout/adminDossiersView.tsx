@@ -57,6 +57,7 @@ import { DbDossier } from "@/lib/type";
 import DossierFormDialog from "@/components/layout/adminDossierDialog";
 import { deleteDossierAdmin } from "@/action/action";
 import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
+import { cn } from "@/lib/utils";
 
 interface AdminDossiersViewProps {
   q: string;
@@ -67,7 +68,7 @@ export default function AdminDossiersView({
   q,
   dossiersList,
 }: AdminDossiersViewProps) {
-  const { t } = useLanguage();
+  const { t ,lang} = useLanguage();
   const safeDossiersList = Array.isArray(dossiersList) ? dossiersList : [];
 
   const filteredDossiers = safeDossiersList.filter(
@@ -93,14 +94,17 @@ export default function AdminDossiersView({
           >
             <div className="flex justify-between items-start">
               <h3 className="font-bold text-sm text-zinc-100">
-                {dossier.title}
+                {lang === "IT" ? dossier.title : dossier.title_en}
               </h3>
               <span
-                className={`px-2 py-0.5 rounded text-[10px] ${
-                  dossier.status === "Open"
-                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"
-                    : "bg-amber-500/10 text-amber-400 border border-amber-500/30"
-                }`}
+        className={cn(
+    "px-2 py-0.5 rounded text-[10px] font-mono",
+    {
+      "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20": dossier.status === "Open",
+      "bg-amber-500/10 text-amber-400 border border-amber-500/20": dossier.status === "Archived",
+      "bg-rose-500/10 text-rose-400 border border-rose-500/20": dossier.status === "Closed",
+    }
+  )}
               >
                 {dossier.status}
               </span>
@@ -127,7 +131,7 @@ export default function AdminDossiersView({
                 <DeleteConfirmDialog
                   itemType="dossier"
                   itemId={dossier.id}
-                  itemTitle={dossier.title}
+                  itemTitle={lang === "IT" ? dossier.title : dossier.title_en}
                   onDelete={deleteDossierAdmin}
                 />
               </div>
