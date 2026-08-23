@@ -760,6 +760,33 @@ export const dictionary = {
     cancel: "Annulla",
     confirm: "Conferma"
   },
+  dossierDialog: {
+    editTriggerTitle: "Modifica Dossier",
+    newButton: "Nuovo Dossier",
+    titleEdit: "Modifica Dossier",
+    titleCreate: "Crea Nuovo Dossier",
+    descEdit: "Aggiorna le informazioni relative a questo dossier.",
+    descCreate: "Inserisci i dati essenziali per archiviare un nuovo dossier d'indagine.",
+    codeLabel: "Codice Univoco (Code) *",
+    codePlaceholder: "es. DOS-2026-001",
+    statusLabel: "Stato",
+    statusOpen: "Aperto (Open)",
+    statusClosed: "Chiuso (Closed)",
+    statusArchived: "Archiviato (Archived)",
+    titleItLabel: "Titolo (Italiano) *",
+    titleItPlaceholder: "Titolo del dossier",
+    titleEnLabel: "Titolo (Inglese)",
+    titleEnPlaceholder: "Title in English (opzionale)",
+    coverUrlLabel: "URL Immagine di Copertina (Cover URL) *",
+    coverUrlPlaceholder: "https://... o /images/cover.jpg",
+    descItLabel: "Descrizione (Italiano) *",
+    descItPlaceholder: "Dettagli e contesto del dossier...",
+    descEnLabel: "Descrizione (Inglese)",
+    descEnPlaceholder: "English description (optional)...",
+    cancel: "Annulla",
+    saveChanges: "Salva Modifiche",
+    createDossier: "Crea Dossier"
+  }
     }
   },
   EN: {
@@ -1521,7 +1548,34 @@ export const dictionary = {
     successMessage: "User successfully deleted/anonymized!",
     cancel: "Cancel",
     confirm: "Confirm"
-  }                         
+  },
+    dossierDialog: {
+    editTriggerTitle: "Edit Dossier",
+    newButton: "New Dossier",
+    titleEdit: "Edit Dossier",
+    titleCreate: "Create New Dossier",
+    descEdit: "Update information for this dossier.",
+    descCreate: "Enter essential data to archive a new investigation dossier.",
+    codeLabel: "Unique Code *",
+    codePlaceholder: "e.g. DOS-2026-001",
+    statusLabel: "Status",
+    statusOpen: "Open",
+    statusClosed: "Closed",
+    statusArchived: "Archived",
+    titleItLabel: "Title (Italian) *",
+    titleItPlaceholder: "Dossier title",
+    titleEnLabel: "Title (English)",
+    titleEnPlaceholder: "Title in English (optional)",
+    coverUrlLabel: "Cover Image URL *",
+    coverUrlPlaceholder: "https://... or /images/cover.jpg",
+    descItLabel: "Description (Italian) *",
+    descItPlaceholder: "Details and context of the dossier...",
+    descEnLabel: "Description (English)",
+    descEnPlaceholder: "English description (optional)...",
+    cancel: "Cancel",
+    saveChanges: "Save Changes",
+    createDossier: "Create Dossier"
+  }                       
     }
   },
 } as const;
