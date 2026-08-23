@@ -649,6 +649,118 @@ export const dictionary = {
         },
       },
     },
+    admin:{
+      adminEvidences: {
+  title: "Revisione Prove",
+  total: "totali",
+  newEvidence: "Nuova Prova",
+  editEvidence: "Modifica Prova",
+  uploadedBy: "Caricato da",
+  onDate: "il",
+  noEvidences: "Nessuna prova trovata.",
+  statusAccepted: "Accettato",
+  statusPending: "In attesa",
+},evidenceDialog: {
+    editTitle: "Modifica Prova",
+    createTitle: "Aggiungi Nuova Prova",
+    editDesc: "Aggiorna i dettagli relativi a questo elemento di prova.",
+    createDesc: "Associa una nuova prova multimediale o documentale ad un dossier.",
+    buttonNew: "Nuova Prova",
+    buttonEditTooltip: "Modifica Prova",
+    dossierCodeLabel: "Codice Dossier (dossierId) *",
+    selectDossierPlaceholder: "Seleziona un dossier...",
+    typeLabel: "Tipo Prova (Type) *",
+    typePhoto: "Foto (PHOTO)",
+    typePdf: "PDF",
+    typeDoc: "Documento (DOCUMENT)",
+    fileUrlLabel: "URL del File (File URL) *",
+    fileUrlPlaceholder: "https://... o /uploads/evidence.jpg",
+    statusLabel: "Stato Validazione (Status)",
+    statusPending: "In Attesa (PENDING)",
+    statusAccepted: "Accettata (ACCEPTED)",
+    statusRejected: "Rifiutata (REJECTED)",
+    notesItLabel: "Note / Dettagli (Italiano) *",
+    notesItPlaceholder: "Descrizione dell'evidenza e rilievi...",
+    notesEnLabel: "Note / Dettagli (Inglese)",
+    notesEnPlaceholder: "English notes (optional)...",
+    cancelButton: "Annulla",
+    saveChangesButton: "Salva Modifiche",
+    createButton: "Crea Prova"
+  },deleteDialog: {
+    deleteDossierTitle: "Elimina Dossier",
+    deleteEvidenceTitle: "Elimina Prova",
+    dossierLabel: "Dossier",
+    evidenceLabel: "Prova",
+    dossierPhrase: "Cancella Dossier",
+    evidencePhrase: "Cancella Prova",
+    confirmDescDossier: "Stai per eliminare permanentemente il dossier",
+    confirmDescEvidence: "Stai per eliminare permanentemente la prova",
+    actionIrreversible: "Questa azione è irreversibile.",
+    typeInstruction: "Per confermare, digita:",
+    hereBelow: "qui sotto:",
+    genericError: "Errore durante l'eliminazione.",
+    connectionError: "Errore di connessione.",
+    cancelButton: "Annulla",
+    deleteButton: "Conferma Eliminazione",
+    deletingState: "Eliminazione..."
+  },mobileMenu: {
+    panelTitle: "PANNELLO ADMIN",
+    overview: "Panoramica",
+    users: "Utenti",
+    dossiers: "Dossier",
+    evidences: "Prove",
+    map: "Mappa & Punti"
+  },
+  search: {
+    placeholder: "Cerca..."
+  },sidebar: {
+    panelTitle: "PANNELLO ADMIN",
+    overview: "Panoramica",
+    users: "Utenti",
+    dossiers: "Dossier",
+    evidences: "Prove",
+    map: "Mappa & Punti"
+  },
+  usersView: {
+    title: "Gestione Utenti",
+    registeredCount: "registrati",
+    tableUsername: "Username",
+    tableEmail: "Email",
+    tableRole: "Ruolo",
+    tableCreatedAt: "Data Iscrizione",
+    tableActions: "Azioni",
+    createdOn: "Creato il:"
+  },dossiersView: {
+    title: "Gestione Dossier",
+    linkedEvidences: "Prove collegate:",
+    updatedAt: "Aggiornato:",
+    createdAt: "Creato:"
+  },overview: {
+    title: "Panoramica Generale",
+    totalUsers: "Utenti Totali",
+    activeDossiers: "Dossier Attivi",
+    pendingEvidences: "Prove in Sospeso",
+    systemStatus: "Stato Sistema",
+    online: "Online",
+    offline: "Offline"
+  },toggleRole: {
+    triggerTitle: "Cambia Ruolo",
+    title: "Modifica Ruolo Utente",
+    description: "Sei sicuro di voler invertire il ruolo di questo utente? Se è un Utente normale diventerà Admin, e viceversa.",
+    defaultError: "Si è verificato un errore imprevisto.",
+    successMessage: "Ruolo utente aggiornato con successo!",
+    cancel: "Annulla",
+    confirm: "Conferma"
+  },deleteUser: {
+    triggerTitle: "Elimina",
+    title: "Conferma Eliminazione",
+    description: "Sei sicuro di voler eliminare questo utente? L'account verrà anonimizzato nel database per preservare la cronologia delle attività.",
+    defaultError: "Si è verificato un errore imprevisto.",
+    successMessage: "Utente eliminato/anonimizzato con successo!",
+    cancel: "Annulla",
+    confirm: "Conferma"
+  },
+    }
   },
   EN: {
     nav: {
@@ -1298,6 +1410,119 @@ export const dictionary = {
         },
       },
     },
+    admin:{
+      adminEvidences: {
+  title: "Evidence Review",
+  total: "total",
+  newEvidence: "New Evidence",
+  editEvidence: "Edit Evidence",
+  uploadedBy: "Uploaded by",
+  onDate: "on",
+  noEvidences: "No evidence found.",
+  statusAccepted: "Accepted",
+  statusPending: "Pending",
+},evidenceDialog: {
+    editTitle: "Edit Evidence",
+    createTitle: "Add New Evidence",
+    editDesc: "Update details related to this evidence item.",
+    createDesc: "Associate a new media or document evidence with a dossier.",
+    buttonNew: "New Evidence",
+    buttonEditTooltip: "Edit Evidence",
+    dossierCodeLabel: "Dossier Code (dossierId) *",
+    selectDossierPlaceholder: "Select a dossier...",
+    typeLabel: "Evidence Type *",
+    typePhoto: "Photo (PHOTO)",
+    typePdf: "PDF",
+    typeDoc: "Document (DOCUMENT)",
+    fileUrlLabel: "File URL *",
+    fileUrlPlaceholder: "https://... or /uploads/evidence.jpg",
+    statusLabel: "Validation Status",
+    statusPending: "Pending (PENDING)",
+    statusAccepted: "Accepted (ACCEPTED)",
+    statusRejected: "Rejected (REJECTED)",
+    notesItLabel: "Notes / Details (Italian) *",
+    notesItPlaceholder: "Description of the evidence and notes...",
+    notesEnLabel: "Notes / Details (English)",
+    notesEnPlaceholder: "English notes (optional)...",
+    cancelButton: "Cancel",
+    saveChangesButton: "Save Changes",
+    createButton: "Create Evidence"
+  },deleteDialog: {
+    deleteDossierTitle: "Delete Dossier",
+    deleteEvidenceTitle: "Delete Evidence",
+    dossierLabel: "Dossier",
+    evidenceLabel: "Evidence",
+    dossierPhrase: "Delete Dossier",
+    evidencePhrase: "Delete Evidence",
+    confirmDescDossier: "You are about to permanently delete the dossier",
+    confirmDescEvidence: "You are about to permanently delete the evidence",
+    actionIrreversible: "This action cannot be undone.",
+    typeInstruction: "To confirm, type:",
+    hereBelow: "below:",
+    genericError: "Error during deletion.",
+    connectionError: "Connection error.",
+    cancelButton: "Cancel",
+    deleteButton: "Confirm Deletion",
+    deletingState: "Deleting..."
+  },mobileMenu: {
+    panelTitle: "ADMIN PANEL",
+    overview: "Overview",
+    users: "Users",
+    dossiers: "Dossiers",
+    evidences: "Evidences",
+    map: "Map & Points"
+  },
+  search: {
+    placeholder: "Search..."
+  },sidebar: {
+    panelTitle: "ADMIN PANEL",
+    overview: "Overview",
+    users: "Users",
+    dossiers: "Dossiers",
+    evidences: "Evidences",
+    map: "Map & Points"
+  },usersView: {
+    title: "Users Management",
+    registeredCount: "registered",
+    tableUsername: "Username",
+    tableEmail: "Email",
+    tableRole: "Role",
+    tableCreatedAt: "Registration Date",
+    tableActions: "Actions",
+    createdOn: "Created on:"
+  },dossiersView: {
+    title: "Dossier Management",
+    linkedEvidences: "Linked evidences:",
+    updatedAt: "Updated:",
+    createdAt: "Created:"
+  },
+     overview: {
+    title: "General Overview",
+    totalUsers: "Total Users",
+    activeDossiers: "Active Dossiers",
+    pendingEvidences: "Pending Evidences",
+    systemStatus: "System Status",
+    online: "Online",
+    offline: "Offline"
+  },
+  toggleRole: {
+    triggerTitle: "Change Role",
+    title: "Modify User Role",
+    description: "Are you sure you want to toggle this user's role? A regular user will become an Admin, and vice versa.",
+    defaultError: "An unexpected error occurred.",
+    successMessage: "User role updated successfully!",
+    cancel: "Cancel",
+    confirm: "Confirm"
+  } ,deleteUser: {
+    triggerTitle: "Delete",
+    title: "Confirm Deletion",
+    description: "Are you sure you want to delete this user? The account will be anonymized in the database to preserve activity history.",
+    defaultError: "An unexpected error occurred.",
+    successMessage: "User successfully deleted/anonymized!",
+    cancel: "Cancel",
+    confirm: "Confirm"
+  }                         
+    }
   },
 } as const;
 

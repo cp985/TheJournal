@@ -1,10 +1,8 @@
-
 "use client";
-
-
 
 import { useState, useTransition, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/maincontext";
 import { createEvidenceAdmin, updateEvidenceAdmin } from "@/action/action";
 import { ActionState } from "@/lib/type";
 import ErrorsBox from "./errorsBox";
@@ -19,7 +17,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {EvidenceStatus,EvidenceType} from "@/lib/type"
+import { EvidenceStatus, EvidenceType } from "@/lib/type";
 
 export interface EvidenceData {
   id?: string;
@@ -32,12 +30,26 @@ export interface EvidenceData {
 }
 
 type EvidenceFormDialogProps =
-  | { mode: "create"; defaultDossierCode?: string; dossierOptions: { code: string; title: string }[] }
-  | { mode: "edit"; id: string; initialData: EvidenceData; dossierOptions: { code: string; title: string }[] };  
-  const EMPTY_STATE: ActionState = { success: false, message: null, errors: null };
+  | {
+      mode: "create";
+      defaultDossierCode?: string;
+      dossierOptions: { code: string; title: string }[];
+    }
+  | {
+      mode: "edit";
+      id: string;
+      initialData: EvidenceData;
+      dossierOptions: { code: string; title: string }[];
+    };
+
+const EMPTY_STATE: ActionState = {
+  success: false,
+  message: null,
+  errors: null,
+};
 
 export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
-  
+  const { t } = useLanguage();
   const { mode } = props;
   const isEdit = mode === "edit";
   const initialData = isEdit ? props.initialData : undefined;
@@ -76,14 +88,14 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
         {isEdit ? (
           <button
             className="p-1.5 rounded bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 cursor-pointer transition-colors"
-            title="Modifica Prova"
+            title={t.admin.evidenceDialog.buttonEditTooltip}
           >
             <FiEdit2 className="w-3.5 h-3.5" />
           </button>
         ) : (
           <Button className="px-1.5 py-2 rounded-lg border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-sm font-mono text-amber-400 flex items-center gap-2 transition-colors">
             <FiPlus className="w-4 h-4" />
-            <span>Nuova Prova</span>
+            <span>{t.admin.evidenceDialog.buttonNew}</span>
           </Button>
         )}
       </DialogTrigger>
@@ -98,13 +110,15 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
               <FiFileText className="w-5 h-5" />
             </div>
             <DialogTitle className="text-zinc-100 text-xl font-bold">
-              {isEdit ? "Modifica Prova (Evidence)" : "Aggiungi Nuova Prova"}
+              {isEdit
+                ? t.admin.evidenceDialog.editTitle
+                : t.admin.evidenceDialog.createTitle}
             </DialogTitle>
           </div>
           <DialogDescription className="text-zinc-400">
             {isEdit
-              ? "Aggiorna i dettagli relativi a questo elemento di prova."
-              : "Associa una nuova prova multimediale o documentale ad un dossier."}
+              ? t.admin.evidenceDialog.editDesc
+              : t.admin.evidenceDialog.createDesc}
           </DialogDescription>
         </DialogHeader>
 
@@ -116,31 +130,47 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-zinc-300 mb-1">
-                Codice Dossier (dossierId) *
+                {t.admin.evidenceDialog.dossierCodeLabel}
               </label>
-              <select     className="w-full px-3 py-2 pr-8 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm  cursor-pointer" name="dossierId" defaultValue={initialData?.dossierId || defaultDossierCode || ""}>
-  <option value="" className="py-2 px-3 bg-zinc-800" disabled>Seleziona un dossier...</option>
-  {props.dossierOptions.map(d => (
-    <option className="py-2 px-3 bg-zinc-800" key={d.code} value={d.code}>{d.code} — {d.title}</option>
-  ))}
-</select>
-         
+              <select
+                className="w-full px-3 py-2 pr-8 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm cursor-pointer"
+                name="dossierId"
+                defaultValue={
+                  initialData?.dossierId || defaultDossierCode || ""
+                }
+              >
+                <option value="" className="py-2 px-3 bg-zinc-800" disabled>
+                  {t.admin.evidenceDialog.selectDossierPlaceholder}
+                </option>
+                {props.dossierOptions.map((d) => (
+                  <option
+                    className="py-2 px-3 bg-zinc-800"
+                    key={d.code}
+                    value={d.code}
+                  >
+                    {d.code} — {d.title}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
               <label className="block text-xs font-medium text-zinc-300 mb-1">
-                Tipo Prova (Type) *
+                {t.admin.evidenceDialog.typeLabel}
               </label>
               <select
                 name="type"
                 defaultValue={initialData?.type || "PHOTO"}
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
-                <option value="PHOTO">Foto (PHOTO)</option>
-                <option value="PDF">PDF</option>
-                <option value="DOCUMENT">Documento (DOCUMENT)</option>
+                <option value="PHOTO">
+                  {t.admin.evidenceDialog.typePhoto}
+                </option>
+                <option value="PDF">{t.admin.evidenceDialog.typePdf}</option>
+                <option value="DOCUMENT">
+                  {t.admin.evidenceDialog.typeDoc}
+                </option>
               </select>
-         
             </div>
           </div>
 
@@ -148,30 +178,35 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-zinc-300 mb-1">
-                URL del File (File URL) *
+                {t.admin.evidenceDialog.fileUrlLabel}
               </label>
               <input
                 type="text"
                 name="fileUrl"
                 defaultValue={initialData?.fileUrl || ""}
-                placeholder="https://... o /uploads/evidence.jpg"
+                placeholder={t.admin.evidenceDialog.fileUrlPlaceholder}
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
               />
-        
             </div>
 
             <div>
               <label className="block text-xs font-medium text-zinc-300 mb-1">
-                Stato Validazione (Status)
+                {t.admin.evidenceDialog.statusLabel}
               </label>
               <select
                 name="status"
                 defaultValue={initialData?.status || "PENDING"}
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm"
               >
-                <option value="PENDING">In Attesa (PENDING)</option>
-                <option value="ACCEPTED">Accettata (ACCEPTED)</option>
-                <option value="REJECTED">Rifiutata (REJECTED)</option>
+                <option value="PENDING">
+                  {t.admin.evidenceDialog.statusPending}
+                </option>
+                <option value="ACCEPTED">
+                  {t.admin.evidenceDialog.statusAccepted}
+                </option>
+                <option value="REJECTED">
+                  {t.admin.evidenceDialog.statusRejected}
+                </option>
               </select>
             </div>
           </div>
@@ -179,40 +214,37 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
           {/* Note IT */}
           <div>
             <label className="block text-xs font-medium text-zinc-300 mb-1">
-              Note / Dettagli (Italiano) *
+              {t.admin.evidenceDialog.notesItLabel}
             </label>
             <textarea
               name="notes"
               rows={3}
               defaultValue={initialData?.notes || ""}
-              placeholder="Descrizione dell'evidenza e rilievi..."
+              placeholder={t.admin.evidenceDialog.notesItPlaceholder}
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
-       
           </div>
 
           {/* Note EN */}
           <div>
             <label className="block text-xs font-medium text-zinc-300 mb-1">
-              Note / Dettagli (Inglese)
+              {t.admin.evidenceDialog.notesEnLabel}
             </label>
             <textarea
               name="notes_en"
               rows={3}
               defaultValue={initialData?.notes_en || ""}
-              placeholder="English notes (optional)..."
+              placeholder={t.admin.evidenceDialog.notesEnPlaceholder}
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm resize-none"
             />
           </div>
 
-
-
-           <DialogFooter className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pt-4 border-t border-zinc-800">
+          <DialogFooter className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pt-4 border-t border-zinc-800">
             {/* Box Errori a sinistra su desktop, in alto su mobile */}
             <div className="w-full sm:w-auto flex-1">
               <ErrorsBox formData={state} isPending={isPending} />
             </div>
-          
+
             <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
               <Button
                 type="button"
@@ -221,9 +253,9 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
                 disabled={isPending || state.success}
                 className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
               >
-                Annulla
+                {t.admin.evidenceDialog.cancelButton}
               </Button>
-          
+
               <Button
                 type="submit"
                 disabled={isPending}
@@ -232,13 +264,13 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
                 {isPending ? (
                   <div className="w-4 h-4 animate-spin border-2 border-white/30 border-t-white rounded-full" />
                 ) : isEdit ? (
-                  "Salva Modifiche"
+                  t.admin.evidenceDialog.saveChangesButton
                 ) : (
-                  "Crea Dossier"
+                  t.admin.evidenceDialog.createButton
                 )}
               </Button>
             </div>
-               </DialogFooter>
+          </DialogFooter>
         </form>
       </DialogContent>
     </Dialog>
