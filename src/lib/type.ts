@@ -94,6 +94,7 @@ export type FormActionState = {
     dossierId?: string;
     type?: string;
     notes?: string;
+    notes_en?: string;
     fileName?: string | undefined;
   };
   success: boolean;

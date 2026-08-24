@@ -10,6 +10,7 @@ import jwt from "jsonwebtoken";
 import {auth} from '@/auth/auth'
 import { InitialStateProfile } from "@/components/layout/profileEditDialog";
 import { type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
+import { p } from "motion/react-client";
 
 
 
@@ -925,16 +926,20 @@ export const userDeleteAdmin = async (userId: string) => {
       }
     );
 
+    console.log('response',response);
+
     if (!response.ok) {
       console.error(`[Express Error] Status: ${response.status}`, response);
       return {
         success: false as const,
-        message: "user-not-authenticated",
+        message: "error-deleting-user",
       };
     }
 
     const data = await response.json();
     revalidatePath("/admin");
+    revalidatePath("/profile");
+    revalidatePath("/");
 
     return {
       success: true as const,
@@ -1036,15 +1041,16 @@ const ALLOWED_MIME_TYPES = [
 
 const evidenceSchema = z.object({
   dossierId: z.string().min(1, { message: "dossierId-not-selected" }),
-  type: z.enum(["PHOTO", "DOCUMENT", "VIDEO", "AUDIO", "OTHER"]),
+  type: z.enum(["PHOTO", "DOCUMENT", "VIDEO"]),
   notes: z
     .string()
     .min(15, { message: "notes-too-short" })
     .max(60, { message: "notes-too-long" }),
+      notes_en: z.string().optional().nullable(),
   fileName: z
     .string()
     .max(40, { message: "file-name-too-long" })
-    .min(3, { message: "file-name-too-short" }),
+    .min(10, { message: "file-name-too-short" }),
   file: z
     .custom<File>((val) => val instanceof File && val.size > 0, {
       message: "file-missing",
@@ -1066,15 +1072,17 @@ export async function createEvidenceAction(
   const dossierId = formData.get("dossierId") as string;
   const type = formData.get("type") as string;
   const notes = formData.get("notes") as string;
+  const notes_en = formData.get("notes_en") as string;
   const fileName = formData.get("fileName") as string;
   const file = formData.get("file") as File;
 
-  const data = { dossierId, type, notes, fileName };
+  const data = { dossierId, type, notes, fileName , notes_en};
 
   const validationResult = evidenceSchema.safeParse({
     dossierId,
     type,
     notes,
+    notes_en,
     file,
     fileName,
   });
@@ -1120,6 +1128,7 @@ export async function createEvidenceAction(
     payload.append("type", type);
     payload.append("notes", notes);
     payload.append("fileName", fileName);
+    payload.append("notes_en", notes_en);
     payload.append("file", file, file.name);
 
     const response = await fetch(
@@ -1145,10 +1154,12 @@ export async function createEvidenceAction(
       };
     }
  revalidatePath("/profile");
+ revalidatePath("/admin");
+ revalidatePath("/");
     return {
       errors: null,
       message: "evidence-created",
-      data: { dossierId: "", type: "PHOTO", notes: "", fileName: "" },
+      data: { dossierId: "", type: "PHOTO", notes: "", fileName: "" , notes_en: ""},
       success: true,
     };
   } catch (error) {
@@ -1204,24 +1215,24 @@ export const getHealth = async (): Promise<HealthStatus> => {
 
 //dossier admin edit/create
 
-// --- DOSSIER SCHEMAS ---
+
  
 
 const dossierSchemaAdmin = z.object({
 id: z.string().optional(),    
 code: z
     .string()
-    .min(3, "Il codice deve contenere almeno 3 caratteri")
-    .max(20, "Il codice non può superare 20 caratteri")
+    .min(3, "dossierId-too-short")
+    .max(6, "dossierId-too-long")
 .regex(
   /^[a-z]+-\d{3}$/,
-  "Formato non valido: deve essere lettera/e minuscole, trattino, tre cifre (es. dos-001)"
+  "dossierId-not-valid"
 ),  
-title: z.string().min(2, "Il titolo è obbligatorio"),
-  title_en: z.string().optional().nullable(),
-  description: z.string().min(5, "La descrizione deve contenere almeno 5 caratteri"),
+title: z.string().min(10, "title-too-short").max(60, "title-too-long"),
+  title_en: z.string().min(10, "title-too-short").max(60, "title-too-long").optional().nullable(),
+  description: z.string().min(10, "description-too-short").max(600, "description-too-long"),
   description_en: z.string().optional().nullable(),
-  coverUrl: z.string().min(1, "L'URL della copertina è obbligatorio"),
+  coverUrl: z.string().min(7, "coverUrl-not-valid"),
   status: z.enum(["Open" , "Archived" , "Closed"]).default("Open"),
 });
 
@@ -1251,7 +1262,7 @@ export async function createDossierAdmin(
     if (!session?.user?.id) {
       return {
         success: false,
-        message: "user-not-authenticated",
+        message: "admin-not-authenticated",
       };
     }
 
@@ -1321,7 +1332,7 @@ revalidatePath("/");
 
     return {
       success: true,
-      message: "dossier-created!",
+      message: "dossier-created",
       errors: null,
     };
   } catch (error) {
@@ -1427,7 +1438,7 @@ revalidatePath("/");
 
     return {
       success: true,
-      message: "dossier-updated!",
+      message: "dossier-updated",
       errors: null,
     };
   } catch (error) {
@@ -1528,14 +1539,14 @@ revalidatePath("/");
 
     return {
       success: true,
-      message: "item-deleted!",
+      message: "dossier-deleted",
       errors: null,
     };
   } catch (error) {
     console.error("Errore critico nella Action deleteDossierAdmin:", error);
     return {
       success: false,
-      message: "errors-deleting-item-catch",
+      message: "errors-deleting-dossier-catch",
       idItem,
     };
   }
@@ -1547,17 +1558,17 @@ revalidatePath("/");
   id: z.string().optional(),
 dossierId: z
     .string()
-    .min(3, "Il codice deve contenere almeno 3 caratteri")
-    .max(20, "Il codice non può superare 20 caratteri")
+    .min(3, "dossierId-too-short")
+    .max(6, "dossierId-too-long")
 .regex(
   /^[a-z]+-\d{3}$/,
-  "Formato non valido: deve essere lettera/e minuscole, trattino, tre cifre (es. dos-001)"
+  "dossierId-not-valid"
 ),  
 type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
-    message: "Seleziona un tipo di prova valido",
+    message: "type-not-valid",
   }),
-  fileUrl: z.string().min(1, "L'URL del file è obbligatorio"),
-  notes: z.string().min(3, "Le note devono contenere almeno 3 caratteri"),
+  fileUrl: z.string().min(7, "fileUrl-too-short"),
+  notes: z.string().min(10, "notes-too-short").max(60, "notes-too-long"),
   notes_en: z.string().optional().nullable(),
   status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
 });
@@ -1657,7 +1668,7 @@ revalidatePath("/cases");
 revalidatePath("/"); 
     return {
       success: true,
-      message: "evidence-created!",
+      message: "evidence-created",
       errors: null,
     };
   } catch (error) {

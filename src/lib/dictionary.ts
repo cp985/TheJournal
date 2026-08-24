@@ -517,6 +517,7 @@ export const dictionary = {
           evidenceTitle: "Nome Prova / Titolo",
           attachedFile: "File Allegato",
           notes: "Note / Descrizione",
+          notes_en: "English Notes",
         },
         placeholders: {
           evidenceTitle: "Inserisci un nome per identificare la prova...",
@@ -553,7 +554,7 @@ export const dictionary = {
             ["file-name-too-long" ]:
             "Il nome del file deve essere al massimo 40 caratteri.",
 ["file-name-too-short" ]:
-            "Il nome del file deve essere almeno 3 caratteri.",
+            "Il nome del file deve essere almeno 10 caratteri.",
             ["file-missing" ]:
             "Seleziona un file da allegare.",
 ["file-too-large" ]:
@@ -685,7 +686,48 @@ export const dictionary = {
     notesEnPlaceholder: "English notes (optional)...",
     cancelButton: "Annulla",
     saveChangesButton: "Salva Modifiche",
-    createButton: "Crea Prova"
+    createButton: "Crea Prova",
+    errors: {
+      ["dossierId-not-valid"]:
+        "Il codice del dossier non rispetta il formato corretto lettera minuscola, trattino, tre cifre (es. dos-001).",
+      ["dossierId-too-short"]:
+        "Il codice del dossier deve contenere almeno 3 caratteri.",
+      ["dossierId-too-long"]:
+        "Il codice del dossier deve contenere al massimo 6 caratteri.",
+      ["fileUrl-too-short"]:
+        "L'URL del file non rispetta il formato corretto.",
+    ["type-not-valid"]:
+        "Il tipo di prova non rispetta il formato corretto.",
+    ["notes-too-short"]:
+        "Le note devono contenere almeno 10 caratteri.",
+    ["notes-too-long"]:
+        "Le note devono contenere al massimo 60 caratteri.",
+     ["validation-error"]:
+        "Errore durante la validazione dei dati.",
+        ["user-not-authenticated"]:
+            "Amministratore non autenticato.", 
+      ["server-error"]:
+        "Errore interno del server.",
+        ["evidence-created"]:
+        "Prova creata con successo.",
+      ["errors-creating-evidence-catch"]:
+        "Si è verificato un errore durante la creazione della prova.",
+     ["errors-updating-evidence-catch"]:
+        "Si è verificato un errore durante la modifica della prova.",
+     ["forbidden-admin-only"]:
+        "Operazione non autorizzata.",
+        ["no-evidence-data-provided"]:
+        "Nessun dato di prova fornito.",
+     ["evidence-created-successfully"]:
+        "Prova creata con successo.",
+        ["evidence-id-required"]:
+        "ID Prova richiesto.",
+        ["evidence-not-found"]:
+        "Prova non trovata.",
+        ["evidence-updated-successfully"]:
+        "Prova aggiornata con successo.",
+
+      }
   },deleteDialog: {
     deleteDossierTitle: "Elimina Dossier",
     deleteEvidenceTitle: "Elimina Prova",
@@ -702,7 +744,33 @@ export const dictionary = {
     connectionError: "Errore di connessione.",
     cancelButton: "Annulla",
     deleteButton: "Conferma Eliminazione",
-    deletingState: "Eliminazione..."
+    deletingState: "Eliminazione...",
+  errors:{
+    ["evidence-id-not-found"]:
+        "Prova non trovata.",
+       ["user-not-authenticated"]:
+            "Amministratore non autenticato.",
+        ["server-error"]:
+        "Errore interno del server.",
+        ["errors-deleting-evidence-catch"]:
+        "Si è verificato un errore durante la cancellazione della prova.",
+                ["dossier-id-not-found"]:
+        "Dossier non trovato.",
+["dossier-deleted"]:
+        "Dossier eliminato con successo.",
+        ["errors-deleting-dossier-catch"]:
+        "Si è verificato un errore durante la cancellazione del dossier.",
+["forbidden-admin-only"]:
+        "Operazione non autorizzata.",
+  ["evidence-id-required"]:
+        "ID Prova richiesto.",
+                ["dossier-deleted-successfully" ]:
+        "Dossier eliminato con successo.",
+        ["dossier-id-required"]:
+        "ID Dossier richiesto.",
+  
+      }
+  
   },mobileMenu: {
     panelTitle: "PANNELLO ADMIN",
     overview: "Panoramica",
@@ -785,7 +853,27 @@ export const dictionary = {
     descEnPlaceholder: "English description (optional)...",
     cancel: "Annulla",
     saveChanges: "Salva Modifiche",
-    createDossier: "Crea Dossier"
+    createDossier: "Crea Dossier",
+    errors: {
+      ["title-too-short"]: "Il titolo deve contenere almeno 10 caratteri.",
+      ["title-too-long"]: "Il titolo deve contenere al massimo 60 caratteri.",
+      ["description-too-short"]: "La descrizione deve contenere almeno 10 caratteri.",
+      ["description-too-long"]: "La descrizione deve contenere al massimo 600 caratteri.",
+    ["coverUrl-not-valid"]: "L'URL inserito non rispetta il formato corretto.",
+    ["validation-error"]: "Si sono verificati degli errori. Controlla i campi e riprova.",
+    ["admin-not-authenticated"]: "Amministratore non autenticato.",
+    ["server-error"]: "Si sono verificati degli errori imprevisti.",
+    ["dossier-created"]: "Dossier creato con successo.",
+    ["errors-creating-dossier-catch"]: "Si sono verificati degli errori durante la creazione del dossier.",
+    ["dossier-updated"]: "Dossier aggiornato con successo.",
+    ["errors-updating-dossier-catch"]: "Si sono verificati degli errori durante la modifica del dossier.",
+  ["forbidden-admin-only"]: "Operazione non autorizzata.",
+  ["no-dossier-data-provided"]: "Nessun dato di dossier fornito.",
+  ["dossier-created-successfully"]: "Dossier creato con successo.",
+["dossier-id-required"]: "ID Dossier richiesto.",
+["dossier-not-found"]: "Dossier non trovato.",
+["dossier-updated-successfully"]: "Dossier aggiornato con successo.",
+}
   }
     }
   },
@@ -1301,7 +1389,8 @@ export const dictionary = {
           fileType: "File Type",
           evidenceTitle: "Evidence Name / Title",
           attachedFile: "Attached File",
-          notes: "Notes / Description",
+          notes: "Italian Notes",
+        notes_en: "English Notes",
         },
         placeholders: {
           evidenceTitle: "Enter a name to identify the evidence...",
@@ -1338,7 +1427,7 @@ export const dictionary = {
             ["file-name-too-long" ]:
             "Name file must be at most 40 characters.",
 ["file-name-too-short" ]:
-            "File name must be at least 3 characters.",
+            "File name must be at least 10 characters.",
             ["file-missing" ]:
             "Select a file to attach.",
 ["file-too-large" ]:
@@ -1473,7 +1562,50 @@ export const dictionary = {
     notesEnPlaceholder: "English notes (optional)...",
     cancelButton: "Cancel",
     saveChangesButton: "Save Changes",
-    createButton: "Create Evidence"
+    createButton: "Create Evidence",
+       errors: {
+      ["dossierId-not-valid"]:
+        "The dossierId must be in the format: lower-case letter, score, three numbers (es. dos-001).",
+      ["dossierId-too-short"]:
+        "The dossierId must be at least 3 characters long.",
+      ["dossierId-too-long"]:
+        "The dossierId must be at most 6 characters long.",
+      ["fileUrl-too-short"]:
+        "The fileUrl not valid.",
+    ["type-not-valid"]:
+        "The type not valid.",
+    ["notes-too-short"]:
+        "Notes must be at least 10 characters long.",
+    ["notes-too-long"]:
+        "Notes must be at most 60 characters long.",
+     ["validation-error"]:
+        "Error during validation.",
+        ["user-not-authenticated"]:
+            "Administrator not authenticated.", 
+      ["server-error"]:
+        "Internal server error.",
+        ["evidence-created"]:
+        "Evidence created successfully.",
+      ["errors-creating-evidence-catch"]:
+        "Error during evidence creation.",
+     ["errors-updating-evidence-catch"]:
+        "Error during evidence update.",
+          ["forbidden-admin-only"]:
+        "Operation not authorized.",
+        ["no-evidence-data-provided"]:
+        "No evidence data provided.",
+     ["evidence-created-successfully"]:
+        "Evidence created successfully.",
+        ["evidence-id-required"]:
+        "ID Evidence required.",
+        ["evidence-not-found"]:
+        "Evidence not found.",
+        ["evidence-updated-successfully"]:
+        "Evidence updated successfully.",
+
+     
+     
+      }
   },deleteDialog: {
     deleteDossierTitle: "Delete Dossier",
     deleteEvidenceTitle: "Delete Evidence",
@@ -1490,7 +1622,31 @@ export const dictionary = {
     connectionError: "Connection error.",
     cancelButton: "Cancel",
     deleteButton: "Confirm Deletion",
-    deletingState: "Deleting..."
+    deletingState: "Deleting...",
+      errors:{
+    ["evidence-id-not-found"]:
+        "The evidence id not found.",
+       ["user-not-authenticated"]:
+            "Administrator not authenticated.",
+        ["server-error"]:
+        "Internal server error.",
+        ["errors-deleting-evidence-catch"]:
+        "Error during evidence deletion.",
+        ["dossier-id-not-found"]:
+        "The dossier id not found.",
+["dossier-deleted"]:
+        "Dossier deleted successfully.",
+        ["errors-deleting-dossier-catch"]:
+        "Error during dossier deletion.",
+ ["forbidden-admin-only"]:
+        "Operazione non autorizzata.",
+  ["evidence-id-required"]:
+        "ID Prova richiesto.",
+        ["dossier-deleted-successfully" ]:
+        "Dossier deleted successfully.",
+        ["dossier-id-required"]:
+        "ID Dossier required.",
+      }
   },mobileMenu: {
     panelTitle: "ADMIN PANEL",
     overview: "Overview",
@@ -1574,7 +1730,28 @@ export const dictionary = {
     descEnPlaceholder: "English description (optional)...",
     cancel: "Cancel",
     saveChanges: "Save Changes",
-    createDossier: "Create Dossier"
+    createDossier: "Create Dossier",
+        errors: {
+      ["title-too-short"]: "Title must contain at least 10 characters.",
+      ["title-too-long"]: "Title must contain at most 60 characters.",
+      ["description-too-short"]: "Description must contain at least 10 characters.",
+      ["description-too-long"]: "Description must contain at most 600 characters.",
+    ["coverUrl-not-valid"]: "The URL you entered does not respect the correct format.",
+    ["validation-error"]: "Validation error.",
+    ["admin-not-authenticated"]: "Administrator not authenticated.",
+    ["server-error"]: "Internal server error.",
+    ["dossier-created"]: "Dossier created successfully.",
+    ["errors-creating-dossier-catch"]: "An error occurred while creating the dossier.",
+    ["dossier-updated"]: "Dossier updated successfully.",
+    ["errors-updating-dossier-catch"]: "An error occurred while updating the dossier.",
+    ["forbidden-admin-only"]: "Operation not authorized.",
+  ["no-dossier-data-provided"]: "No dossier data provided.",
+  ["dossier-created-successfully"]: "Dossier created successfully.",
+["dossier-id-required"]: "ID Dossier required.",
+["dossier-not-found"]: "Dossier not found.",
+["dossier-updated-successfully"]: "Dossier updated successfully.",
+
+  }
   }                       
     }
   },

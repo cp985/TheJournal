@@ -242,7 +242,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
           <DialogFooter className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pt-4 border-t border-zinc-800">
             {/* Box Errori a sinistra su desktop, in alto su mobile */}
             <div className="w-full sm:w-auto flex-1">
-              <ErrorsBox formData={state} isPending={isPending} />
+              <ErrorsBox formData={state} isPending={isPending} page="admin.evidenceDialog" />
             </div>
 
             <div className="flex items-center justify-end gap-2 w-full sm:w-auto">

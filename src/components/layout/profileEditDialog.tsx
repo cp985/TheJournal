@@ -22,7 +22,7 @@ import { useSession } from "next-auth/react";
 import { userUpdate } from "@/action/action";
 import { useRouter } from "next/navigation";
 import UserAvatar, { AVATAR_MAP } from "@/components/layout/userAvatar";
-import ErrorBox from "./errorsBox";
+import ErrorsBox from "@/components/layout/errorsBox";
 
 interface EditProfileDialogProps {
   session: Session;
@@ -303,7 +303,7 @@ useEffect(() => {
           </Button>
         </DialogFooter>
       {/* MESSAGGI DI ERRORE O SUCCESSO */}
-        <ErrorBox isPending={isPending} formData={state} page="profile.edit" />
+        <ErrorsBox isPending={isPending} formData={state} page="profile.edit" />
 
       </form>
     </>

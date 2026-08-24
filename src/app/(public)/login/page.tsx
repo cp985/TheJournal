@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState } from "react";
+import ErrorsBox from "@/components/layout/errorsBox";
 import {
   userSignUp,
   userLogin,
@@ -393,7 +394,7 @@ function LoginComponent() {
                           ariaShowText={t.login.showPassword}
                           ariaHideText={t.login.hidePassword}
                         />
-                        <p className="text-[11px] leading-relaxed text-zinc-600">
+                        <p className="text-[11px] leading-relaxed text-zinc-600 mb-2">
                           {t.login.termsPrefix}
                           <Link
                             href="/terms-and-conditions"
@@ -416,13 +417,13 @@ function LoginComponent() {
                 </AnimatePresence>
                 <Input type="hidden" name="lang" id="lang" value={lang} />
               </motion.div>
-
+<ErrorsBox formData={formData}  isPending={isPendingCredentials} page="login" />
               <Button
                 type="submit"
                 disabled={isPending}
                 size="lg"
                 className={cn(
-                  "mt-8 w-full gap-2 bg-amber-500 text-zinc-900 hover:bg-amber-600 focus-visible:ring-amber-500",
+                  "mt-4 w-full gap-2 bg-amber-500 text-zinc-900 hover:bg-amber-600 focus-visible:ring-amber-500",
                   {
                     "bg-amber-950 text-zinc-400": isPendingCredentials,
                   },
@@ -446,7 +447,7 @@ function LoginComponent() {
 
               {/* Error box */}
 
-              {((formData.errors && Object.keys(formData.errors).length > 0) ||
+              {/* {((formData.errors && Object.keys(formData.errors).length > 0) ||
                 formData.message) && (
                 <div
                   key="boxError"
@@ -503,7 +504,7 @@ function LoginComponent() {
                     </p>
                   )}
                 </div>
-              )}
+              )} */}
             </form>
                           <div className="relative my-4 text-center text-xs text-muted-foreground uppercase"></div>
 

@@ -37,6 +37,7 @@ export type FormActionState = {
     dossierId?: string;
     type?: string;
     notes?: string;
+    notes_en?: string;
     fileName?: string | undefined;
   };
   success: boolean;
@@ -49,6 +50,7 @@ const initialEvidenceState: FormActionState = {
     dossierId: "",
     type: "PHOTO",
     notes: "",
+    notes_en: "",
     fileName: "",
   },
   success: false,
@@ -183,11 +185,14 @@ export default function AddEvidenceDialog({
             </div>
 
             {/* 4. Input File Dropzone */}
-            <div className="space-y-2 flex flex-col justify-between">
+
+            <div className="space-y-2 flex flex-col md:flex-row justify-between items-center md:col-span-2 gap-6 w-full">
+
+            <div className="space-y-2 flex flex-col justify-between max-w-50">
               <label className="text-sm font-mono text-zinc-200 font-medium">
                 {t.labels.attachedFile}
               </label>
-              <div className="relative border-2 border-dashed border-zinc-800 hover:border-amber-500/40 bg-zinc-900/60 rounded-lg p-4 text-center transition-colors flex-1 flex flex-col items-center justify-center min-h-[120px]">
+              <div className="relative border-2 border-dashed border-zinc-800 hover:border-amber-500/40 bg-zinc-900/60 rounded-lg p-4 text-center transition-colors flex-1 flex flex-col items-center justify-center max-w-50 min-h-[120px]">
                 <Input
                   required
                   accept="image/png, image/jpeg, image/webp, application/pdf, .doc, .docx"
@@ -216,7 +221,9 @@ export default function AddEvidenceDialog({
             </div>
 
             {/* 5. Note / Descrizione */}
-            <div className="space-y-2 flex flex-col">
+            <div className="space-y-2  w-full ">
+
+           <div className="space-y-2 flex flex-col">
               <label className="text-sm font-mono text-zinc-200 font-medium">
                 {t.labels.notes}
               </label>
@@ -228,6 +235,25 @@ export default function AddEvidenceDialog({
                 className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-sm text-zinc-100 focus:outline-none focus:border-amber-500/60 resize-none flex-1 min-h-[120px] placeholder:text-zinc-500"
               />
             </div>
+                       <div className="space-y-2 flex flex-col">
+              <label className="text-sm font-mono text-zinc-200 font-medium">
+                {t.labels.notes_en}
+              </label>
+              <textarea
+                required
+                name="notes_en"
+                defaultValue={formEvidence.data?.notes_en || ""}
+                placeholder={t.placeholders.notes}
+                className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-sm text-zinc-100 focus:outline-none focus:border-amber-500/60 resize-none flex-1 min-h-[120px] placeholder:text-zinc-500"
+              />
+            </div>
+
+            </div>
+            </div>
+
+
+
+ 
           </div>
 
           {/* Box Errori */}
