@@ -133,6 +133,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
                 {t.admin.evidenceDialog.dossierCodeLabel}
               </label>
               <select
+              required
                 className="w-full px-3 py-2 pr-8 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm cursor-pointer"
                 name="dossierId"
                 defaultValue={

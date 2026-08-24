@@ -19,12 +19,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Define default metadata configuration for the public site
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "https://the-journal-phi.vercel.app",
   ),
-  // Configura il template per i titoli delle sotto-pagine (es: "Caso Garlasco | The Journal")
   title: {
     default: "The Journal — Data Journalism & OSINT",
     template: "%s | The Journal",
@@ -44,7 +42,7 @@ export const metadata: Metadata = {
   creator: "DataInquest",
   publisher: "The Journal",
 
-  // Impostazioni per i motori di ricerca
+
   robots: {
     index: true,
     follow: true,
@@ -68,7 +66,7 @@ export const metadata: Metadata = {
       "Analisi di dati, atti pubblici e connessioni temporali per ricostruire i fatti in modo oggettivo.",
     images: [
       {
-        url: "/og-image.png", // Immagine nella cartella /public (consigliato 1200x630)
+        url: "/og-image.png", 
         width: 1200,
         height: 630,
         alt: "The Journal — Platform Preview",

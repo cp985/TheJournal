@@ -873,6 +873,7 @@ export const dictionary = {
 ["dossier-id-required"]: "ID Dossier richiesto.",
 ["dossier-not-found"]: "Dossier non trovato.",
 ["dossier-updated-successfully"]: "Dossier aggiornato con successo.",
+["dossierId-not-valid"]: "Il codice del dossier non rispetta il formato corretto lettera minuscola, trattino, tre cifre (es. dos-001).",
 }
   }
     }
@@ -1750,7 +1751,7 @@ export const dictionary = {
 ["dossier-id-required"]: "ID Dossier required.",
 ["dossier-not-found"]: "Dossier not found.",
 ["dossier-updated-successfully"]: "Dossier updated successfully.",
-
+["dossierId-not-valid"]: "The dossierId must be in the format: lower-case letter, score, three numbers (es. dos-001).",
   }
   }                       
     }

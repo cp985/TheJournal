@@ -125,6 +125,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
               <input
                 type="text"
                 name="code"
+                required
                 defaultValue={initialData?.code || ""}
                 placeholder={t.admin.dossierDialog.codePlaceholder}
                 className="w-full focus:border-zinc-500 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none text-sm"

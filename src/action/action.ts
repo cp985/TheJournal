@@ -1040,7 +1040,13 @@ const ALLOWED_MIME_TYPES = [
 ];
 
 const evidenceSchema = z.object({
-  dossierId: z.string().min(1, { message: "dossierId-not-selected" }),
+  dossierId:  z.string()
+    .min(3, "dossierId-too-short")
+    .max(6, "dossierId-too-long")
+.regex(
+  /^[a-z]+-\d{3}$/,
+  "dossierId-not-valid"
+),
   type: z.enum(["PHOTO", "DOCUMENT", "VIDEO"]),
   notes: z
     .string()
@@ -1222,9 +1228,7 @@ const dossierSchemaAdmin = z.object({
 id: z.string().optional(),    
 code: z
     .string()
-    .min(3, "dossierId-too-short")
-    .max(6, "dossierId-too-long")
-.regex(
+    .regex(
   /^[a-z]+-\d{3}$/,
   "dossierId-not-valid"
 ),  
@@ -1558,9 +1562,7 @@ revalidatePath("/");
   id: z.string().optional(),
 dossierId: z
     .string()
-    .min(3, "dossierId-too-short")
-    .max(6, "dossierId-too-long")
-.regex(
+    .regex(
   /^[a-z]+-\d{3}$/,
   "dossierId-not-valid"
 ),  
