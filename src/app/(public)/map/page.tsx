@@ -1,5 +1,4 @@
 
-"use client";
 
 import InvestigationBoard from "@/components/layout/investigationBoard";
 

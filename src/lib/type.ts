@@ -20,23 +20,37 @@ export interface DbEvidence {
   notes: string;
   notes_en: string;
   status: EvidenceStatus;
-  user: DbUser; 
+  user: DbUser;
   createdAt: string;
+  timelineId?: string | null;
 }
 
 export interface DbDossier {
   id: string;
-  coverUrl:string;
+  coverUrl: string;
   code: string;
   title: string;
   title_en: string;
   description: string;
   description_en: string;
-  status: DossierStatus; 
+  status: DossierStatus;
   createdAt: string;
   updatedAt: string;
-  user: DbUser; 
-  evidences: DbEvidence[]; 
+  user: DbUser;
+  evidences: DbEvidence[];
+  timeline: DbTimeline[];
+}
+
+export interface DbTimeline {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  dossierId: string;
+  description_en?: string;
+  title_en?: string;
+  dossier: DbDossier;
+  evidences: DbEvidence[];
 }
 
 export type SignUpFormState = {
@@ -63,16 +77,16 @@ export type AuthUserByEmail = {
   email?: string;
   password?: string;
   username?: string;
-id?:string;
-role?:string;
+  id?: string;
+  role?: string;
 };
 
 export type LoginFormState = {
   success: boolean;
   errors?: Record<string, string[] | undefined> | null;
   message?: string | null;
-  data?:AuthFormData;
-}
+  data?: AuthFormData;
+};
 
 export type SendEmailFormState = {
   success: boolean;
@@ -81,9 +95,9 @@ export type SendEmailFormState = {
   data?: {
     username?: string;
     email?: string;
-   subject?: string;
+    subject?: string;
     textarea?: string;
-    lang?: string
+    lang?: string;
   };
 };
 
@@ -106,8 +120,6 @@ export type HealthStatus = {
   timestamp?: string;
 };
 
-
-
 export type ActionState = {
   success: boolean;
   message: string | null;
@@ -121,5 +133,3 @@ export type DeleteActionResult = {
   errors?: any;
   idItem?: string;
 };
-
-
