@@ -10,7 +10,6 @@ import jwt from "jsonwebtoken";
 import {auth} from '@/auth/auth'
 import { InitialStateProfile } from "@/components/layout/profileEditDialog";
 import { type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
-import { p } from "motion/react-client";
 
 
 
@@ -1883,6 +1882,144 @@ revalidatePath("/");
       success: false,
       message: "errors-deleting-evidence-catch",
       idItem,
+    };
+  }
+}
+
+
+// --- CREA TIMELINE SKELETON  --
+
+const timelineSkeletonSchemaAdmin = z.object({
+  id: z.string().optional(),
+  dossierId: z
+    .string("dossierId-not-defined")
+    .regex(
+      /^[a-z]+-\d{3}$/,
+      "dossierId-not-valid"
+    ),
+    date:z.string("date-not-defined").datetime("date-not-valid"),
+description: z.string("description-not-defined").min(10, "description-too-short").max(600, "description-too-long"),
+  description_en: z.string().optional().nullable(),
+  title: z.string("title-not-defined").min(10, "title-too-short").max(60, "title-too-long"),
+  title_en: z.string().optional().nullable(),
+})
+
+const timelineSchemaAdmin = z.object({
+  timeline: z.array(timelineSkeletonSchemaAdmin).min(1, "timelineSkeleton-not-found"),
+});
+
+
+
+export async function createTimelineSkeletonAdmin(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const rawTimelineString = formData.get("timeline") as string;
+  let parsedJson: unknown = [];
+
+
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        message: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        message: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      {
+        id: session.user.id,
+        sub: session.user.id,
+        email: session.user.email,
+        role: session.user.role,
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      return {
+        success: false,
+        message: "backend-url-missing",
+      };
+    }
+  try {
+    parsedJson = rawTimelineString ? JSON.parse(rawTimelineString) : [];
+  } catch {
+    return {
+      success: false,
+      message: "invalid-json-format",
+      errors: null,
+      fields: { timeline: rawTimelineString},
+    };
+  }
+
+  const validatedFields = timelineSchemaAdmin.safeParse({ timeline: parsedJson });
+
+  if (!validatedFields.success) {
+    return {
+      success: false,
+      message: "validation-error",
+      errors: validatedFields.error.flatten().fieldErrors,
+      fields: { timeline: rawTimelineString},
+    };
+  }
+
+    const response = await fetch(`${baseUrl}/map/timelines/admin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ timeline: validatedFields.data.timeline }),
+    });
+
+    if (!response.ok) {
+      let errorMessage = "server-error";
+      let serverErrors = null;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+        serverErrors = errorData.errors || null;
+      } catch (e) {
+        console.error("Risposta di errore non-JSON dal server:", e);
+      }
+
+      return {
+        success: false,
+        message: errorMessage,
+        errors: serverErrors,
+        fields: { timeline: rawTimelineString},
+      };
+    }
+
+    revalidatePath("/admin");
+    revalidatePath("/map");
+    revalidatePath("/");
+
+    return {
+      success: true,
+      message: "timeline-created",
+      errors: null,
+      fields: { timeline: rawTimelineString},
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      success: false,
+      errors: null,
+      message: "errors-creating-timeline-catch",
+      fields: { timeline: rawTimelineString},
     };
   }
 }
