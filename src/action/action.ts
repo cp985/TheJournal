@@ -9,13 +9,7 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import {auth} from '@/auth/auth'
 import { InitialStateProfile } from "@/components/layout/profileEditDialog";
-import { type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
-
-
-
-
-
-
+import {type DbTimeline, type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
 
 
 
@@ -76,7 +70,13 @@ export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
   try {
     const response = await fetch(
       process.env.NEXT_PUBLIC_URL_RENDER + "/dossiers/" + code,
+    {cache : "no-cache"}
     );
+
+    if (!response.ok) {
+      console.error("Error Fetch Status:", response.status);
+      return [];
+    }
     const data = await response.json();
     return data as DbDossier[];
   } catch (error) {
@@ -1908,7 +1908,7 @@ const timelineSchemaAdmin = z.object({
   timeline: z.array(timelineSkeletonSchemaAdmin).min(1, "timelineSkeleton-not-found"),
 });
 
-
+//timeline
 
 export async function createTimelineSkeletonAdmin(
   prevState: ActionState,
@@ -2023,3 +2023,21 @@ export async function createTimelineSkeletonAdmin(
     };
   }
 }
+
+export const getTimelineByDossierId = async (dossierId: string): Promise<DbTimeline[]> => {
+  try {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_RENDER + "/map/timelines/" + dossierId,
+  {cache : "no-cache"}
+    );
+
+    if (!response.ok) {
+      return [];
+    }
+    const data = await response.json();
+    return data as DbTimeline[];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
