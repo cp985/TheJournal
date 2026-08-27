@@ -1,3 +1,5 @@
+import { no } from "zod/v4/locales";
+
 export const dictionary = {
   IT: {
     nav: {
@@ -511,6 +513,7 @@ export const dictionary = {
         title: "Invia Nuova Prova",
         description: "Seleziona il caso/dossier e carica un file da allegare.",
         labels: {
+          timeline: "Lista Timeline",
           selectDossier: "Seleziona Dossier / Caso",
           noDossiers: "Nessun dossier disponibile",
           fileType: "Tipo di File",
@@ -520,6 +523,9 @@ export const dictionary = {
           notes_en: "English Notes",
         },
         placeholders: {
+          noTimelines: "Nessuna Timeline disponibile",
+          selectTimeline: "Seleziona una Timeline dalla lista",
+          selectDossierFirst: "Seleziona prima un Caso dalla lista",
           evidenceTitle: "Inserisci un nome per identificare la prova...",
           dropzoneDefault: "Clicca o trascina qui un file",
           dropzoneHint: "PNG, JPG, PDF fino a 3 MB",
@@ -527,7 +533,8 @@ export const dictionary = {
         },
         options: {
           photo: "Foto / Immagine",
-          document: "Documento (PDF, DOCX)",
+          document: "Documento (TXT, DOCX)",
+          pdf: "PDF",
         },
         buttons: {
           cancel: "Annulla",
@@ -836,7 +843,7 @@ export const dictionary = {
     descEdit: "Aggiorna le informazioni relative a questo dossier.",
     descCreate: "Inserisci i dati essenziali per archiviare un nuovo dossier d'indagine.",
     codeLabel: "Codice Univoco (Code) *",
-    codePlaceholder: "es. DOS-2026-001",
+    codePlaceholder: "es. d-001",
     statusLabel: "Stato",
     statusOpen: "Aperto (Open)",
     statusClosed: "Chiuso (Closed)",
@@ -873,7 +880,7 @@ export const dictionary = {
 ["dossier-id-required"]: "ID Dossier richiesto.",
 ["dossier-not-found"]: "Dossier non trovato.",
 ["dossier-updated-successfully"]: "Dossier aggiornato con successo.",
-["dossierId-not-valid"]: "Il codice del dossier non rispetta il formato corretto lettera minuscola, trattino, tre cifre (es. dos-001).",
+["dossierId-not-valid"]: "Il codice del dossier non rispetta il formato corretto lettera minuscola, trattino, tre cifre (es. d-001).",
 }
   }
     }
@@ -1385,6 +1392,7 @@ export const dictionary = {
         title: "Submit New Evidence",
         description: "Select the case/dossier and upload a file to attach.",
         labels: {
+          timeline: "Timeline List",
           selectDossier: "Select Dossier / Case",
           noDossiers: "No dossier available",
           fileType: "File Type",
@@ -1394,6 +1402,9 @@ export const dictionary = {
         notes_en: "English Notes",
         },
         placeholders: {
+          selectTimeline: "Select a Timeline from the list",
+          noTimelines: "No timelines available",
+          selectDossierFirst: "Select a Dossier from the list first",
           evidenceTitle: "Enter a name to identify the evidence...",
           dropzoneDefault: "Click or drag a file here",
           dropzoneHint: "PNG, JPG, PDF up to 3 MB",
@@ -1401,7 +1412,8 @@ export const dictionary = {
         },
         options: {
           photo: "Photo / Image",
-          document: "Document (PDF, DOCX)",
+          document: "Document (TXT, DOCX)",
+          pdf: "PDF",
         },
         buttons: {
           cancel: "Cancel",
@@ -1714,7 +1726,7 @@ export const dictionary = {
     descEdit: "Update information for this dossier.",
     descCreate: "Enter essential data to archive a new investigation dossier.",
     codeLabel: "Unique Code *",
-    codePlaceholder: "e.g. DOS-2026-001",
+    codePlaceholder: "e.g. d-001",
     statusLabel: "Status",
     statusOpen: "Open",
     statusClosed: "Closed",
@@ -1751,7 +1763,7 @@ export const dictionary = {
 ["dossier-id-required"]: "ID Dossier required.",
 ["dossier-not-found"]: "Dossier not found.",
 ["dossier-updated-successfully"]: "Dossier updated successfully.",
-["dossierId-not-valid"]: "The dossierId must be in the format: lower-case letter, score, three numbers (es. dos-001).",
+["dossierId-not-valid"]: "The dossierId must be in the format: lower-case letter, score, three numbers (es. d-001).",
   }
   }                       
     }

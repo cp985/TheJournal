@@ -1036,23 +1036,25 @@ const ALLOWED_MIME_TYPES = [
   "image/png",
   "image/webp",
   "application/pdf",
+  "text/plain",
+  "application/msword", 
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // Per file .docx (Word moderni)
 ];
 
 const evidenceSchema = z.object({
   dossierId:  z.string()
-    .min(3, "dossierId-too-short")
-    .max(6, "dossierId-too-long")
 .regex(
-  /^[a-z]+-\d{3}$/,
+  /^[a-z]-\d{3}$/,
   "dossierId-not-valid"
 ),
-  type: z.enum(["PHOTO", "DOCUMENT", "VIDEO"]),
+  type: z.enum(["PHOTO", "DOCUMENT", "PDF"]),
   notes: z
     .string()
     .min(15, { message: "notes-too-short" })
     .max(60, { message: "notes-too-long" }),
       notes_en: z.string().optional().nullable(),
-  fileName: z
+  timelineId: z.string().optional(),
+      fileName: z
     .string()
     .max(40, { message: "file-name-too-long" })
     .min(10, { message: "file-name-too-short" }),
@@ -1078,10 +1080,11 @@ export async function createEvidenceAction(
   const type = formData.get("type") as string;
   const notes = formData.get("notes") as string;
   const notes_en = formData.get("notes_en") as string;
+  const timelineId = formData.get("timelineId") as string;
   const fileName = formData.get("fileName") as string;
   const file = formData.get("file") as File;
 
-  const data = { dossierId, type, notes, fileName , notes_en};
+  const data = { dossierId, type, notes, fileName , notes_en, timelineId};
 
   const validationResult = evidenceSchema.safeParse({
     dossierId,
@@ -1090,6 +1093,7 @@ export async function createEvidenceAction(
     notes_en,
     file,
     fileName,
+    timelineId,
   });
 
   if (!validationResult.success) {
@@ -1135,6 +1139,7 @@ export async function createEvidenceAction(
     payload.append("fileName", fileName);
     payload.append("notes_en", notes_en);
     payload.append("file", file, file.name);
+    payload.append("timelineId", timelineId);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences`,
@@ -1228,7 +1233,7 @@ id: z.string().optional(),
 code: z
     .string()
     .regex(
-  /^[a-z]+-\d{3}$/,
+  /^[a-z]-\d{3}$/,
   "dossierId-not-valid"
 ),  
 title: z.string().min(10, "title-too-short").max(60, "title-too-long"),
