@@ -36,6 +36,7 @@ export default function AdminEvidencesView({
   const dossiersCode = dossiersList.map((d) => ({
     code: d.code,
     title: lang==="IT" ? d.title : d.title_en,
+    timeline: d.timeline,
   }));
 
   return (

@@ -111,6 +111,7 @@ export type FormActionState = {
     notes_en?: string;
     fileName?: string | undefined;
     timelineId?: string;
+    status?: string;
   };
   success: boolean;
 };

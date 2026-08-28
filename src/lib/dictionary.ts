@@ -669,6 +669,7 @@ export const dictionary = {
   statusAccepted: "Accettato",
   statusPending: "In attesa",
 },evidenceDialog: {
+  fileLabel: "File",
     editTitle: "Modifica Prova",
     createTitle: "Aggiungi Nuova Prova",
     editDesc: "Aggiorna i dettagli relativi a questo elemento di prova.",
@@ -1551,6 +1552,7 @@ export const dictionary = {
   statusAccepted: "Accepted",
   statusPending: "Pending",
 },evidenceDialog: {
+  fileLabel: "File",
     editTitle: "Edit Evidence",
     createTitle: "Add New Evidence",
     editDesc: "Update details related to this evidence item.",

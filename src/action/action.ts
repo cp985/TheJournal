@@ -1562,7 +1562,7 @@ revalidatePath("/");
 //evidence admin create update 
 
 // --- EVIDENCE SCHEMAS ---
- const evidenceSchemaAdmin = z.object({
+ const evidenceCreateSchemaAdmin = z.object({
   id: z.string().optional(),
 dossierId: z
     .string()
@@ -1573,10 +1573,22 @@ dossierId: z
 type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
     message: "type-not-valid",
   }),
-  fileUrl: z.string().min(7, "fileUrl-too-short"),
+  timelineId: z.string().optional(),
   notes: z.string().min(10, "notes-too-short").max(60, "notes-too-long"),
   notes_en: z.string().optional().nullable(),
   status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
+  file: z
+    .custom<File>((val) => val instanceof File && val.size > 0, {
+      message: "file-missing",
+    })
+    .refine((file) => file.size <= MAX_FILE_SIZE, {
+      message: "file-too-large",
+    })
+    .refine((file) => ALLOWED_MIME_TYPES.includes(file.type), {
+      message: "invalid-file-format",
+    }),
+
+
 });
 
 
@@ -1584,19 +1596,138 @@ type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
 
 // --- CREA EVIDENCE ---
 
-export async function createEvidenceAdmin(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
-  const rawData = Object.fromEntries(formData.entries());
-  const validatedFields = evidenceSchemaAdmin.safeParse(rawData);
+// export async function createEvidenceAdmin(
+//   prevState: ActionState,
+//   formData: FormData
+// ): Promise<ActionState> {
+//   const rawData = Object.fromEntries(formData.entries());
+//   const validatedFields = evidenceCreateSchemaAdmin.safeParse(rawData);
 
-  if (!validatedFields.success) {
+//   if (!validatedFields.success) {
+//     return {
+//       success: false,
+//       message: "validation-error",
+//       errors: validatedFields.error.flatten().fieldErrors,
+//       fields: rawData,
+//     };
+//   }
+
+//   try {
+//     const session = await auth();
+//     if (!session?.user?.id) {
+//       return {
+//         success: false,
+//         message: "user-not-authenticated",
+//       };
+//     }
+
+//     const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+//     if (!secret) {
+//       return {
+//         success: false,
+//         message: "auth-secret-not-found",
+//       };
+//     }
+
+//     const token = jwt.sign(
+//       { 
+//         id: session.user.id, 
+//         sub: session.user.id, 
+//         email: session.user.email, 
+//         role: session.user.role 
+//       },
+//       secret,
+//       { expiresIn: "5m" }
+//     );
+
+//     const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+//     if (!baseUrl) {
+//       console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
+//       return {
+//         success: false,
+//         message: "backend-url-missing",
+//         fields: rawData,
+//       };
+//     }
+
+//     const response = await fetch(`${baseUrl}/evidences/admin`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify(validatedFields.data),
+//     });
+
+//     if (!response.ok) {
+//       let errorMessage = "server-error";
+//       let serverErrors = null;
+//       try {
+//         const errorData = await response.json();
+//         errorMessage = errorData.message || errorMessage;
+//         serverErrors = errorData.errors || null;
+//       } catch (e) {
+//         console.error("Risposta di errore non-JSON dal server:", e);
+//       }
+
+//       return {
+//         success: false,
+//         message: errorMessage,
+//         errors: serverErrors,
+//         fields: rawData,
+//       };
+//     }
+
+//     const textResponse = await response.text();
+//     const result = textResponse ? JSON.parse(textResponse) : {};
+
+//        revalidatePath("/admin");
+// revalidatePath("/cases");  
+// revalidatePath("/"); 
+//     return {
+//       success: true,
+//       message: "evidence-created",
+//       errors: null,
+//     };
+//   } catch (error) {
+//     console.error("Error:", error);
+//     return {
+//       success: false,
+//       message: "errors-creating-evidence-catch",
+//       fields: rawData,
+//     };
+//   }
+// }
+
+export async function createEvidenceAdmin(
+  prevState: FormActionState,
+  formData: FormData
+): Promise<FormActionState> {
+  const dossierId = formData.get("dossierId") as string;
+  const type = formData.get("type") as string;
+  const notes = formData.get("notes") as string;
+  const notes_en = formData.get("notes_en") as string;
+  const timelineId = formData.get("timelineId") as string;
+  const file = formData.get("file") as File;
+const status = formData.get("status") as string || "PENDING";
+  const data = { dossierId, type, notes , notes_en, timelineId, status};
+
+  const validationResult = evidenceCreateSchemaAdmin.safeParse({
+    dossierId,
+    type,
+    notes,
+    notes_en,
+    file,
+    timelineId,
+    status
+  });
+
+  if (!validationResult.success) {
+    const errorCodes = validationResult.error.flatten().fieldErrors;
     return {
+      errors: errorCodes,
+      data,
       success: false,
-      message: "validation-error",
-      errors: validatedFields.error.flatten().fieldErrors,
-      fields: rawData,
     };
   }
 
@@ -1628,73 +1759,85 @@ export async function createEvidenceAdmin(
       { expiresIn: "5m" }
     );
 
-    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
-    if (!baseUrl) {
-      console.error("Variabile NEXT_PUBLIC_URL_RENDER non trovata nel file .env");
-      return {
-        success: false,
-        message: "backend-url-missing",
-        fields: rawData,
-      };
-    }
 
-    const response = await fetch(`${baseUrl}/evidences/admin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(validatedFields.data),
-    });
+    const payload = new FormData();
+    payload.append("dossierId", dossierId);
+    payload.append("type", type);
+    payload.append("notes", notes);
+    payload.append("notes_en", notes_en);
+    payload.append("file", file, file.name);
+    payload.append("timelineId", timelineId);
+    payload.append("status", status);
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences/admin`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: payload,
+      }
+    );
 
     if (!response.ok) {
-      let errorMessage = "server-error";
-      let serverErrors = null;
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.message || errorMessage;
-        serverErrors = errorData.errors || null;
-      } catch (e) {
-        console.error("Risposta di errore non-JSON dal server:", e);
-      }
-
+      const rawErrorText = await response.text();
+  console.error("❌ Risposta di errore grezza da Render (Status:", response.status, "):", rawErrorText);
+      const errorResponse = await response.json().catch(() => null);
       return {
+        errors: errorResponse?.errors || null,
+        message: errorResponse?.message || "error-creating-evidence",
+        data,
         success: false,
-        message: errorMessage,
-        errors: serverErrors,
-        fields: rawData,
       };
     }
-
-    const textResponse = await response.text();
-    const result = textResponse ? JSON.parse(textResponse) : {};
-
-       revalidatePath("/admin");
-revalidatePath("/cases");  
-revalidatePath("/"); 
+ revalidatePath("/profile");
+ revalidatePath("/admin");
+ revalidatePath("/");
     return {
-      success: true,
-      message: "evidence-created",
       errors: null,
+      message: "evidence-created",
+      data: { dossierId: "", type: "PHOTO", notes: "", fileName: "" , notes_en: ""},
+      success: true,
     };
   } catch (error) {
     console.error("Error:", error);
     return {
+      errors: null,
+      message: "error-creating-evidence-catch",
+      data,
       success: false,
-      message: "errors-creating-evidence-catch",
-      fields: rawData,
     };
   }
 }
 
+
+
 // --- MODIFICA EVIDENCE ---
+
+ const evidenceUpdateSchemaAdmin = z.object({
+  id: z.string().optional(),
+dossierId: z
+    .string()
+    .regex(
+  /^[a-z]+-\d{3}$/,
+  "dossierId-not-valid"
+),  
+type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
+    message: "type-not-valid",
+  }),
+  fileUrl: z.string().min(7, "fileUrl-too-short"),
+  notes: z.string().min(10, "notes-too-short").max(60, "notes-too-long"),
+  notes_en: z.string().optional().nullable(),
+  status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
+});
 
 export async function updateEvidenceAdmin(
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
   const rawData = Object.fromEntries(formData.entries());
-  const validatedFields = evidenceSchemaAdmin.safeParse(rawData);
+  const validatedFields = evidenceUpdateSchemaAdmin.safeParse(rawData);
 
   if (!validatedFields.success) {
     return {

@@ -110,14 +110,15 @@ export default function InvestigationBoard() {
   );
 
   const handleNodeClick = (_: React.MouseEvent, node: Node) => {
-    if (
-      node.data &&
-      (node.data.fileUrl || node.data.imageUrl || node.data.notes || node.data.description)
-    ) {
-      setActiveEvidence(node.data);
-    }
-  };
+  if (node.type === "postit") return;
 
+  if (
+    node.data &&
+    (node.data.fileUrl || node.data.imageUrl || node.data.notes || node.data.description)
+  ) {
+    setActiveEvidence(node.data);
+  }
+};
   const handleSelectDossier = async (dossierId: string) => {
     setSelectedDossierId(dossierId);
     setIsSidebarOpen(false);
