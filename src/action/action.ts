@@ -1699,18 +1699,280 @@ type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
 //   }
 // }
 
+// export async function createEvidenceAdmin(
+//   prevState: FormActionState,
+//   formData: FormData
+// ): Promise<FormActionState> {
+//   const dossierId = formData.get("dossierId") as string;
+//   const type = formData.get("type") as string;
+//   const notes = formData.get("notes") as string;
+//   const notes_en = formData.get("notes_en") as string;
+//   const timelineId = formData.get("timelineId") as string;
+//   const file = formData.get("file") as File;
+// const status = formData.get("status") as string || "PENDING";
+//   const data = { dossierId, type, notes , notes_en, timelineId, status};
+
+//   const validationResult = evidenceCreateSchemaAdmin.safeParse({
+//     dossierId,
+//     type,
+//     notes,
+//     notes_en,
+//     file,
+//     timelineId,
+//     status
+//   });
+
+//   if (!validationResult.success) {
+//     const errorCodes = validationResult.error.flatten().fieldErrors;
+//     return {
+//       errors: errorCodes,
+//       data,
+//       success: false,
+//     };
+//   }
+
+//   try {
+//     const session = await auth();
+//     if (!session?.user?.id) {
+//       return {
+//         success: false,
+//         message: "user-not-authenticated",
+//       };
+//     }
+
+//     const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+//     if (!secret) {
+//       return {
+//         success: false,
+//         message: "auth-secret-not-found",
+//       };
+//     }
+
+//     const token = jwt.sign(
+//       { 
+//         id: session.user.id, 
+//         sub: session.user.id, 
+//         email: session.user.email, 
+//         role: session.user.role 
+//       },
+//       secret,
+//       { expiresIn: "5m" }
+//     );
+
+
+//     const payload = new FormData();
+//     payload.append("dossierId", dossierId);
+//     payload.append("type", type);
+//     payload.append("notes", notes);
+//     payload.append("notes_en", notes_en);
+//     payload.append("file", file, file.name);
+//     payload.append("timelineId", timelineId);
+//     payload.append("status", status);
+
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences/admin`,
+//       {
+//         method: "POST",
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: payload,
+//       }
+//     );
+
+//     if (!response.ok) {
+//       const rawErrorText = await response.text();
+//   console.error("❌ Risposta di errore grezza da Render (Status:", response.status, "):", rawErrorText);
+//       const errorResponse = await response.json().catch(() => null);
+//       return {
+//         errors: errorResponse?.errors || null,
+//         message: errorResponse?.message || "error-creating-evidence",
+//         data,
+//         success: false,
+//       };
+//     }
+//  revalidatePath("/profile");
+//  revalidatePath("/admin");
+//  revalidatePath("/");
+//     return {
+//       errors: null,
+//       message: "evidence-created",
+//       data: { dossierId: "", type: "PHOTO", notes: "", fileName: "" , notes_en: ""},
+//       success: true,
+//     };
+//   } catch (error) {
+//     console.error("Error:", error);
+//     return {
+//       errors: null,
+//       message: "error-creating-evidence-catch",
+//       data,
+//       success: false,
+//     };
+//   }
+// }
+
+
+
+// --- MODIFICA EVIDENCE ---
+
+// export async function createEvidenceAdmin(
+//   prevState: FormActionState,
+//   formData: FormData
+// ): Promise<FormActionState> {
+//   const dossierId = formData.get("dossierId") as string;
+//   const type = formData.get("type") as string;
+//   const notes = (formData.get("notes") as string) || "";
+//   const notes_en = (formData.get("notes_en") as string) || "";
+//   const timelineId = formData.get("timelineId") as string;
+//   const file = formData.get("file") as File;
+//   const status = (formData.get("status") as string) || "PENDING";
+
+//   const data = { dossierId, type, notes, notes_en, timelineId, status };
+
+//   const validationResult = evidenceCreateSchemaAdmin.safeParse({
+//     dossierId,
+//     type,
+//     notes,
+//     notes_en,
+//     file,
+//     timelineId,
+//     status,
+//   });
+
+//   if (!validationResult.success) {
+//     const errorCodes = validationResult.error.flatten().fieldErrors;
+//     return {
+//       errors: errorCodes,
+//       data,
+//       success: false,
+//     };
+//   }
+
+//   try {
+//     const session = await auth();
+//     if (!session?.user?.id) {
+//       return {
+//         success: false,
+//         message: "user-not-authenticated",
+//       };
+//     }
+
+//     const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+//     if (!secret) {
+//       return {
+//         success: false,
+//         message: "auth-secret-not-found",
+//       };
+//     }
+
+//     const token = jwt.sign(
+//       {
+//         id: session.user.id,
+//         sub: session.user.id,
+//         email: session.user.email,
+//         role: session.user.role,
+//       },
+//       secret,
+//       { expiresIn: "5m" }
+//     );
+
+//     const payload = new FormData();
+//     if (dossierId) payload.append("dossierId", dossierId);
+//     if (type) payload.append("type", type);
+//     if (notes) payload.append("notes", notes);
+//     if (notes_en) payload.append("notes_en", notes_en);
+//     if (status) payload.append("status", status);
+//     if (timelineId && timelineId !== "null" && timelineId !== "undefined") {
+//       payload.append("timelineId", timelineId);
+//     }
+
+//     // Convertiamo il file in Blob per l'invio multipart da Server Action verso Express/Multer
+//     if (file && file instanceof File && file.size > 0) {
+//       const buffer = await file.arrayBuffer();
+//       const fileBlob = new Blob([buffer], { type: file.type });
+//       payload.append("file", fileBlob, file.name);
+//     } else {
+//       console.error("❌ Nessun file valido trovato nel FormData della Server Action!");
+//     }
+
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences/admin`,
+//       {
+//         method: "POST",
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: payload,
+//       }
+//     );
+
+//     if (!response.ok) {
+//       const rawErrorText = await response.text();
+//       console.error(
+//         "❌ Risposta di errore grezza da Render (Status:",
+//         response.status,
+//         "):",
+//         rawErrorText
+//       );
+
+//       let errorResponse: any = null;
+//       try {
+//         errorResponse = JSON.parse(rawErrorText);
+//       } catch {
+//         // Risposta non JSON
+//       }
+
+//       return {
+//         errors: errorResponse?.errors || null,
+//         message: errorResponse?.message || `error-${response.status}`,
+//         data,
+//         success: false,
+//       };
+//     }
+
+//     revalidatePath("/profile");
+//     revalidatePath("/admin");
+//     revalidatePath("/");
+
+//     return {
+//       errors: null,
+//       message: "evidence-created",
+//       data: { dossierId: "", type: "PHOTO", notes: "", fileName: "", notes_en: "" },
+//       success: true,
+//     };
+//   } catch (error) {
+//     console.error("Error in createEvidenceAdmin:", error);
+//     return {
+//       errors: null,
+//       message: "error-creating-evidence-catch",
+//       data,
+//       success: false,
+//     };
+//   }
+// }
+
 export async function createEvidenceAdmin(
   prevState: FormActionState,
   formData: FormData
 ): Promise<FormActionState> {
   const dossierId = formData.get("dossierId") as string;
   const type = formData.get("type") as string;
-  const notes = formData.get("notes") as string;
-  const notes_en = formData.get("notes_en") as string;
+  const notes = (formData.get("notes") as string) || "";
+  const notes_en = (formData.get("notes_en") as string) || "";
   const timelineId = formData.get("timelineId") as string;
   const file = formData.get("file") as File;
-const status = formData.get("status") as string || "PENDING";
-  const data = { dossierId, type, notes , notes_en, timelineId, status};
+  const status = (formData.get("status") as string) || "PENDING";
+
+  // 🔍 LOG 1: Verifichiamo cosa riceve la Server Action dal Client
+  console.log("🔍 [DEBUG] File ricevuto dal form:", {
+    isExist: !!file,
+    name: file?.name,
+    size: file?.size,
+    type: file?.type,
+    isFileInstance: file instanceof File
+  });
+
+  const data = { dossierId, type, notes, notes_en, timelineId, status };
 
   const validationResult = evidenceCreateSchemaAdmin.safeParse({
     dossierId,
@@ -1719,13 +1981,12 @@ const status = formData.get("status") as string || "PENDING";
     notes_en,
     file,
     timelineId,
-    status
+    status,
   });
 
   if (!validationResult.success) {
-    const errorCodes = validationResult.error.flatten().fieldErrors;
     return {
-      errors: errorCodes,
+      errors: validationResult.error.flatten().fieldErrors,
       data,
       success: false,
     };
@@ -1734,40 +1995,48 @@ const status = formData.get("status") as string || "PENDING";
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return {
-        success: false,
-        message: "user-not-authenticated",
-      };
+      return { success: false, message: "user-not-authenticated" };
     }
 
     const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
     if (!secret) {
-      return {
-        success: false,
-        message: "auth-secret-not-found",
-      };
+      return { success: false, message: "auth-secret-not-found" };
     }
 
     const token = jwt.sign(
-      { 
-        id: session.user.id, 
-        sub: session.user.id, 
-        email: session.user.email, 
-        role: session.user.role 
+      {
+        id: session.user.id,
+        sub: session.user.id,
+        email: session.user.email,
+        role: session.user.role,
       },
       secret,
       { expiresIn: "5m" }
     );
 
-
     const payload = new FormData();
-    payload.append("dossierId", dossierId);
-    payload.append("type", type);
-    payload.append("notes", notes);
-    payload.append("notes_en", notes_en);
-    payload.append("file", file, file.name);
-    payload.append("timelineId", timelineId);
-    payload.append("status", status);
+    if (dossierId) payload.append("dossierId", dossierId);
+    if (type) payload.append("type", type);
+    if (notes) payload.append("notes", notes);
+    if (notes_en) payload.append("notes_en", notes_en);
+    if (status) payload.append("status", status);
+    if (timelineId && timelineId !== "null" && timelineId !== "undefined") {
+      payload.append("timelineId", timelineId);
+    }
+
+    // 💡 FIX PER FETCH SERVER-TO-SERVER (Node.js Buffer)
+    if (file && file.size > 0) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      
+      // Creiamo un file compatibile con il FormData di Node.js
+      const fileBlob = new Blob([buffer], { type: file.type || "application/octet-stream" });
+      payload.append("file", fileBlob, file.name || "uploaded-file");
+      
+      console.log("✅ [DEBUG] File allegato al payload con successo:", file.name);
+    } else {
+      console.error("❌ [DEBUG] Nessun file valido o dimensione 0");
+    }
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences/admin`,
@@ -1775,6 +2044,8 @@ const status = formData.get("status") as string || "PENDING";
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          // ⚠️ NON impostare 'Content-Type': 'multipart/form-data'!
+          // Lascia che fetch imposti automaticamente il boundary.
         },
         body: payload,
       }
@@ -1782,26 +2053,33 @@ const status = formData.get("status") as string || "PENDING";
 
     if (!response.ok) {
       const rawErrorText = await response.text();
-  console.error("❌ Risposta di errore grezza da Render (Status:", response.status, "):", rawErrorText);
-      const errorResponse = await response.json().catch(() => null);
+      console.error("❌ Risposta da Render (Status:", response.status, "):", rawErrorText);
+
+      let errorResponse: any = null;
+      try {
+        errorResponse = JSON.parse(rawErrorText);
+      } catch {}
+
       return {
         errors: errorResponse?.errors || null,
-        message: errorResponse?.message || "error-creating-evidence",
+        message: errorResponse?.message || `error-${response.status}`,
         data,
         success: false,
       };
     }
- revalidatePath("/profile");
- revalidatePath("/admin");
- revalidatePath("/");
+
+    revalidatePath("/profile");
+    revalidatePath("/admin");
+    revalidatePath("/");
+
     return {
       errors: null,
       message: "evidence-created",
-      data: { dossierId: "", type: "PHOTO", notes: "", fileName: "" , notes_en: ""},
+      data: { dossierId: "", type: "PHOTO", notes: "", fileName: "", notes_en: "" },
       success: true,
     };
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error in createEvidenceAdmin:", error);
     return {
       errors: null,
       message: "error-creating-evidence-catch",
@@ -1810,10 +2088,6 @@ const status = formData.get("status") as string || "PENDING";
     };
   }
 }
-
-
-
-// --- MODIFICA EVIDENCE ---
 
  const evidenceUpdateSchemaAdmin = z.object({
   id: z.string().optional(),

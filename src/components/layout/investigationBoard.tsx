@@ -190,12 +190,12 @@ export default function InvestigationBoard() {
           const yOffset = isAbove ? -(220 + evIndex * 180) : 220 + evIndex * 180;
           const xOffset = (evIndex - (evidences.length - 1) / 2) * 30;
 
-          // 1. Recupero URL grezzo
+// 1. Recupero URL grezzo
           const rawUrl = ev.fileUrl || ev.imageUrl || ev.url || "";
-          let finalUrl = rawUrl;
+          let finalUrl = "";
 
-          // 2. CORREZIONE FORZATA DEL BUCKET
-          if (rawUrl) {
+          // 2. CORREZIONE FORZATA DEL BUCKET (solo per path/URL validi)
+          if (rawUrl && (rawUrl.includes("/") || rawUrl.startsWith("http"))) {
             if (rawUrl.startsWith("http")) {
               finalUrl = rawUrl.replace("/public/evidences/", "/public/pending-storage/");
             } else {
@@ -409,7 +409,7 @@ export default function InvestigationBoard() {
 
       {/* DIALOG SHADCN DI ANTEPRIMA REPERTO */}
       <Dialog open={!!activeEvidence} onOpenChange={(open) => !open && handleCloseDialog()}>
-        <DialogContent className="flex h-[92vh] max-w-5xl flex-col gap-2 border-zinc-800 bg-zinc-900 p-3 sm:max-w-5xl  [&>button]:text-zinc-400 [&>button]:hover:text-zinc-100 [&>button]:bg-amber-500">
+        <DialogContent className="flex h-[92vh] max-w-5xl flex-col gap-2 border-zinc-800 bg-zinc-900 p-3 sm:max-w-5xl  [&>button]:text-zinc-400 [&>button]:hover:text-zinc-100 [&>button]:bg-zinc-100">
           <DialogHeader className="space-y-0 border-b border-zinc-800/80  pr-6 text-left">
             <DialogTitle className="flex items-center gap-2 overflow-hidden text-sm font-bold text-zinc-100">
               <FileText className="h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
