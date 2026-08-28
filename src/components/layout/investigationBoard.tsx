@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useCallback, useState } from "react";
@@ -88,11 +89,16 @@ export default function InvestigationBoard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [zoomLevel, setZoomLevel] = useState(1);
   const [activeEvidence, setActiveEvidence] = useState<any | null>(null);
 
   const [nodes, setNodes] = useState<Node[]>(INITIAL_INSTRUCTION_NODES);
   const [edges, setEdges] = useState<Edge[]>([]);
+
+  const handleCloseDialog = () => {
+    setActiveEvidence(null);
+    setZoomLevel(1);
+  };
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -112,149 +118,157 @@ export default function InvestigationBoard() {
     }
   };
 
-
   const handleSelectDossier = async (dossierId: string) => {
-  setSelectedDossierId(dossierId);
-  setIsSidebarOpen(false);
-  setIsLoading(true);
+    setSelectedDossierId(dossierId);
+    setIsSidebarOpen(false);
+    setIsLoading(true);
 
-  try {
-    const currentDossier = INITIAL_DOSSIERS.find((d) => d.id === dossierId);
-    const response = await getTimelineByDossierId(dossierId);
+    try {
+      const currentDossier = INITIAL_DOSSIERS.find((d) => d.id === dossierId);
+      const response = await getTimelineByDossierId(dossierId);
 
-    const newNodes: Node[] = [];
-    const newEdges: Edge[] = [];
+      const newNodes: Node[] = [];
+      const newEdges: Edge[] = [];
 
-    const folderNodeId = `folder-${dossierId}`;
-    const BASE_Y = 200;
-
-    newNodes.push({
-      id: folderNodeId,
-      type: "folder",
-      position: { x: 0, y: BASE_Y },
-      data: {
-        title: currentDossier?.title || "Fascicolo d'Indagine",
-        code: currentDossier?.id,
-        status: currentDossier?.status,
-        date: currentDossier?.date,
-        coverUrl:
-          "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
-        description: "Documentazione ed evidenze dell'indagine.",
-      },
-    });
-
-    let previousMainNodeId = folderNodeId;
-
-    response.forEach((item: any, index: number) => {
-      const eventNodeId = item.id || `event-${index}`;
-      const eventXPos = 380 + index * 360;
+      const folderNodeId = `folder-${dossierId}`;
+      const BASE_Y = 200;
 
       newNodes.push({
-        id: eventNodeId,
-        type: "postit",
-        position: { x: eventXPos, y: BASE_Y },
+        id: folderNodeId,
+        type: "folder",
+        position: { x: 0, y: BASE_Y },
         data: {
-          label: item.date
-            ? new Date(item.date).toLocaleDateString("it-IT")
-            : `EVENTO #${index + 1}`,
-          title: item.title,
-          description: item.description,
+          title: currentDossier?.title || "Fascicolo d'Indagine",
+          code: currentDossier?.id,
+          status: currentDossier?.status,
+          date: currentDossier?.date,
+          coverUrl:
+            "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
+          description: "Documentazione ed evidenze dell'indagine.",
         },
       });
 
-      newEdges.push({
-        id: `edge-main-${previousMainNodeId}-${eventNodeId}`,
-        source: previousMainNodeId,
-        target: eventNodeId,
-        style: { stroke: "#b91c1c", strokeWidth: 3 },
-      });
+      let previousMainNodeId = folderNodeId;
 
-      previousMainNodeId = eventNodeId;
-
-      const evidences = item.evidences || [];
-
-      evidences.forEach((ev: any, evIndex: number) => {
-        const evidenceNodeId = `ev-${eventNodeId}-${ev.id || evIndex}`;
-
-        const isAbove = (index + evIndex) % 2 === 0;
-        const yOffset = isAbove ? -(220 + evIndex * 180) : 220 + evIndex * 180;
-        const xOffset = (evIndex - (evidences.length - 1) / 2) * 30;
-
-        let targetType = "document";
-
-        const isPdf =
-          ev.type === "PDF" ||
-          ev.type === "pdf" ||
-          ev.mimeType === "application/pdf" ||
-          ev.url?.endsWith(".pdf") ||
-          ev.fileUrl?.endsWith(".pdf");
-
-        const isPhoto =
-          ev.type === "PHOTO" ||
-          ev.type === "polaroid" ||
-          !!ev.imageUrl ||
-          (ev.url && !isPdf && /\.(jpg|jpeg|png|webp)$/i.test(ev.url));
-
-        if (isPdf) {
-          targetType = "pdf";
-        } else if (isPhoto) {
-          targetType = "polaroid";
-        }
-
-        // Estraiamo la nota o la descrizione principale dell'evidenza
-        const mainNoteText = ev.notes || ev.description || ev.content || ev.title;
-
-        let evData: any = {};
-        if (targetType === "polaroid") {
-          evData = {
-            imageUrl: ev.imageUrl || ev.url || ev.fileUrl,
-            caption: mainNoteText,
-          };
-        } else if (targetType === "pdf") {
-          evData = {
-            notes: mainNoteText,
-            fileUrl: ev.fileUrl || ev.url,
-          };
-        } else {
-          evData = {
-            notes: mainNoteText,
-            fileUrl: ev.fileUrl || ev.url,
-            imageUrl: ev.imageUrl,
-          };
-        }
+      response.forEach((item: any, index: number) => {
+        const eventNodeId = item.id || `event-${index}`;
+        const eventXPos = 380 + index * 360;
 
         newNodes.push({
-          id: evidenceNodeId,
-          type: targetType,
-          position: { x: eventXPos + xOffset, y: BASE_Y + yOffset },
-          data: evData,
+          id: eventNodeId,
+          type: "postit",
+          position: { x: eventXPos, y: BASE_Y },
+          data: {
+            label: item.date
+              ? new Date(item.date).toLocaleDateString("it-IT")
+              : `EVENTO #${index + 1}`,
+            title: item.title,
+            description: item.description,
+          },
         });
 
         newEdges.push({
-          id: `edge-ev-${eventNodeId}-${evidenceNodeId}`,
-          source: eventNodeId,
-          target: evidenceNodeId,
-          sourceHandle: isAbove ? "top" : "bottom",
-          targetHandle: isAbove ? "bottom" : undefined,
-          style: { stroke: "#b91c1c", strokeWidth: 2, strokeDasharray: "4 4" },
+          id: `edge-main-${previousMainNodeId}-${eventNodeId}`,
+          source: previousMainNodeId,
+          target: eventNodeId,
+          style: { stroke: "#b91c1c", strokeWidth: 3 },
+        });
+
+        previousMainNodeId = eventNodeId;
+
+        const evidences = item.evidences || [];
+
+        const STORAGE_BASE_URL =
+          process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL ||
+          "https://rtzwljhzxmafrnrdvfdc.supabase.co/storage/v1/object/public";
+
+        evidences.forEach((ev: any, evIndex: number) => {
+          const evidenceNodeId = `ev-${eventNodeId}-${ev.id || evIndex}`;
+
+          const isAbove = (index + evIndex) % 2 === 0;
+          const yOffset = isAbove ? -(220 + evIndex * 180) : 220 + evIndex * 180;
+          const xOffset = (evIndex - (evidences.length - 1) / 2) * 30;
+
+          // 1. Recupero URL grezzo
+          const rawUrl = ev.fileUrl || ev.imageUrl || ev.url || "";
+          let finalUrl = rawUrl;
+
+          // 2. CORREZIONE FORZATA DEL BUCKET
+          if (rawUrl) {
+            if (rawUrl.startsWith("http")) {
+              finalUrl = rawUrl.replace("/public/evidences/", "/public/pending-storage/");
+            } else {
+              const cleanPath = rawUrl.replace(/^\/+/, "");
+              const pathWithoutBucket = cleanPath
+                .replace(/^evidences\//, "")
+                .replace(/^pending-storage\//, "");
+              finalUrl = `${STORAGE_BASE_URL}/pending-storage/${pathWithoutBucket}`;
+            }
+          }
+
+          // 3. Controllo tipo di file
+          const isPdf =
+            ev.type === "PDF" ||
+            ev.type === "pdf" ||
+            ev.mimeType === "application/pdf" ||
+            finalUrl.toLowerCase().endsWith(".pdf");
+
+          const isPhoto =
+            ev.type === "PHOTO" ||
+            ev.type === "polaroid" ||
+            (!isPdf && /\.(jpg|jpeg|png|webp|gif|svg)($|\?)/i.test(finalUrl));
+
+          let targetType = "document";
+          if (isPdf) {
+            targetType = "pdf";
+          } else if (isPhoto) {
+            targetType = "polaroid";
+          }
+
+          const mainNoteText = ev.notes || ev.description || ev.content || ev.title || ev.fileName;
+
+          // 4. Mappatura evData (imageUrl popolato SOLO se è una foto)
+          const evData = {
+            title: ev.fileName || ev.title || "Reperto",
+            label: ev.type || "REPERTO",
+            type: ev.type,
+            notes: mainNoteText,
+            caption: mainNoteText,
+            description: ev.description || ev.content,
+            fileUrl: finalUrl,
+            imageUrl: isPhoto ? finalUrl : undefined,
+          };
+
+          newNodes.push({
+            id: evidenceNodeId,
+            type: targetType,
+            position: { x: eventXPos + xOffset, y: BASE_Y + yOffset },
+            data: evData,
+          });
+
+          newEdges.push({
+            id: `edge-ev-${eventNodeId}-${evidenceNodeId}`,
+            source: eventNodeId,
+            target: evidenceNodeId,
+            sourceHandle: isAbove ? "top" : "bottom",
+            targetHandle: isAbove ? "bottom" : undefined,
+            style: { stroke: "#b91c1c", strokeWidth: 2, strokeDasharray: "4 4" },
+          });
         });
       });
-    });
 
-    setNodes(newNodes);
-    setEdges(newEdges);
-  } catch (error) {
-    console.error("Errore durante il caricamento della timeline:", error);
-    setNodes([]);
-    setEdges([]);
-  } finally {
-    setIsLoading(false);
-  }
-};
- 
+      setNodes(newNodes);
+      setEdges(newEdges);
+    } catch (error) {
+      console.error("Errore durante il caricamento della timeline:", error);
+      setNodes([]);
+      setEdges([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-
-const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
+  const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
     d.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -264,6 +278,21 @@ const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
   };
 
   const activeMediaUrl = activeEvidence?.imageUrl || activeEvidence?.fileUrl;
+
+  const isPdf =
+    activeEvidence?.type === "PDF" ||
+    activeEvidence?.type === "pdf" ||
+    (activeMediaUrl && /\.pdf($|\?)/i.test(activeMediaUrl));
+
+  const isDoc = activeMediaUrl && /\.(doc|docx)($|\?)/i.test(activeMediaUrl);
+
+  const isPhoto =
+    !isPdf &&
+    !isDoc &&
+    (activeEvidence?.type === "PHOTO" ||
+      activeEvidence?.type === "polaroid" ||
+      (activeMediaUrl && isImageUrl(activeMediaUrl)) ||
+      !!activeEvidence?.imageUrl);
 
   return (
     <div className="relative flex h-screen w-full overflow-hidden bg-zinc-950">
@@ -378,9 +407,9 @@ const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
       </main>
 
       {/* DIALOG SHADCN DI ANTEPRIMA REPERTO */}
-      <Dialog open={!!activeEvidence} onOpenChange={(open) => !open && setActiveEvidence(null)}>
-        <DialogContent className="flex h-[92vh] max-w-5xl flex-col border-zinc-800 bg-zinc-900 p-3 sm:max-w-5xl [&>button]:text-zinc-400 [&>button]:hover:text-zinc-100">
-          <DialogHeader className="space-y-0 border-b border-zinc-800/80 pb-2 pr-6 text-left">
+      <Dialog open={!!activeEvidence} onOpenChange={(open) => !open && handleCloseDialog()}>
+        <DialogContent className="flex h-[92vh] max-w-5xl flex-col gap-2 border-zinc-800 bg-zinc-900 p-3 sm:max-w-5xl  [&>button]:text-zinc-400 [&>button]:hover:text-zinc-100 [&>button]:bg-amber-500">
+          <DialogHeader className="space-y-0 border-b border-zinc-800/80  pr-6 text-left">
             <DialogTitle className="flex items-center gap-2 overflow-hidden text-sm font-bold text-zinc-100">
               <FileText className="h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
               <span className="flex-shrink-0 font-mono text-[11px] font-semibold uppercase tracking-wide text-amber-500/90">
@@ -403,20 +432,63 @@ const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
           </DialogHeader>
 
           {/* AREA CONTENUTO CENTRALE */}
-          <div className="mt-1 flex-1 overflow-hidden rounded border border-zinc-800 bg-zinc-950">
-            {activeEvidence?.imageUrl || isImageUrl(activeMediaUrl) ? (
-              <div className="flex h-full w-full items-center justify-center bg-black/60 p-1">
+          <div className="relative mt-1 flex-1 overflow-hidden rounded border border-zinc-800 bg-zinc-950">
+            {isPhoto ? (
+              /* 1. IMMAGINI (Con Zoom) */
+              <div className="relative flex h-full w-full items-center justify-center overflow-auto bg-black/60 p-2">
+                <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-900/90 p-1 backdrop-blur-md">
+                  <button
+                    onClick={() => setZoomLevel((prev) => Math.max(0.5, prev - 0.25))}
+                    className="rounded px-2 py-0.5 font-mono text-xs text-zinc-300 hover:bg-zinc-800"
+                    title="Riduci Zoom"
+                  >
+                    -
+                  </button>
+                  <span className="px-1 font-mono text-[10px] text-amber-500">
+                    {Math.round(zoomLevel * 100)}%
+                  </span>
+                  <button
+                    onClick={() => setZoomLevel((prev) => Math.min(3, prev + 0.25))}
+                    className="rounded px-2 py-0.5 font-mono text-xs text-zinc-300 hover:bg-zinc-800"
+                    title="Aumenta Zoom"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => setZoomLevel(1)}
+                    className="ml-1 rounded border-l border-zinc-800 pl-1.5 pr-1 font-mono text-[10px] text-zinc-400 hover:text-zinc-100"
+                  >
+                    Reset
+                  </button>
+                </div>
+
                 <img
                   src={activeMediaUrl}
                   alt="Anteprima Reperto"
-                  className="max-h-full max-w-full object-contain"
+                  style={{ transform: `scale(${zoomLevel})`, transition: "transform 0.15s ease-out" }}
+                  className="max-h-full max-w-full origin-center object-contain"
                 />
               </div>
-            ) : activeEvidence?.fileUrl ? (
+            ) : isPdf ? (
+              /* 2. PDF (Lettore PDF Nativo nell'iframe) */
               <iframe
-                src={activeEvidence.fileUrl}
+                src={activeMediaUrl}
                 className="h-full w-full border-0 bg-white"
-                title={activeEvidence.title || "Documento"}
+                title={activeEvidence?.title || "Documento PDF"}
+              />
+            ) : isDoc ? (
+              /* 3. DOC / DOCX (Google Docs Viewer) */
+              <iframe
+                src={`https://docs.google.com/gview?url=${encodeURIComponent(activeMediaUrl)}&embedded=true`}
+                className="h-full w-full border-0 bg-white"
+                title={activeEvidence?.title || "Documento Word"}
+              />
+            ) : activeMediaUrl ? (
+              /* 4. FALLBACK DOCUMENTI GENERICI */
+              <iframe
+                src={activeMediaUrl}
+                className="h-full w-full border-0 bg-white"
+                title={activeEvidence?.title || "Anteprima Documento"}
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center font-mono text-xs text-zinc-500">
@@ -434,7 +506,7 @@ const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
                 rel="noreferrer"
                 className="flex items-center gap-1 font-mono text-[11px] text-amber-500 transition-colors hover:text-amber-400 hover:underline"
               >
-                <span>Apri file in una nuova scheda</span>
+                <span>Apri file originale in una nuova scheda</span>
                 <ExternalLink className="h-3 w-3" />
               </a>
             ) : (
@@ -442,7 +514,7 @@ const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
             )}
 
             <button
-              onClick={() => setActiveEvidence(null)}
+              onClick={handleCloseDialog}
               className="rounded border border-zinc-700 bg-zinc-800 px-3 py-1 font-mono text-[11px] font-medium text-zinc-300 transition-colors hover:bg-zinc-700"
             >
               Chiudi

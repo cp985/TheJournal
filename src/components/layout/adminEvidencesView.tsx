@@ -8,6 +8,7 @@ import { deleteEvidenceAdmin } from "@/action/action";
 import DeleteConfirmDialog from "./adminDeleteDossierAndEvidenceDialog";
 import { DbDossier, DbEvidence } from "@/lib/type";
 import { cn } from "@/lib/utils";
+import {formatDate} from '@/lib/utils'
 
 interface AdminEvidencesViewProps {
   q: string;
@@ -84,7 +85,7 @@ export default function AdminEvidencesView({
                 <p className="text-[11px] text-zinc-400">
                   {t.admin.adminEvidences.uploadedBy}:{" "}
                   <span className="text-zinc-200">@{ev.user.username}</span>{" "}
-                  {t.admin.adminEvidences.onDate} {ev.createdAt}
+                  {t.admin.adminEvidences.onDate} {formatDate(ev.createdAt)}
                 </p>
               </div>
 

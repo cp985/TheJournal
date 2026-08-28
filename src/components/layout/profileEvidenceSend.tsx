@@ -482,8 +482,8 @@ const currentTimelines = [...rawTimelines].sort(
             </div>
 
             {/* 3. Input Nome File Personalizzato */}
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-mono text-zinc-200 font-medium">
+            <div className="space-y-2 flex flex-col  md:col-span-2">
+              <label className="text-sm font-mono  text-zinc-200 font-medium">
                 {t.labels.evidenceTitle}
               </label>
               <Input
