@@ -1833,9 +1833,9 @@ type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
 });
 
 export async function updateEvidenceAdmin(
-  prevState: ActionState,
+  prevState: FormActionState,
   formData: FormData
-): Promise<ActionState> {
+): Promise<FormActionState> {
   const rawData = Object.fromEntries(formData.entries());
   const validatedFields = evidenceUpdateSchemaAdmin.safeParse(rawData);
 
@@ -1844,7 +1844,7 @@ export async function updateEvidenceAdmin(
       success: false,
       message: "validation-error",
       errors: validatedFields.error.flatten().fieldErrors,
-      fields: rawData,
+      data: rawData,
     };
   }
 
@@ -1882,7 +1882,7 @@ export async function updateEvidenceAdmin(
       return {
         success: false,
         message: "backend-url-missing",
-        fields: rawData,
+        data: rawData,
       };
     }
 
@@ -1910,7 +1910,7 @@ export async function updateEvidenceAdmin(
         success: false,
         message: errorMessage,
         errors: serverErrors,
-        fields: rawData,
+        data: rawData,
       };
     }
 
@@ -1930,7 +1930,7 @@ revalidatePath("/");
     return {
       success: false,
       message: "errors-updating-evidence-catch",
-      fields: rawData,
+      data: rawData,
     };
   }
 }
