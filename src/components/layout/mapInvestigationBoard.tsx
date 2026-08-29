@@ -269,7 +269,7 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
           title: currentDossier?.title || "Fascicolo d'Indagine",
           code: currentDossier?.id,
           status: currentDossier?.status,
-          date: currentDossier?.date,
+          date: currentDossier?.createdAt,
           coverUrl:
             "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
           description: "Documentazione ed evidenze dell'indagine.",
@@ -481,7 +481,7 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
                   <span className="font-mono text-[10px] font-semibold uppercase text-amber-500/70">
                     {c.status}
                   </span>
-                  <span className="font-mono text-[10px] text-zinc-500">{c.date}</span>
+                  <span className="font-mono text-[10px] text-zinc-500">{c.createdAt}</span>
                 </div>
                 <h3 className="line-clamp-1 font-serif text-sm font-bold text-zinc-100">
                   {c.title}
