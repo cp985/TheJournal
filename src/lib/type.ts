@@ -2,6 +2,23 @@ export type Role = "USER" | "ADMIN";
 export type EvidenceType = "PHOTO" | "PDF" | "DOCUMENT";
 export type EvidenceStatus = "PENDING" | "REJECTED" | "ACCEPTED";
 export type DossierStatus = "Open" | "Archived" | "Closed";
+
+export interface StatusOption {
+  value: string;
+  label: string;
+}
+
+export const DOSSIER_STATUS_OPTIONS: StatusOption[] = [
+  { value: "Open", label: "Aperto" },
+  { value: "Archived", label: "Archiviato" },
+  { value: "Closed", label: "Chiuso" },
+];
+
+export const EVIDENCE_STATUS_OPTIONS: StatusOption[] = [
+  { value: "PENDING", label: "In Attesa" },
+  { value: "ACCEPTED", label: "Approvato" },
+  { value: "REJECTED", label: "Rifiutato" },
+];
 export interface DbUser {
   id: string;
   username: string | null;

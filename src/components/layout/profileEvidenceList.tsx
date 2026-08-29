@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronDown, FiSend } from "react-icons/fi";
 import { DbEvidence } from "@/lib/type";
 import { useLanguage } from "@/context/maincontext";
+import { formatDate } from "@/lib/utils";
 
 interface EvidenceListProps {
   evidenceList: DbEvidence[];
@@ -50,6 +51,7 @@ export default function ProfileEvidenceList({
   const [showAll, setShowAll] = useState(false);
   const { t: dictionary } = useLanguage();
   const t = dictionary.profile.evidenceList;
+  const {lang} = useLanguage();
 
   const resolvedEmptyMessage = emptyMessage || t.defaultEmptyMessage;
 
@@ -89,14 +91,13 @@ export default function ProfileEvidenceList({
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-amber-400 border border-zinc-700/60">
-                        {item.id}
+                        { lang === "IT" ? item.notes : item.notes_en}
                       </span>
-                      <span className="text-xs font-semibold text-zinc-200">{item.notes}</span>
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-mono">
                       <span>{t.labels.type}: {item.type}</span>
                       <span>•</span>
-                      <span>{t.labels.sentOn} {item.createdAt}</span>
+                      <span>{t.labels.sentOn} { formatDate(item.createdAt)}</span>
                     </div>
                   </div>
 

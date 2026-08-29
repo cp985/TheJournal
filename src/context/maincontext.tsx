@@ -15,16 +15,16 @@ type LanguageContextType = {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      const match = document.cookie.match(/(?:^|; )user-lang=([^;]*)/);
-      if (match && (match[1] === "IT" || match[1] === "EN")) {
-        return match[1] as Language;
-      }
-    }
-    return "IT"; 
-  });
+interface LanguageProviderProps {
+  children: React.ReactNode;
+  initialLang?: Language;
+}
+
+export function LanguageProvider({ 
+  children, 
+  initialLang = "IT" 
+}: LanguageProviderProps) {
+  const [lang, setLangState] = useState<Language>(initialLang);
 
   const setLang = (newLang: Language) => {
     setLangState(newLang);
