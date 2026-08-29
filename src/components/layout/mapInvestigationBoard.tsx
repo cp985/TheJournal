@@ -1,7 +1,8 @@
 
+
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   FolderArchive,
   Search,
@@ -11,7 +12,6 @@ import {
   FileText,
   ExternalLink,
 } from "lucide-react";
-
 import {
   ReactFlow,
   Controls,
@@ -33,13 +33,14 @@ import {
 } from "@/components/ui/dialog";
 
 import { getTimelineByDossierId } from "@/action/action";
+import { useLanguage } from "@/context/maincontext";
 import { FolderNode } from "./mapFolderNode";
 import { DocumentNode } from "./mapDocumentNode";
 import { PolaroidNode } from "./mapPolaroidNode";
 import { PostItNode } from "./mapPostItNode";
 import { InstructionNode } from "./mapInstructionNode";
 import { PdfNode } from "./mapPdfNode";
-
+import { DbDossier } from "@/lib/type";
 const nodeTypes = {
   folder: FolderNode,
   postit: PostItNode,
@@ -49,51 +50,176 @@ const nodeTypes = {
   instruction: InstructionNode,
 };
 
-const INITIAL_INSTRUCTION_NODES: Node[] = [
+type WelcomeLang = "IT" | "EN";
+
+const WELCOME_COPY: Record<
+  WelcomeLang,
   {
-    id: "welcome-1",
-    type: "instruction",
-    position: { x: 0, y: 150 },
-    data: {
-      label: "NOTA DI BENVENUTO",
-      title: "Seleziona un Caso",
-      description:
-        "Apri il pannello Archivio Casi a sinistra per posizionare il fascicolo d'indagine al centro e scorrere gli eventi verso destra.",
+    folder: { title: string; code: string; status: string; description: string };
+    steps: { label: string; title: string; description: string }[];
+    evidence: { label: string; title: string; notes: string };
+  }
+> = {
+  IT: {
+    folder: {
+      title: "Come Leggere la Board",
+      code: "GUIDA",
+      status: "Tutorial",
+      description: "Ogni caso è un fascicolo con eventi e prove collegate.",
+    },
+    steps: [
+      {
+        label: "PASSO 1",
+        title: "Ordine Cronologico",
+        description: "Gli eventi scorrono da sinistra a destra, in ordine di data.",
+      },
+      {
+        label: "PASSO 2",
+        title: "Prove Collegate",
+        description: "Ogni prova si dirama dall'evento a cui appartiene.",
+      },
+      {
+        label: "PASSO 3",
+        title: "Invia una Prova",
+        description: "Registrati per proporre nuove prove sui casi aperti.",
+      },
+    ],
+    evidence: {
+      label: "REPERTO",
+      title: "Esempio di Prova",
+      notes: "Così apparirà una prova reale, ad es. una foto o un documento.",
     },
   },
-];
+  EN: {
+    folder: {
+      title: "How to Read the Board",
+      code: "GUIDE",
+      status: "Tutorial",
+      description: "Each case is a folder with connected events and evidence.",
+    },
+    steps: [
+      {
+        label: "STEP 1",
+        title: "Chronological Order",
+        description: "Events run left to right, in date order.",
+      },
+      {
+        label: "STEP 2",
+        title: "Linked Evidence",
+        description: "Each piece of evidence branches from its related event.",
+      },
+      {
+        label: "STEP 3",
+        title: "Submit Evidence",
+        description: "Register to propose new evidence for open cases.",
+      },
+    ],
+    evidence: {
+      label: "EXHIBIT",
+      title: "Evidence Example",
+      notes: "This is how a real piece of evidence will look, e.g. a photo or a document.",
+    },
+  },
+};
 
-const INITIAL_DOSSIERS = [
-  {
-    id: "d-666",
-    title: "Caso #402: Operazione Nebbia",
-    date: "12/05/2026",
-    status: "In Corso",
-  },
-  {
-    id: "dos-002",
-    title: "Caso #109: Il Silenzio del Molo",
-    date: "28/04/2026",
-    status: "Archiviato",
-  },
-  {
-    id: "dos-003",
-    title: "Caso #205: Ombre sul Lago",
-    date: "15/03/2026",
-    status: "In Corso",
-  },
-];
+function buildWelcomeGraph(lang: WelcomeLang): { nodes: Node[]; edges: Edge[] } {
+  const copy = WELCOME_COPY[lang];
+  const BASE_Y = 200;
+  const STEP_X = 360;
 
-export default function InvestigationBoard() {
+  const folderId = "welcome-folder";
+  const nodes: Node[] = [
+    {
+      id: folderId,
+      type: "folder",
+      position: { x: 0, y: BASE_Y },
+      data: {
+        title: copy.folder.title,
+        code: copy.folder.code,
+        status: copy.folder.status,
+        date: "",
+        description: copy.folder.description,
+      },
+    },
+  ];
+
+  const edges: Edge[] = [];
+  let previousId = folderId;
+
+  copy.steps.forEach((step, index) => {
+    const stepId = `welcome-step-${index}`;
+    const x = 380 + index * STEP_X;
+
+    nodes.push({
+      id: stepId,
+      type: "postit",
+      position: { x, y: BASE_Y },
+      data: { label: step.label, title: step.title, description: step.description },
+    });
+
+    edges.push({
+      id: `welcome-edge-${previousId}-${stepId}`,
+      source: previousId,
+      target: stepId,
+      style: { stroke: "#b91c1c", strokeWidth: 3 },
+    });
+
+    previousId = stepId;
+
+    if (index === 1) {
+      const evidenceId = "welcome-evidence-demo";
+      nodes.push({
+        id: evidenceId,
+        type: "polaroid",
+        position: { x, y: BASE_Y - 320 },
+        data: {
+          title: copy.evidence.title,
+          label: copy.evidence.label,
+          notes: copy.evidence.notes,
+          caption: copy.evidence.notes,
+        },
+      });
+
+      edges.push({
+        id: `welcome-edge-${stepId}-${evidenceId}`,
+        source: stepId,
+        target: evidenceId,
+        sourceHandle: "top",
+        targetHandle: "bottom",
+        style: { stroke: "#b91c1c", strokeWidth: 2, strokeDasharray: "4 4" },
+      });
+    }
+  });
+
+  return { nodes, edges };
+}
+
+
+
+
+type InvestigationBoardProps = {
+  dossiers: DbDossier[];
+};
+
+export default function InvestigationBoard({ dossiers }: InvestigationBoardProps) {
+  const { lang } = useLanguage();
+
   const [selectedDossierId, setSelectedDossierId] = useState<string | null>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [zoomLevel, setZoomLevel] = useState(1);
   const [activeEvidence, setActiveEvidence] = useState<any | null>(null);
 
-  const [nodes, setNodes] = useState<Node[]>(INITIAL_INSTRUCTION_NODES);
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const [nodes, setNodes] = useState<Node[]>(() => buildWelcomeGraph(lang as WelcomeLang).nodes);
+  const [edges, setEdges] = useState<Edge[]>(() => buildWelcomeGraph(lang as WelcomeLang).edges);
+
+  useEffect(() => {
+    if (selectedDossierId) return;
+    const { nodes: welcomeNodes, edges: welcomeEdges } = buildWelcomeGraph(lang as WelcomeLang);
+    setNodes(welcomeNodes);
+    setEdges(welcomeEdges);
+  }, [lang, selectedDossierId]);
 
   const handleCloseDialog = () => {
     setActiveEvidence(null);
@@ -110,22 +236,23 @@ export default function InvestigationBoard() {
   );
 
   const handleNodeClick = (_: React.MouseEvent, node: Node) => {
-  if (node.type === "postit") return;
+    if (node.type === "postit" || node.type === "folder") return;
 
-  if (
-    node.data &&
-    (node.data.fileUrl || node.data.imageUrl || node.data.notes || node.data.description)
-  ) {
-    setActiveEvidence(node.data);
-  }
-};
+    if (
+      node.data &&
+      (node.data.fileUrl || node.data.imageUrl || node.data.notes || node.data.description)
+    ) {
+      setActiveEvidence(node.data);
+    }
+  };
+
   const handleSelectDossier = async (dossierId: string) => {
     setSelectedDossierId(dossierId);
     setIsSidebarOpen(false);
     setIsLoading(true);
 
     try {
-      const currentDossier = INITIAL_DOSSIERS.find((d) => d.id === dossierId);
+      const currentDossier = dossiers.find((d) => d.id === dossierId);
       const response = await getTimelineByDossierId(dossierId);
 
       const newNodes: Node[] = [];
@@ -177,7 +304,9 @@ export default function InvestigationBoard() {
 
         previousMainNodeId = eventNodeId;
 
-        const evidences = item.evidences || [];
+        const evidences = (item.evidences || []).filter(
+          (ev: any) => ev.status?.toUpperCase() === "ACCEPTED"
+        );
 
         const STORAGE_BASE_URL =
           process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL ||
@@ -190,11 +319,9 @@ export default function InvestigationBoard() {
           const yOffset = isAbove ? -(220 + evIndex * 180) : 220 + evIndex * 180;
           const xOffset = (evIndex - (evidences.length - 1) / 2) * 30;
 
-// 1. Recupero URL grezzo
           const rawUrl = ev.fileUrl || ev.imageUrl || ev.url || "";
           let finalUrl = "";
 
-          // 2. CORREZIONE FORZATA DEL BUCKET (solo per path/URL validi)
           if (rawUrl && (rawUrl.includes("/") || rawUrl.startsWith("http"))) {
             if (rawUrl.startsWith("http")) {
               finalUrl = rawUrl.replace("/public/evidences/", "/public/pending-storage/");
@@ -207,7 +334,6 @@ export default function InvestigationBoard() {
             }
           }
 
-          // 3. Controllo tipo di file
           const isPdf =
             ev.type === "PDF" ||
             ev.type === "pdf" ||
@@ -228,7 +354,6 @@ export default function InvestigationBoard() {
 
           const mainNoteText = ev.notes || ev.description || ev.content || ev.title || ev.fileName;
 
-          // 4. Mappatura evData (imageUrl popolato SOLO se è una foto)
           const evData = {
             title: ev.fileName || ev.title || "Reperto",
             label: ev.type || "REPERTO",
@@ -269,7 +394,7 @@ export default function InvestigationBoard() {
     }
   };
 
-  const filteredDossiers = INITIAL_DOSSIERS.filter((d) =>
+  const filteredDossiers = dossiers.filter((d) =>
     d.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 

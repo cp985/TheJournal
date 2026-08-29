@@ -27,7 +27,6 @@ export default function AdminDossiersView({
   const filteredDossiers = safeDossiersList.filter((dossier) => {
     const query = q.toLowerCase().trim();
 
-    // 1. Filtro testuale (titolo IT, titolo EN o ID/Codice)
     const matchesQuery =
       !query ||
       dossier.title.toLowerCase().includes(query) ||
@@ -35,11 +34,16 @@ export default function AdminDossiersView({
       dossier.id.toLowerCase().includes(query) ||
       (dossier.code && dossier.code.toLowerCase().includes(query));
 
-    // 2. Filtro per Stato ("Open", "Archived", "Closed")
     const matchesStatus = status ? dossier.status === status : true;
 
     return matchesQuery && matchesStatus;
   });
+
+  const sortedFilteredDossiersList = [...filteredDossiers].sort(
+    (a, b) =>
+      new Date(b.createdAt || (b as any).created_at).getTime() -
+      new Date(a.createdAt || (a as any).created_at).getTime()
+  );
 
   return (
     <div className="space-y-6">
@@ -51,7 +55,7 @@ export default function AdminDossiersView({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredDossiers.map((dossier) => (
+        {sortedFilteredDossiersList.map((dossier) => (
           <div
             key={dossier.id}
             className="p-5 rounded-xl border border-zinc-800 bg-zinc-900/40 space-y-3 font-mono"
@@ -114,7 +118,7 @@ export default function AdminDossiersView({
           </div>
         ))}
 
-        {filteredDossiers.length === 0 && (
+        {sortedFilteredDossiersList.length === 0 && (
           <div className="col-span-full p-8 text-center border border-zinc-800/80 rounded-xl bg-zinc-900/20 text-zinc-500 font-mono text-xs">
             No dossiers found - Nessun dossier trovato
           </div>

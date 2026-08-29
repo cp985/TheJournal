@@ -39,6 +39,12 @@ export default function AdminEvidencesView({
     return matchesQuery && matchesStatus;
   });
 
+  const sortedFilteredEvidences= [...filteredEvidences].sort(
+    (a, b) =>
+      new Date(b.createdAt || (b as any).created_at).getTime() -
+      new Date(a.createdAt || (a as any).created_at).getTime()
+  );
+
   const dossiersCode = dossiersList.map((d) => ({
     code: d.code,
     title: lang === "IT" ? d.title : d.title_en || d.title,
@@ -52,18 +58,18 @@ export default function AdminEvidencesView({
           {t.admin.adminEvidences.title}
         </h1>
         <span className="text-xs text-zinc-400">
-          {evidencesList.length} {t.admin.adminEvidences.total}
+          {sortedFilteredEvidences.length} {t.admin.adminEvidences.total}
         </span>
         <EvidenceFormDialog mode="create" dossierOptions={dossiersCode} />
       </div>
 
       <div className="space-y-3">
-        {filteredEvidences.length === 0 ? (
+        {sortedFilteredEvidences.length === 0 ? (
           <p className="text-sm text-zinc-500 py-4">
             {t.admin.adminEvidences.noEvidences}
           </p>
         ) : (
-          filteredEvidences.map((ev) => (
+          sortedFilteredEvidences.map((ev) => (
             <div
               key={ev.id}
               className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/40 flex flex-col md:flex-row md:items-center justify-between gap-4"

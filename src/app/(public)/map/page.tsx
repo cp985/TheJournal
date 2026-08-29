@@ -1,7 +1,6 @@
-import InvestigationBoard from "@/components/layout/investigationBoard";
+import InvestigationBoard from "@/components/layout/mapInvestigationBoard";
 import "@xyflow/react/dist/style.css";
-
-// Interfaccia per i dossier che verranno passati al sidebar dell'archivio
+import { getDossiers } from "@/action/action";
 export interface DossierSummary {
   id: string;
   title: string;
@@ -10,10 +9,15 @@ export interface DossierSummary {
   status: "In Corso" | "Archiviato" | "Sospeso";
 }
 
-export default function MapPage() {
+
+
+export default async function MapPage() {
+
+  const dossiersList = await getDossiers();
+
   return (
     <div className="fixed inset-0 z-0 h-screen w-screen overflow-hidden bg-zinc-950">
-      <InvestigationBoard />
+      <InvestigationBoard dossiers={dossiersList} />
     </div>
   );
 }

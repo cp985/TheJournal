@@ -1,16 +1,17 @@
-import { Cog, ShieldAlert } from "lucide-react";
+import { Cog  } from "lucide-react";
 
+import { FaMagnifyingGlass } from "react-icons/fa6";
 export default function Loader() {
   return (
     <div className="fixed inset-0 z-50 flex h-screen w-screen flex-col items-center justify-center bg-zinc-950 text-foreground select-none">
       
       <div className="relative flex items-center justify-center h-32 w-32">
         
-        <Cog className="absolute h-28 w-28 text-amber-500/30 animate-[spin_8s_linear_infinite]" />
+        <Cog className="absolute h-28 w-28 text-amber-500/10 animate-[spin_8s_linear_infinite]" />
 
-        <Cog className="absolute h-16 w-16 text-amber-500/60 animate-[spin_4s_linear_infinite_reverse]" />
+        <Cog className="absolute h-16 w-16 text-amber-500/40 animate-[spin_4s_linear_infinite_reverse]" />
 
-        <ShieldAlert className="absolute h-7 w-7 text-amber-500 animate-pulse" />
+        <FaMagnifyingGlass className="absolute h-7 w-7 text-amber-400 animate-pulse" />
 
         <div className="absolute h-32 w-32 rounded-full border border-amber-500/10 animate-ping" />
       </div>

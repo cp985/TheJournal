@@ -70,35 +70,16 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
   const [open, setOpen] = useState(false);
   const [openCount, setOpenCount] = useState(0);
 
-  // Calcola il dossier di default
   const defaultDossierId =
     initialData?.dossierId || defaultDossierCode || dossierOptions[0]?.code || "";
 
-  // Inizializza lo stato col default corretto
   const [selectedDossierId, setSelectedDossierId] = useState<string>(defaultDossierId);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-//  const handleAction = async (
-//   prevState: FormActionState,
-//   formData: FormData
-// ): Promise<FormActionState> => {
-//     const action = isEdit ? updateEvidenceAdmin : createEvidenceAdmin;
-//     const res = await action(prevState, formData);
-
-//     if (res.success) {
-//       router.refresh();
-//       setOpen(false);
-//     }
-//     return res;
-
-//   };
-
-// Permette di gestire sia l'invio del FormData che il Reset manuale
   const handleAction = async (
     prevState: FormActionState,
     payload: FormData | "RESET"
   ): Promise<FormActionState> => {
-    // Se inviamo "RESET", ritorniamo lo stato iniziale pulito
     if (payload === "RESET") {
       return EMPTY_STATE;
     }
