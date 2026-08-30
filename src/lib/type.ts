@@ -153,3 +153,8 @@ export type DeleteActionResult = {
   idItem?: string;
 };
 
+export type DbFollowedCase = {
+  success: boolean;
+  followedIds: string[]; 
+   error?: string | null;
+};

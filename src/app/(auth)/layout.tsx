@@ -1,6 +1,5 @@
 import "../globals.css";
 
-import SessionProvider from "@/components/layout/sessionProvider";
 import Footer from "@/components/layout/footer";
 
 export default function RootLayout({
@@ -10,14 +9,14 @@ export default function RootLayout({
 }>) {
   return (
 
- <SessionProvider >
+ 
       <div className="min-h-full flex flex-col">
      
           {children}
           <Footer />
       
       </div>
-    </SessionProvider>
+  
  
   );
 }

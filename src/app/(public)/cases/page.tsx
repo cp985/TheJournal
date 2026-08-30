@@ -1,19 +1,3 @@
-// import { Suspense } from "react";
-// import Loader from "@/components/layout/loader";
-// import { getDossiers } from "@/action/action";
-
-// import CasesPageMainCompo from "@/components/layout/casePageMainCompo";
-
-// export default async function CasePage() {
-//   const dossiersList = await getDossiers();
-//   let isPublic= true;
-//   if(dossiersList.length > 3) isPublic= false
-//   return (
-//     <Suspense fallback={<Loader />}>
-//       <CasesPageMainCompo  isPublic={isPublic} dossiersList={dossiersList} />
-//     </Suspense>
-//   );
-// }
 
 
 import { Suspense } from "react";
@@ -28,7 +12,6 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-// 1. GENERAZIONE METADATI SEO (SERVER-SIDE)
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const params = await searchParams;
   const code = typeof params.code === "string" ? params.code : null;
@@ -79,7 +62,6 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   };
 }
 
-// 2. SERVER COMPONENT PRINCIPALE (RENDERIZZA IL CLIENT COMPONENT)
 export default async function CasePage() {
   const dossiersList = await getDossiers();
 

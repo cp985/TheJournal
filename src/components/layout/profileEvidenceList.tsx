@@ -90,7 +90,7 @@ export default function ProfileEvidenceList({
                 <div className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-zinc-800/20 transition-colors">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-amber-400 border border-zinc-700/60">
+                      <span className="font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/60">
                         { lang === "IT" ? item.notes : item.notes_en}
                       </span>
                     </div>

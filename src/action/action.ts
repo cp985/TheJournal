@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import jwt from "jsonwebtoken";
 import {auth} from '@/auth/auth'
 import { InitialStateProfile } from "@/components/layout/profileEditDialog";
-import {type DbTimeline, type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
+import {type DbFollowedCase,type DbTimeline, type FormActionState  ,type SendEmailFormState, type LoginFormState,  type SignUpFormState, type HealthStatus, type ActionState } from "@/lib/type"
 
 
 
@@ -2109,3 +2109,65 @@ export const getTimelineByDossierId = async (dossierId: string): Promise<DbTimel
     return [];
   }
 };
+
+
+export const toggleFollowedCase = async (caseId: string): Promise<DbFollowedCase> => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return {
+        success: false,
+        followedIds: [],
+        error: "user-not-authenticated",
+      };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return {
+        success: false,
+        followedIds: [],
+        error: "auth-secret-not-found",
+      };
+    }
+
+    const token = jwt.sign(
+      {
+        id: session.user.id,
+        sub: session.user.id,
+        email: session.user.email,
+        role: session.user.role,
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      return {
+        success: false,
+        followedIds: [],
+        error: "backend-url-missing",
+      };
+    }
+
+    const response = await fetch(`${baseUrl}/dossier/toggle-followedCase`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ caseId }),
+    });
+
+    return await response.json();
+
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      success: false,
+      followedIds: [],
+      error: "errors-toggle-followed-case",
+    };
+  }
+}
