@@ -2111,7 +2111,67 @@ export const getTimelineByDossierId = async (dossierId: string): Promise<DbTimel
 };
 
 
+
+
+
 export const toggleFollowedCase = async (caseId: string): Promise<DbFollowedCase> => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { success: false, followedIds: [], error: "user-not-authenticated" };
+    }
+
+    const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      return { success: false, followedIds: [], error: "auth-secret-not-found" };
+    }
+
+    const token = jwt.sign(
+      {
+        id: session.user.id,
+        sub: session.user.id,
+        email: session.user.email,
+        role: session.user.role,
+      },
+      secret,
+      { expiresIn: "5m" }
+    );
+
+    const baseUrl = process.env.NEXT_PUBLIC_URL_RENDER;
+    if (!baseUrl) {
+      return { success: false, followedIds: [], error: "backend-url-missing" };
+    }
+
+    const response = await fetch(`${baseUrl}/dossier/toggle-followedCase`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ caseId }),
+    });
+
+    const raw = await response.text();
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      return { success: false, followedIds: [], error: "invalid-server-response" };
+    }
+
+    if (!response.ok) {
+      return { success: false, followedIds: [], error: data?.message || "server-error" };
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error toggleFollowedCase:", error);
+    return { success: false, followedIds: [], error: "errors-toggle-followed-case" };
+  }
+};
+
+export const getFollowedCases = async () : Promise<DbFollowedCase>  => {
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -2152,22 +2212,30 @@ export const toggleFollowedCase = async (caseId: string): Promise<DbFollowedCase
     }
 
     const response = await fetch(`${baseUrl}/dossier/toggle-followedCase`, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ caseId }),
+      cache: "no-store", 
     });
+
+    if (!response.ok) {
+      return {
+        success: false,
+        followedIds: [],
+        error: `http-error-${response.status}`,
+      };
+    }
 
     return await response.json();
 
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error in getFollowedCases:", error);
     return {
       success: false,
       followedIds: [],
-      error: "errors-toggle-followed-case",
+      error: "errors-get-followed-cases",
     };
   }
-}
+};

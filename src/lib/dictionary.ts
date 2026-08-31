@@ -43,6 +43,7 @@ export const dictionary = {
         emptySelection:
           "Seleziona un reperto dalla lista per visualizzarne l'anteprima",
         loadToMap: "CARICA DOSSIER IN MAPPA",
+      removeFromMap: "RIMUOVI DA MAPPA",
       },
       pageDefault: {
         title: "Archivio Generale Casi",
@@ -927,6 +928,7 @@ export const dictionary = {
         fileNotesHeader: "File notes:",
         emptySelection: "Select an evidence item from the list to preview it",
         loadToMap: "LOAD DOSSIER TO MAP",
+        removeFromMap: "REMOVE DOSSIER FROM MAP",
       },
       pageDefault: {
         title: "General Cases Archive",

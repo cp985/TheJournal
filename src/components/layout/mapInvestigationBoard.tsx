@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import {
   FolderArchive,
   Search,
@@ -41,6 +41,7 @@ import { PostItNode } from "./mapPostItNode";
 import { InstructionNode } from "./mapInstructionNode";
 import { PdfNode } from "./mapPdfNode";
 import { DbDossier } from "@/lib/type";
+
 const nodeTypes = {
   folder: FolderNode,
   postit: PostItNode,
@@ -123,7 +124,7 @@ const WELCOME_COPY: Record<
 };
 
 function buildWelcomeGraph(lang: WelcomeLang): { nodes: Node[]; edges: Edge[] } {
-  const copy = WELCOME_COPY[lang];
+  const copy = WELCOME_COPY[lang] || WELCOME_COPY["IT"];
   const BASE_Y = 200;
   const STEP_X = 360;
 
@@ -194,16 +195,20 @@ function buildWelcomeGraph(lang: WelcomeLang): { nodes: Node[]; edges: Edge[] } 
   return { nodes, edges };
 }
 
-
-
-
 type InvestigationBoardProps = {
   dossiers: DbDossier[];
+  initialDbFollowedIds: string[] | null;
+  isAuthenticated: boolean;
 };
 
-export default function InvestigationBoard({ dossiers }: InvestigationBoardProps) {
+export default function InvestigationBoard({ 
+  dossiers,
+  initialDbFollowedIds,
+  isAuthenticated
+}: InvestigationBoardProps) {
   const { lang } = useLanguage();
 
+  const [isMounted, setIsMounted] = useState(false);
   const [selectedDossierId, setSelectedDossierId] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -211,15 +216,37 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
   const [zoomLevel, setZoomLevel] = useState(1);
   const [activeEvidence, setActiveEvidence] = useState<any | null>(null);
 
+  const [savedCaseIds, setSavedCaseIds] = useState<string[]>(
+    isAuthenticated && initialDbFollowedIds ? initialDbFollowedIds : []
+  );
+
   const [nodes, setNodes] = useState<Node[]>(() => buildWelcomeGraph(lang as WelcomeLang).nodes);
   const [edges, setEdges] = useState<Edge[]>(() => buildWelcomeGraph(lang as WelcomeLang).edges);
 
   useEffect(() => {
-    if (selectedDossierId) return;
-    const { nodes: welcomeNodes, edges: welcomeEdges } = buildWelcomeGraph(lang as WelcomeLang);
-    setNodes(welcomeNodes);
-    setEdges(welcomeEdges);
-  }, [lang, selectedDossierId]);
+    setIsMounted(true);
+    if (!isAuthenticated) {
+      try {
+        const localSaved = localStorage.getItem("followed_cases");
+        if (localSaved) {
+          setSavedCaseIds(JSON.parse(localSaved));
+        }
+      } catch (error) {
+        console.error("Errore lettura localStorage:", error);
+      }
+    }
+  }, [isAuthenticated]);
+
+  // 3. Usa useMemo per filtrare i casi (niente useEffect per derivare dati!)
+  const myDossiers = useMemo(() => {
+    return dossiers.filter((d) => savedCaseIds.includes(d.id));
+  }, [dossiers, savedCaseIds]);
+
+  const searchedDossiers = useMemo(() => {
+    return myDossiers.filter((d) =>
+      d.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [myDossiers, searchQuery]);
 
   const handleCloseDialog = () => {
     setActiveEvidence(null);
@@ -230,6 +257,7 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
     (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
     []
   );
+  
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     []
@@ -394,10 +422,6 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
     }
   };
 
-  const filteredDossiers = dossiers.filter((d) =>
-    d.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const isImageUrl = (url?: string) => {
     if (!url) return false;
     return /\.(jpg|jpeg|png|webp|gif|svg)($|\?)/i.test(url);
@@ -465,34 +489,43 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
         </div>
 
         <div className="flex-1 space-y-2 overflow-y-auto pr-1">
-          {filteredDossiers.map((c) => {
-            const isSelected = c.id === selectedDossierId;
-            return (
-              <button
-                key={c.id}
-                onClick={() => handleSelectDossier(c.id)}
-                className={`w-full rounded-lg border p-3 text-left transition-all ${
-                  isSelected
-                    ? "border-amber-800/80 bg-amber-950/30 text-amber-400 shadow-md"
-                    : "border-zinc-800/50 bg-zinc-900/40 text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
-                }`}
-              >
-                <div className="mb-1 flex items-center justify-between">
-                  <span className="font-mono text-[10px] font-semibold uppercase text-amber-500/70">
-                    {c.status}
-                  </span>
-                  <span className="font-mono text-[10px] text-zinc-500">{c.createdAt}</span>
-                </div>
-                <h3 className="line-clamp-1 font-serif text-sm font-bold text-zinc-100">
-                  {c.title}
-                </h3>
-                <div className="mt-2 flex items-center font-mono text-xs text-zinc-500">
-                  <span>Carica sulla board</span>
-                  <ChevronRight className="ml-auto h-3 w-3" />
-                </div>
-              </button>
-            );
-          })}
+          {/* Mostra scheletro se non idratato, altrimenti i casi o l'Empty State */}
+          {!isMounted ? (
+            <div className="text-center font-mono text-xs text-zinc-500 mt-10">Caricamento in corso...</div>
+          ) : searchedDossiers.length === 0 ? (
+            <div className="text-center font-mono text-xs text-zinc-500 mt-10 px-4">
+              Nessun caso salvato. Torna alla lista per aggiungere fascicoli.
+            </div>
+          ) : (
+            searchedDossiers.map((c) => {
+              const isSelected = c.id === selectedDossierId;
+              return (
+                <button
+                  key={c.id}
+                  onClick={() => handleSelectDossier(c.id)}
+                  className={`w-full rounded-lg border p-3 text-left transition-all ${
+                    isSelected
+                      ? "border-amber-800/80 bg-amber-950/30 text-amber-400 shadow-md"
+                      : "border-zinc-800/50 bg-zinc-900/40 text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
+                  }`}
+                >
+                  <div className="mb-1 flex items-center justify-between">
+                    <span className="font-mono text-[10px] font-semibold uppercase text-amber-500/70">
+                      {c.status}
+                    </span>
+                    <span className="font-mono text-[10px] text-zinc-500">{c.createdAt}</span>
+                  </div>
+                  <h3 className="line-clamp-1 font-serif text-sm font-bold text-zinc-100">
+                    {c.title}
+                  </h3>
+                  <div className="mt-2 flex items-center font-mono text-xs text-zinc-500">
+                    <span>Carica sulla board</span>
+                    <ChevronRight className="ml-auto h-3 w-3" />
+                  </div>
+                </button>
+              );
+            })
+          )}
         </div>
       </aside>
 
@@ -560,7 +593,6 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
           {/* AREA CONTENUTO CENTRALE */}
           <div className="relative mt-1 flex-1 overflow-hidden rounded border border-zinc-800 bg-zinc-950">
             {isPhoto ? (
-              /* 1. IMMAGINI (Con Zoom) */
               <div className="relative flex h-full w-full items-center justify-center overflow-auto bg-black/60 p-2">
                 <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-900/90 p-1 backdrop-blur-md">
                   <button
@@ -596,21 +628,18 @@ export default function InvestigationBoard({ dossiers }: InvestigationBoardProps
                 />
               </div>
             ) : isPdf ? (
-              /* 2. PDF (Lettore PDF Nativo nell'iframe) */
               <iframe
                 src={activeMediaUrl}
                 className="h-full w-full border-0 bg-white"
                 title={activeEvidence?.title || "Documento PDF"}
               />
             ) : isDoc ? (
-              /* 3. DOC / DOCX (Google Docs Viewer) */
               <iframe
                 src={`https://docs.google.com/gview?url=${encodeURIComponent(activeMediaUrl)}&embedded=true`}
                 className="h-full w-full border-0 bg-white"
                 title={activeEvidence?.title || "Documento Word"}
               />
             ) : activeMediaUrl ? (
-              /* 4. FALLBACK DOCUMENTI GENERICI */
               <iframe
                 src={activeMediaUrl}
                 className="h-full w-full border-0 bg-white"

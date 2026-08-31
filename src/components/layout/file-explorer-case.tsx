@@ -4,7 +4,7 @@
 "use client";
 
 import { useState } from "react";
-import { Folder, FileText, Image as ImageIcon, Download, ArrowLeft, ExternalLink, FileCheck } from "lucide-react";
+import {  Trash2,Folder, FileText, Image as ImageIcon, Download, ArrowLeft, ExternalLink, FileCheck } from "lucide-react";
 import type { DbEvidence } from "@/lib/type"; 
 import Image from "next/image";
 import { useLanguage } from "@/context/maincontext"; // Modifica il path se diverso
@@ -22,9 +22,10 @@ interface FileExplorerProps {
   caseId: string;
   files: ExplorerItem[];
   onDownloadCase: () => void;
+  isCaseSaved: boolean;
 }
 
-export function CaseFileExplorer({ caseId, files, onDownloadCase }: FileExplorerProps) {
+export function CaseFileExplorer({ caseId, files, onDownloadCase, isCaseSaved }: FileExplorerProps) {
   const { t, lang } = useLanguage();
 
   const [currentFolder, setCurrentFolder] = useState<ExplorerItem[]>(files);
@@ -271,7 +272,8 @@ export function CaseFileExplorer({ caseId, files, onDownloadCase }: FileExplorer
               className="flex w-full items-center justify-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 py-2.5 text-xs font-semibold text-amber-400 transition-all hover:bg-amber-500/20"
             >
               <Download className="h-3.5 w-3.5" />
-              {t.casesPage.fileExplorer.loadToMap}
+            {isCaseSaved ? <Trash2 className="h-3.5 w-3.5" /> : <Download className="h-3.5 w-3.5" />}
+  {isCaseSaved ? t.casesPage.fileExplorer.removeFromMap : t.casesPage.fileExplorer.loadToMap}
             </button>
           </div>
         </div>
