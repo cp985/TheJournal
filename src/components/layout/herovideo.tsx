@@ -17,15 +17,13 @@ export default function HeroVideoSection() {
     const container = containerRef.current;
     if (!container) return;
 
-    // Rileva quando la sezione entra nel viewport (almeno al 30%)
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting && videoRef.current && !hasPlayed) {
           videoRef.current.play().catch(() => {
-            // Gestione fallback per eventuali policy di autoplay del browser
           });
-          setHasPlayed(true); // Assicura che riproduca una sola volta
+          setHasPlayed(true); 
         }
       },
       { threshold: 0.3 }

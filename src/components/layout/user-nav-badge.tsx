@@ -21,7 +21,6 @@ export function UserNavDesktop({ session }: { session: Session }) {
   const role = user?.role || "USER";
   const isAdmin = role.toUpperCase() === "ADMIN";
 
-  // Recupera il valore dell'avatar dalla sessione (se presente)
   const avatarValue = (user as { avatar?: string | null })?.avatar || null;
 
   useEffect(() => {

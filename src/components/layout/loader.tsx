@@ -9,7 +9,7 @@ export default function Loader() {
         
         <Cog className="absolute h-28 w-28 text-amber-500/10 animate-[spin_8s_linear_infinite]" />
 
-        <Cog className="absolute h-16 w-16 text-amber-500/40 animate-[spin_4s_linear_infinite_reverse]" />
+        <Cog className="absolute h-16 w-16 text-amber-500/30 animate-[spin_4s_linear_infinite_reverse]" />
 
         <FaMagnifyingGlass className="absolute h-7 w-7 text-amber-400 animate-pulse" />
 

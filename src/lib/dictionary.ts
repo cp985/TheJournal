@@ -265,16 +265,7 @@ export const dictionary = {
       },
     },
     map: {
-      sidebar: {
-        badge: "Anteprima Mappa OSINT",
-        title: "Geolocalizzazione & CELLE",
-        subtitle:
-          "Seleziona un dossier per esplorare le coordinate e la sequenza cronologica dei rilievi.",
-        publicNotice:
-          "Modalità Pubblica: 12 nodi chiave visualizzati su 142 totali.",
-        unlockBtn: "Sblocca Tutti i Nodi",
-        caseSelectorLabel: "Dossier Disponibili",
-      },
+
       nodeDetails: {
         title: "Rilievo Selezionato",
         emptyState:
@@ -289,6 +280,38 @@ export const dictionary = {
         lockedFeature:
           "La triangolazione automatica delle celle è riservata agli utenti registrati.",
       },
+  boardComponent: {
+    sidebarTitle: "Archivio Casi",
+    searchPlaceholder: "Cerca fascicolo...",
+    loading: "Caricamento in corso...",
+    empty: "Nessun caso salvato. Torna alla lista per aggiungere fascicoli.",
+    loadAction: "Carica sulla board",
+    closeTooltip: "Chiudi archivio",
+    archiveButton: "Archivio Casi",
+    loadingTimeline: "Recupero timeline dal fascicolo...",
+    defaultFolderTitle: "Fascicolo d'Indagine",
+    defaultFolderDesc: "Documentazione ed evidenze dell'indagine.",
+    defaultEventLabel: "EVENTO",
+    defaultEvidenceTitle: "Reperto",
+    defaultEvidenceLabel: "REPERTO",
+    dialogNotesLabel: "Note:",
+    zoomInTitle: "Aumenta Zoom",
+    zoomOutTitle: "Riduci Zoom",
+    zoomReset: "Reset",
+    pdfTitle: "Documento PDF",
+    docTitle: "Documento Word",
+    genericPreviewTitle: "Anteprima Documento",
+    noPreview: "Nessuna anteprima disponibile per questo reperto.",
+    openOriginal: "Apri file originale in una nuova scheda",
+    close: "Chiudi",
+    folderNode:{
+    officialFile: "FASCICOLO UFFICIALE",
+    statusLabel: "STATO:",
+    defaultTitle: "Fascicolo senza titolo",
+    defaultDescription: "Nessuna descrizione disponibile per questo fascicolo.",
+  }
+  },
+
     },
     login: {
       or: "Oppure accedi con...",
@@ -669,7 +692,8 @@ export const dictionary = {
   noEvidences: "Nessuna prova trovata.",
   statusAccepted: "Accettato",
   statusPending: "In attesa",
-},evidenceDialog: {
+},
+evidenceDialog: {
   fileLabel: "File",
     editTitle: "Modifica Prova",
     createTitle: "Aggiungi Nuova Prova",
@@ -737,7 +761,8 @@ export const dictionary = {
         "Prova aggiornata con successo.",
 
       }
-  },deleteDialog: {
+  },
+  deleteDialog: {
     deleteDossierTitle: "Elimina Dossier",
     deleteEvidenceTitle: "Elimina Prova",
     dossierLabel: "Dossier",
@@ -780,7 +805,8 @@ export const dictionary = {
   
       }
   
-  },mobileMenu: {
+  },
+  mobileMenu: {
     panelTitle: "PANNELLO ADMIN",
     overview: "Panoramica",
     users: "Utenti",
@@ -790,7 +816,8 @@ export const dictionary = {
   },
   search: {
     placeholder: "Cerca..."
-  },sidebar: {
+  },
+  sidebar: {
     panelTitle: "PANNELLO ADMIN",
     overview: "Panoramica",
     users: "Utenti",
@@ -807,12 +834,14 @@ export const dictionary = {
     tableCreatedAt: "Data Iscrizione",
     tableActions: "Azioni",
     createdOn: "Creato il:"
-  },dossiersView: {
+  },
+  dossiersView: {
     title: "Gestione Dossier",
     linkedEvidences: "Prove collegate:",
     updatedAt: "Aggiornato:",
     createdAt: "Creato:"
-  },overview: {
+  },
+  overview: {
     title: "Panoramica Generale",
     totalUsers: "Utenti Totali",
     activeDossiers: "Dossier Attivi",
@@ -820,7 +849,8 @@ export const dictionary = {
     systemStatus: "Stato Sistema",
     online: "Online",
     offline: "Offline"
-  },toggleRole: {
+  },
+  toggleRole: {
     triggerTitle: "Cambia Ruolo",
     title: "Modifica Ruolo Utente",
     description: "Sei sicuro di voler invertire il ruolo di questo utente? Se è un Utente normale diventerà Admin, e viceversa.",
@@ -828,7 +858,8 @@ export const dictionary = {
     successMessage: "Ruolo utente aggiornato con successo!",
     cancel: "Annulla",
     confirm: "Conferma"
-  },deleteUser: {
+  },
+  deleteUser: {
     triggerTitle: "Elimina",
     title: "Conferma Eliminazione",
     description: "Sei sicuro di voler eliminare questo utente? L'account verrà anonimizzato nel database per preservare la cronologia delle attività.",
@@ -844,31 +875,36 @@ export const dictionary = {
     titleCreate: "Crea Nuovo Dossier",
     descEdit: "Aggiorna le informazioni relative a questo dossier.",
     descCreate: "Inserisci i dati essenziali per archiviare un nuovo dossier d'indagine.",
-    codeLabel: "Codice Univoco (Code) *",
+    codeLabel: "Codice Univoco (Code)",
     codePlaceholder: "es. d-001",
     statusLabel: "Stato",
     statusOpen: "Aperto (Open)",
     statusClosed: "Chiuso (Closed)",
     statusArchived: "Archiviato (Archived)",
-    titleItLabel: "Titolo (Italiano) *",
+    titleItLabel: "Titolo (Italiano)",
     titleItPlaceholder: "Titolo del dossier",
     titleEnLabel: "Titolo (Inglese)",
-    titleEnPlaceholder: "Title in English (opzionale)",
-    coverUrlLabel: "URL Immagine di Copertina (Cover URL) *",
+    titleEnPlaceholder: "Title in English",
+    coverUrlLabel: "URL Immagine di Copertina (Cover URL)",
     coverUrlPlaceholder: "https://... o /images/cover.jpg",
-    descItLabel: "Descrizione (Italiano) *",
+    descItLabel: "Descrizione (Italiano)",
     descItPlaceholder: "Dettagli e contesto del dossier...",
     descEnLabel: "Descrizione (Inglese)",
-    descEnPlaceholder: "English description (optional)...",
+    descEnPlaceholder: "English description...",
     cancel: "Annulla",
     saveChanges: "Salva Modifiche",
     createDossier: "Crea Dossier",
     errors: {
       ["title-too-short"]: "Il titolo deve contenere almeno 10 caratteri.",
       ["title-too-long"]: "Il titolo deve contenere al massimo 60 caratteri.",
+           ["title_en-too-short"]: "Il titolo inglese deve contenere almeno 10 caratteri.",
+      ["title_en-too-long"]: "Il titolo inglese deve contenere al massimo 60 caratteri.",
       ["description-too-short"]: "La descrizione deve contenere almeno 10 caratteri.",
       ["description-too-long"]: "La descrizione deve contenere al massimo 600 caratteri.",
-    ["coverUrl-not-valid"]: "L'URL inserito non rispetta il formato corretto.",
+         ["description_en-too-short"]: "La descrizione inglese deve contenere almeno 10 caratteri.",
+      ["description_en-too-long"]: "La descrizione inglese deve contenere al massimo 600 caratteri.",
+
+      ["coverUrl-not-valid"]: "L'URL inserito non rispetta il formato corretto.",
     ["validation-error"]: "Si sono verificati degli errori. Controlla i campi e riprova.",
     ["admin-not-authenticated"]: "Amministratore non autenticato.",
     ["server-error"]: "Si sono verificati degli errori imprevisti.",
@@ -1149,15 +1185,7 @@ export const dictionary = {
       },
     },
     map: {
-      sidebar: {
-        badge: "OSINT Map Preview",
-        title: "Geolocation & Cell Towers",
-        subtitle:
-          "Select a dossier to explore coordinates and chronological events.",
-        publicNotice: "Public Mode: 12 key nodes displayed out of 142 total.",
-        unlockBtn: "Unlock All Nodes",
-        caseSelectorLabel: "Available Dossiers",
-      },
+
       nodeDetails: {
         title: "Selected Evidence",
         emptyState:
@@ -1172,6 +1200,40 @@ export const dictionary = {
         lockedFeature:
           "Automated cell tower triangulation is restricted to registered users.",
       },
+boardComponent: {
+    sidebarTitle: "Case Archive",
+    searchPlaceholder: "Search case...",
+    loading: "Loading...",
+    empty: "No saved cases. Go back to the list to add cases.",
+    loadAction: "Load onto board",
+    closeTooltip: "Close archive",
+    archiveButton: "Case Archive",
+    loadingTimeline: "Retrieving case timeline...",
+    defaultFolderTitle: "Investigation File",
+    defaultFolderDesc: "Investigation documentation and evidence.",
+    defaultEventLabel: "EVENT",
+    defaultEvidenceTitle: "Exhibit",
+    defaultEvidenceLabel: "EXHIBIT",
+    dialogNotesLabel: "Notes:",
+    zoomInTitle: "Zoom In",
+    zoomOutTitle: "Zoom Out",
+    zoomReset: "Reset",
+    pdfTitle: "PDF Document",
+    docTitle: "Word Document",
+    genericPreviewTitle: "Document Preview",
+    noPreview: "No preview available for this exhibit.",
+    openOriginal: "Open original file in new tab",
+    close: "Close",
+    folderNode:{
+    officialFile: "OFFICIAL FILE",
+    statusLabel: "STATUS:",
+    defaultTitle: "Case without title",
+    defaultDescription: "No description available for this case.",
+    },
+  },
+ 
+
+
     },
     login: {
       or: "Or access with...",
@@ -1623,7 +1685,8 @@ export const dictionary = {
      
      
       }
-  },deleteDialog: {
+  },
+  deleteDialog: {
     deleteDossierTitle: "Delete Dossier",
     deleteEvidenceTitle: "Delete Evidence",
     dossierLabel: "Dossier",
@@ -1664,7 +1727,8 @@ export const dictionary = {
         ["dossier-id-required"]:
         "ID Dossier required.",
       }
-  },mobileMenu: {
+  },
+  mobileMenu: {
     panelTitle: "ADMIN PANEL",
     overview: "Overview",
     users: "Users",
@@ -1674,14 +1738,16 @@ export const dictionary = {
   },
   search: {
     placeholder: "Search..."
-  },sidebar: {
+  },
+  sidebar: {
     panelTitle: "ADMIN PANEL",
     overview: "Overview",
     users: "Users",
     dossiers: "Dossiers",
     evidences: "Evidences",
     map: "Map & Points"
-  },usersView: {
+  },
+  usersView: {
     title: "Users Management",
     registeredCount: "registered",
     tableUsername: "Username",
@@ -1690,13 +1756,14 @@ export const dictionary = {
     tableCreatedAt: "Registration Date",
     tableActions: "Actions",
     createdOn: "Created on:"
-  },dossiersView: {
+  },
+  dossiersView: {
     title: "Dossier Management",
     linkedEvidences: "Linked evidences:",
     updatedAt: "Updated:",
     createdAt: "Created:"
   },
-     overview: {
+  overview: {
     title: "General Overview",
     totalUsers: "Total Users",
     activeDossiers: "Active Dossiers",
@@ -1713,7 +1780,8 @@ export const dictionary = {
     successMessage: "User role updated successfully!",
     cancel: "Cancel",
     confirm: "Confirm"
-  } ,deleteUser: {
+  },
+  deleteUser: {
     triggerTitle: "Delete",
     title: "Confirm Deletion",
     description: "Are you sure you want to delete this user? The account will be anonymized in the database to preserve activity history.",
@@ -1722,38 +1790,43 @@ export const dictionary = {
     cancel: "Cancel",
     confirm: "Confirm"
   },
-    dossierDialog: {
+   dossierDialog: {
     editTriggerTitle: "Edit Dossier",
     newButton: "New Dossier",
     titleEdit: "Edit Dossier",
     titleCreate: "Create New Dossier",
     descEdit: "Update information for this dossier.",
     descCreate: "Enter essential data to archive a new investigation dossier.",
-    codeLabel: "Unique Code *",
+    codeLabel: "Unique Code",
     codePlaceholder: "e.g. d-001",
     statusLabel: "Status",
     statusOpen: "Open",
     statusClosed: "Closed",
     statusArchived: "Archived",
-    titleItLabel: "Title (Italian) *",
+    titleItLabel: "Title (Italian)",
     titleItPlaceholder: "Dossier title",
     titleEnLabel: "Title (English)",
-    titleEnPlaceholder: "Title in English (optional)",
-    coverUrlLabel: "Cover Image URL *",
+    titleEnPlaceholder: "Title in English",
+    coverUrlLabel: "Cover Image URL",
     coverUrlPlaceholder: "https://... or /images/cover.jpg",
-    descItLabel: "Description (Italian) *",
+    descItLabel: "Description (Italian)",
     descItPlaceholder: "Details and context of the dossier...",
     descEnLabel: "Description (English)",
-    descEnPlaceholder: "English description (optional)...",
+    descEnPlaceholder: "English description...",
     cancel: "Cancel",
     saveChanges: "Save Changes",
     createDossier: "Create Dossier",
         errors: {
       ["title-too-short"]: "Title must contain at least 10 characters.",
       ["title-too-long"]: "Title must contain at most 60 characters.",
+           ["title_en-too-short"]: "English title must contain at least 10 characters.",
+      ["title_en-too-long"]: "English title must contain at most 60 characters.",
       ["description-too-short"]: "Description must contain at least 10 characters.",
       ["description-too-long"]: "Description must contain at most 600 characters.",
-    ["coverUrl-not-valid"]: "The URL you entered does not respect the correct format.",
+          ["description_en-too-short"]: "English description must contain at least 10 characters.",
+      ["description_en-too-long"]: "English description must contain at most 600 characters.",
+
+      ["coverUrl-not-valid"]: "The URL you entered does not respect the correct format.",
     ["validation-error"]: "Validation error.",
     ["admin-not-authenticated"]: "Administrator not authenticated.",
     ["server-error"]: "Internal server error.",

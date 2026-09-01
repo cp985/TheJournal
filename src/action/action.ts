@@ -80,7 +80,6 @@ export const getDossierByCode = async (code: string): Promise<DbDossier[]> => {
     const data = await response.json();
     return data as DbDossier[];
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
@@ -125,7 +124,6 @@ export const getUsers = async (): Promise<DbUser[]> => {
     
     return data as DbUser[];
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
@@ -203,7 +201,6 @@ export const userSignUp = async (
     }
 
   } catch (error) {
-    console.log(error);
     return {
       success: false as const,
       message: "connection-error",
@@ -307,7 +304,6 @@ export const userLogin = async (
 
 
   } catch (error) {
-    console.log(error);
 
     return {
       success: false as const,
@@ -436,7 +432,6 @@ export const sendEmail = async (
       message: "email-sent",
     };
   } catch (error) {
-    console.log(error);
     return {
       success: false as const,
       message: "connection-error",
@@ -925,7 +920,6 @@ export const userDeleteAdmin = async (userId: string) => {
       }
     );
 
-    console.log('response',response);
 
     if (!response.ok) {
       console.error(`[Express Error] Status: ${response.status}`, response);
@@ -1237,9 +1231,9 @@ code: z
   "dossierId-not-valid"
 ),  
 title: z.string().min(10, "title-too-short").max(60, "title-too-long"),
-  title_en: z.string().min(10, "title-too-short").max(60, "title-too-long").optional().nullable(),
+  title_en: z.string().min(10, "title_en-too-short").max(60, "title_en-too-long").optional().nullable(),
   description: z.string().min(10, "description-too-short").max(600, "description-too-long"),
-  description_en: z.string().optional().nullable(),
+  description_en: z.string().min(10, "description_en-too-short").max(600, "description_en-too-long"),
   coverUrl: z.string().min(7, "coverUrl-not-valid"),
   status: z.enum(["Open" , "Archived" , "Closed"]).default("Open"),
 });
@@ -1609,14 +1603,7 @@ export async function createEvidenceAdmin(
   const file = formData.get("file") as File;
   const status = (formData.get("status") as string) || "PENDING";
 
-  // 🔍 LOG 1: Verifichiamo cosa riceve la Server Action dal Client
-  console.log("🔍 [DEBUG] File ricevuto dal form:", {
-    isExist: !!file,
-    name: file?.name,
-    size: file?.size,
-    type: file?.type,
-    isFileInstance: file instanceof File
-  });
+
 
   const data = { dossierId, type, notes, notes_en, timelineId, status };
 
@@ -1670,19 +1657,14 @@ export async function createEvidenceAdmin(
       payload.append("timelineId", timelineId);
     }
 
-    // 💡 FIX PER FETCH SERVER-TO-SERVER (Node.js Buffer)
     if (file && file.size > 0) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
       
-      // Creiamo un file compatibile con il FormData di Node.js
       const fileBlob = new Blob([buffer], { type: file.type || "application/octet-stream" });
       payload.append("file", fileBlob, file.name || "uploaded-file");
-      
-      console.log("✅ [DEBUG] File allegato al payload con successo:", file.name);
-    } else {
-      console.error("❌ [DEBUG] Nessun file valido o dimensione 0");
     }
+  
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_URL_RENDER}/evidences/admin`,
@@ -1690,8 +1672,6 @@ export async function createEvidenceAdmin(
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          // ⚠️ NON impostare 'Content-Type': 'multipart/form-data'!
-          // Lascia che fetch imposti automaticamente il boundary.
         },
         body: payload,
       }
@@ -2105,7 +2085,6 @@ export const getTimelineByDossierId = async (dossierId: string): Promise<DbTimel
     const data = await response.json();
     return data as DbTimeline[];
   } catch (error) {
-    console.log(error);
     return [];
   }
 };

@@ -28,13 +28,11 @@ export default function AdminSearch({
   const pathname = usePathname();
   const { replace } = useRouter();
   
-  // Transizione locale per mostrare la spunta/spinner nel select
   const [isLocalPending, startLocalTransition] = useTransition();
 
   const queryParam = searchParams.get("q") || "";
   const statusParam = searchParams.get("status") || "";
 
-  // Sincronizzazione stato da URL senza useEffect
   const [prevQueryParams, setPrevQueryParams] = useState({ queryParam, statusParam });
   const [term, setTerm] = useState(queryParam);
   const [status, setStatus] = useState(statusParam);

@@ -66,7 +66,6 @@ declare module "next-auth/jwt" {
         );
 
         const data = await resp.json();
-        console.log("AUTHORIZE RESPONSE:", JSON.stringify(data));
 
         if (!resp.ok || !data?.data) {
           return null;

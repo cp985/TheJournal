@@ -157,6 +157,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
               <input
                 type="text"
                 name="title"
+                required
                 defaultValue={initialData?.title || ""}
                 placeholder={t.admin.dossierDialog.titleItPlaceholder}
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border focus:border-zinc-500 border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none text-sm"
@@ -170,6 +171,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
               <input
                 type="text"
                 name="title_en"
+                required
                 defaultValue={initialData?.title_en || ""}
                 placeholder={t.admin.dossierDialog.titleEnPlaceholder}
                 className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
@@ -185,6 +187,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
             <input
               type="text"
               name="coverUrl"
+              required
               defaultValue={initialData?.coverUrl || ""}
               placeholder={t.admin.dossierDialog.coverUrlPlaceholder}
               className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 text-sm"
@@ -198,6 +201,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
             </label>
             <textarea
               name="description"
+              required
               rows={3}
               defaultValue={initialData?.description || ""}
               placeholder={t.admin.dossierDialog.descItPlaceholder}
@@ -212,6 +216,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
             </label>
             <textarea
               name="description_en"
+              required
               rows={3}
               defaultValue={initialData?.description_en || ""}
               placeholder={t.admin.dossierDialog.descEnPlaceholder}

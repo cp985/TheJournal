@@ -7,7 +7,7 @@ import { useState } from "react";
 import {  Trash2,Folder, FileText, Image as ImageIcon, Download, ArrowLeft, ExternalLink, FileCheck } from "lucide-react";
 import type { DbEvidence } from "@/lib/type"; 
 import Image from "next/image";
-import { useLanguage } from "@/context/maincontext"; // Modifica il path se diverso
+import { useLanguage } from "@/context/maincontext"; 
 
 export type FolderItem = {
   id: string;
@@ -271,7 +271,6 @@ export function CaseFileExplorer({ caseId, files, onDownloadCase, isCaseSaved }:
               onClick={onDownloadCase}
               className="flex w-full items-center justify-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 py-2.5 text-xs font-semibold text-amber-400 transition-all hover:bg-amber-500/20"
             >
-              <Download className="h-3.5 w-3.5" />
             {isCaseSaved ? <Trash2 className="h-3.5 w-3.5" /> : <Download className="h-3.5 w-3.5" />}
   {isCaseSaved ? t.casesPage.fileExplorer.removeFromMap : t.casesPage.fileExplorer.loadToMap}
             </button>
