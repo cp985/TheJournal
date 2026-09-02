@@ -1720,7 +1720,7 @@ export async function createEvidenceAdmin(
 dossierId: z
     .string()
     .regex(
-  /^[a-z]+-\d{3}$/,
+  /^[a-z]-\d{3}$/,
   "dossierId-not-valid"
 ),  
 type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
@@ -1729,6 +1729,7 @@ type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
   fileUrl: z.string().min(7, "fileUrl-too-short"),
   notes: z.string().min(10, "notes-too-short").max(60, "notes-too-long"),
   notes_en: z.string().optional().nullable(),
+  timelineId: z.string().optional().nullable(),
   status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
 });
 

@@ -41,6 +41,7 @@ import { PostItNode } from "./mapPostItNode";
 import { InstructionNode } from "./mapInstructionNode";
 import { PdfNode } from "./mapPdfNode";
 import { DbDossier } from "@/lib/type";
+import { formatDate } from "@/lib/utils";
 
 const nodeTypes = {
   folder: FolderNode,
@@ -316,11 +317,10 @@ const buildDossierGraph = useCallback(
         title_en: currentDossier.title_en,
         description: currentDossier.description,
         description_en: currentDossier.description_en,
-        status: currentDossier.status, // Unico campo per lo status
+        status: currentDossier.status, 
         code: currentDossier.code || currentDossier.id,
         date: currentDossier.createdAt,
-        coverUrl:
-          "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
+        coverUrl:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
       },
     });
 
@@ -498,6 +498,23 @@ const handleSelectDossier = async (dossierId: string) => {
       (activeMediaUrl && isImageUrl(activeMediaUrl)) ||
       !!activeEvidence?.imageUrl);
 
+// Calcolo dinamico dei campi localizzati per il Dialog
+  const dialogTitle =
+    currentLang === "EN" && (activeEvidence?.title_en || activeEvidence?.caption_en)
+      ? activeEvidence.title_en || activeEvidence.caption_en
+      : activeEvidence?.title || activeEvidence?.caption;
+
+  const dialogNotes =
+    currentLang === "EN" && (activeEvidence?.notes_en || activeEvidence?.description_en)
+      ? activeEvidence.notes_en || activeEvidence.description_en
+      : activeEvidence?.notes || activeEvidence?.description;
+
+  const dialogLabel =
+    currentLang === "EN" && activeEvidence?.label_en
+      ? activeEvidence.label_en
+      : activeEvidence?.label || copy.defaultEvidenceLabel;
+
+
   return (
     <div className="relative flex h-screen w-full overflow-hidden bg-zinc-950">
       {isSidebarOpen && (
@@ -573,7 +590,7 @@ const handleSelectDossier = async (dossierId: string) => {
                     <span className="font-mono text-[10px] font-semibold uppercase text-amber-500/70">
                       {dossierStatus}
                     </span>
-                    <span className="font-mono text-[10px] text-zinc-500">{c.createdAt}</span>
+                    <span className="font-mono text-[10px] text-zinc-500">{formatDate(c.createdAt)}</span>
                   </div>
                   <h3 className="line-clamp-1 font-serif text-sm font-bold text-zinc-100">
                     {dossierTitle}
@@ -625,26 +642,26 @@ const handleSelectDossier = async (dossierId: string) => {
         )}
       </main>
 
-      {/* DIALOG SHADCN DI ANTEPRIMA REPERTO */}
+   {/* DIALOG SHADCN DI ANTEPRIMA REPERTO */}
       <Dialog open={!!activeEvidence} onOpenChange={(open) => !open && handleCloseDialog()}>
         <DialogContent className="flex h-[92vh] max-w-5xl flex-col gap-2 border-zinc-800 bg-zinc-900 p-3 sm:max-w-5xl [&>button]:bg-zinc-100 [&>button]:text-zinc-400 [&>button]:hover:text-zinc-100">
           <DialogHeader className="space-y-0 border-b border-zinc-800/80 pr-6 text-left">
             <DialogTitle className="flex items-center gap-2 overflow-hidden text-sm font-bold text-zinc-100">
               <FileText className="h-3.5 w-3.5 flex-shrink-0 text-amber-500" />
               <span className="flex-shrink-0 font-mono text-[11px] font-semibold uppercase tracking-wide text-amber-500/90">
-                {activeEvidence?.label || copy.defaultEvidenceLabel}
+                {dialogLabel}
               </span>
               <span className="text-zinc-600">|</span>
               <span className="truncate font-serif">
-                {activeEvidence?.title || activeEvidence?.caption}
+                {dialogTitle}
               </span>
             </DialogTitle>
 
-            {(activeEvidence?.notes || activeEvidence?.description) && (
+            {dialogNotes && (
               <DialogDescription asChild>
                 <p className="mt-1 line-clamp-1 font-mono text-[11px] text-zinc-400">
                   <strong className="text-amber-500/80">{copy.dialogNotesLabel}</strong>{" "}
-                  {activeEvidence.notes || activeEvidence.description}
+                  {dialogNotes}
                 </p>
               </DialogDescription>
             )}
@@ -681,9 +698,8 @@ const handleSelectDossier = async (dossierId: string) => {
                 </div>
 
                 <img
-              
                   src={activeMediaUrl}
-                  alt="Anteprima Reperto"
+                  alt={dialogTitle}
                   style={{ transform: `scale(${zoomLevel})`, transition: "transform 0.15s ease-out" }}
                   className="max-h-full max-w-full origin-center object-contain"
                 />
@@ -692,19 +708,19 @@ const handleSelectDossier = async (dossierId: string) => {
               <iframe
                 src={activeMediaUrl}
                 className="h-full w-full border-0 bg-white"
-                title={activeEvidence?.title || copy.pdfTitle}
+                title={dialogTitle || copy.pdfTitle}
               />
             ) : isDoc ? (
               <iframe
                 src={`https://docs.google.com/gview?url=${encodeURIComponent(activeMediaUrl)}&embedded=true`}
                 className="h-full w-full border-0 bg-white"
-                title={activeEvidence?.title || copy.docTitle}
+                title={dialogTitle || copy.docTitle}
               />
             ) : activeMediaUrl ? (
               <iframe
                 src={activeMediaUrl}
                 className="h-full w-full border-0 bg-white"
-                title={activeEvidence?.title || copy.genericPreviewTitle}
+                title={dialogTitle || copy.genericPreviewTitle}
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center font-mono text-xs text-zinc-500">
@@ -738,6 +754,8 @@ const handleSelectDossier = async (dossierId: string) => {
           </div>
         </DialogContent>
       </Dialog>
+
+      
     </div>
   );
 }
