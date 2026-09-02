@@ -28,7 +28,7 @@ export const PostItNode = ({ data }: { data: any }) => {
           {formattedLabel}
         </span>
         <h4 className="mt-1 font-serif text-sm font-bold leading-tight text-zinc-900">
-          {title || t?.map?.defaultEventTitle}
+          {title || t?.map?.boardComponent.defaultEventLabel}
         </h4>
         {description && (
           <p className="mt-1.5 font-mono text-[10px] leading-relaxed text-zinc-800">
