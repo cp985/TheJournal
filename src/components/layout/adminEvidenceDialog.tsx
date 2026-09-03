@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState, useActionState, startTransition } from "react";
+import { useState, useActionState, startTransition, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/maincontext";
 import { createEvidenceAdmin, updateEvidenceAdmin } from "@/action/action";
@@ -89,7 +89,7 @@ export default function EvidenceFormDialog(props: EvidenceFormDialogProps) {
 
     if (res.success) {
       router.refresh();
-      setOpen(false);
+     
     }
     return res;
   };
@@ -122,6 +122,16 @@ const handleOpenChange = (newOpen: boolean) => {
       setSelectedFile(null);
     }
   };
+
+  useEffect(() => {
+    if (state.success) {
+      const timer = setTimeout(() => {
+        handleOpenChange(false);
+      }, 1200);
+      return () => clearTimeout(timer);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.success]);
 
   const dialogKey = `${isEdit ? props.id : "create"}-${openCount}`;
 
@@ -223,7 +233,7 @@ const handleOpenChange = (newOpen: boolean) => {
       <select
         name="timelineId"
         disabled={!selectedDossierId || currentTimelines.length === 0}
-        defaultValue={state.data?.timelineId || initialData?.timelineId || ""}
+        defaultValue={initialData?.timelineId ||state.data?.timelineId ||  ""}
         className="w-full px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-100 focus:outline-none focus:border-zinc-500 text-sm disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
       >
         {!selectedDossierId ? (
@@ -371,7 +381,7 @@ const handleOpenChange = (newOpen: boolean) => {
         type="button"
         variant="outline"
         onClick={() => handleOpenChange(false)}
-        disabled={isPending || state.success}
+        disabled={isPending}
         className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
       >
         {t.admin.evidenceDialog.cancelButton}

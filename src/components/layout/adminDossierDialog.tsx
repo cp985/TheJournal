@@ -68,7 +68,9 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
 
       if (res.success) {
         router.refresh();
-        setTimeout(() => setOpen(false), 1200);
+        setTimeout(() => {
+          setOpen(false);
+          setState(EMPTY_STATE)}, 1200);
       }
     });
   };
@@ -234,7 +236,7 @@ export default function DossierFormDialog(props: DossierFormDialogProps) {
                 type="button"
                 variant="outline"
                 onClick={() => handleOpenChange(false)}
-                disabled={isPending || state.success}
+                disabled={isPending }
                 className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white"
               >
                 {t.admin.dossierDialog.cancel}
