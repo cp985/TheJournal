@@ -1943,7 +1943,7 @@ const timelineSkeletonSchemaAdmin = z.object({
   dossierId: z
     .string("dossierId-not-defined")
     .regex(
-      /^[a-z]+-\d{3}$/,
+      /^[a-z]-\d{3}$/,
       "dossierId-not-valid"
     ),
     date:z.string("date-not-defined").datetime("date-not-valid"),

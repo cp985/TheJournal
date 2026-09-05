@@ -194,7 +194,7 @@ export default function AdminClientPage({
               />
             )}
 
-            {currentTab === "map" && <AdminMapView />}
+            {currentTab === "map" && <AdminMapView dossiers={dossiersList} evidences={evidencesList} />}
           </>
         )}
       </main>
