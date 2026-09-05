@@ -5,6 +5,7 @@
 import { useState, useActionState, startTransition, useEffect } from "react";
 import { createTimelineSkeletonAdmin } from "@/action/action"; 
 import { ActionState } from "@/lib/type"; 
+import { useLanguage } from "@/context/maincontext";
 
 import ErrorsBox from "./errorsBox";
 import {
@@ -33,6 +34,8 @@ interface ImportTimelineModalProps {
 
 export default function ImportTimelineModal({ initialTimeline }: ImportTimelineModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
+  const tModal = t.admin.mapView.addTimelineButton;
 
   const existingJsonString = initialTimeline && initialTimeline.length > 0
     ? JSON.stringify(initialTimeline, null, 2)
@@ -106,26 +109,24 @@ export default function ImportTimelineModal({ initialTimeline }: ImportTimelineM
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
             />
           </svg>
-          {isEdit ? "Modifica Scheletro JSON" : "Importa Scheletro JSON"}
+          {isEdit ? tModal.editTrigger : tModal.importTrigger}
         </button>
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl border border-amber-600 bg-zinc-950 font-mono text-zinc-100 sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="text-base font-bold text-zinc-100">
-            {isEdit ? "Modifica Scheletro Timeline (JSON)" : "Importa Scheletro Timeline (JSON)"}
+            {isEdit ? tModal.editTitle : tModal.importTitle}
           </DialogTitle>
           <DialogDescription className="text-xs text-zinc-400">
-            {isEdit
-              ? "Modifica la struttura JSON degli eventi esistenti per aggiornare il dossier."
-              : "Incolla la struttura JSON degli eventi per popolare la spina dorsale del dossier."}
+            {isEdit ? tModal.editDescription : tModal.importDescription}
           </DialogDescription>
         </DialogHeader>
 
         <form action={formAction} className="mt-2 space-y-4">
           <div>
             <label className="mb-1 block text-xs font-medium text-zinc-300">
-              Payload JSON Array (`timeline`)
+              {tModal.label}
             </label>
             <textarea
               name="timeline"
@@ -145,7 +146,7 @@ export default function ImportTimelineModal({ initialTimeline }: ImportTimelineM
                 type="button"
                 className="rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 text-xs font-semibold text-zinc-300 transition hover:bg-zinc-800"
               >
-                Annulla
+                {tModal.cancelBtn}
               </button>
             </DialogClose>
             <button
@@ -156,12 +157,12 @@ export default function ImportTimelineModal({ initialTimeline }: ImportTimelineM
               {isPending ? (
                 <>
                   <span className="h-3 w-3 animate-spin rounded-full border-2 border-zinc-950 border-t-transparent" />
-                  Elaborazione...
+                  {tModal.processingBtn}
                 </>
               ) : isEdit ? (
-                "Salva Modifiche"
+                tModal.saveBtn
               ) : (
-                "Conferma & Importa"
+                tModal.confirmBtn
               )}
             </button>
           </DialogFooter>

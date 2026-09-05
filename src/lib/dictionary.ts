@@ -920,8 +920,56 @@ evidenceDialog: {
 ["dossier-updated-successfully"]: "Dossier aggiornato con successo.",
 ["dossierId-not-valid"]: "Il codice del dossier non rispetta il formato corretto lettera minuscola, trattino, tre cifre (es. d-001).",
 }
-  }
+  },
+ mapView: {
+      title: "Mappa & Bacheca Investigativa",
+      subtitle: "Seleziona un dossier per gestirne la spina di pesce e assegnare le prove orfane.",
+      dossierSelectLabel: "Dossier:",
+      unassignedEvidences: {
+        title: "Prove Slegate",
+        subtitle: "Prove approvate senza un nodo timeline associato (`timelineId = null`).",
+        emptyState: "Tutte le prove sono collegate a un fatto.",
+      unknownUser: "Sconosciuto",
+        noDescription: "Senza descrizione",
+        createJsonNodeBtn: "Crea Nodo Timeline"
+      },
+      canvas: {
+        timelineNodesCount: "Nodi Timeline:",
+        totalEvidencesCount: "Prove Totali:",
+        casePrefix: "CASO #",
+        dossierPrefix: "DOSSIER #",
+        nodePrefix: "NODO #",
+        evidenceBadge: "Prove",
+        noDate: "N/D",
+        emptyTitle: "Nessun evento registrato nella timeline.",
+        emptySubtitle: "Importa uno scheletro JSON per generare la spina di pesce."
+      },
+      addTimelineButton:{
+  editTrigger: "Modifica Scheletro Timeline",
+  importTrigger: "Importa Scheletro Timeline",
+  editTitle: "Modifica Scheletro Timeline (JSON)",
+  importTitle: "Importa Scheletro Timeline (JSON)",
+  editDescription: "Modifica la struttura JSON degli eventi esistenti per aggiornare il dossier.",
+  importDescription: "Incolla la struttura JSON degli eventi per popolare la spina dorsale del dossier.",
+  label: "Payload JSON Array (`timeline`)",
+  cancelBtn: "Annulla",
+  processingBtn: "Elaborazione...",
+  saveBtn: "Salva Modifiche",
+  confirmBtn: "Conferma & Importa",
+}, 
+createNodeButton:{
+  title: "Nodo Timeline Generato",
+  description: "Copia questo frammento JSON e incollalo all'interno dello skeleton timeline del dossier.",
+  copyStatusIdle: "Fai clic su Copia per salvare negli appunti",
+  copyStatusCopied: "Copiato negli appunti!",
+  copyBtnIdle: "Copia",
+  copyBtnCopied: "✓ Copiato",
+  closeBtn: "Chiudi",
+},
+      
     }
+  }
+    
   },
   EN: {
     nav: {
@@ -1842,8 +1890,55 @@ boardComponent: {
 ["dossier-updated-successfully"]: "Dossier updated successfully.",
 ["dossierId-not-valid"]: "The dossierId must be in the format: lower-case letter, score, three numbers (es. d-001).",
   }
-  }                       
+  } ,
+       mapView: {
+      title: "Investigative Board & Map",
+      subtitle: "Select a dossier to manage its timeline fishbone and assign orphan evidence.",
+      dossierSelectLabel: "Dossier:",
+      unassignedEvidences: {
+        title: "Unlinked Evidence",
+        subtitle: "Approved evidence without an associated timeline node (`timelineId = null`).",
+        emptyState: "All evidence items are linked to a event.",
+        unknownUser: "Unknown",
+        noDescription: "No description",
+        createJsonNodeBtn: "Create Timeline Node"
+      },
+      canvas: {
+        timelineNodesCount: "Timeline Nodes:",
+        totalEvidencesCount: "Total Evidence:",
+        casePrefix: "CASE #",
+        dossierPrefix: "DOSSIER #",
+        nodePrefix: "NODE #",
+        evidenceBadge: "Evidence",
+        noDate: "N/A",
+        emptyTitle: "No events recorded in the timeline.",
+        emptySubtitle: "Import a JSON skeleton to generate the fishbone timeline."
+      },
+      addTimelineButton:{
+  editTrigger: "Edit Timeline Skeleton",
+  importTrigger: "Import Timeline Skeleton",
+  editTitle: "Edit Timeline Skeleton (JSON)",
+  importTitle: "Import Timeline Skeleton (JSON)",
+  editDescription: "Edit the JSON structure of existing events to update the dossier.",
+  importDescription: "Paste the JSON event structure to populate the backbone of the dossier.",
+  label: "JSON Array Payload (`timeline`)",
+  cancelBtn: "Cancel",
+  processingBtn: "Processing...",
+  saveBtn: "Save Changes",
+  confirmBtn: "Confirm & Import",
+},
+createNodeButton:{
+  title: "Generated Timeline Node",
+  description: "Copy this JSON snippet and paste it into the dossier timeline skeleton.",
+  copyStatusIdle: "Click Copy to save to clipboard",
+  copyStatusCopied: "Copied to clipboard!",
+  copyBtnIdle: "Copy",
+  copyBtnCopied: "✓ Copied",
+  closeBtn: "Close",
+}
     }
+  }                 
+    
   },
 } as const;
 
