@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -18,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { FiTrash2, FiAlertTriangle } from "react-icons/fi";
 import { DeleteActionResult } from "@/lib/type";
 import { useRouter } from "next/navigation";
+import ErrorsBox from "./errorsBox";
 
 interface DeleteConfirmDialogProps {
   itemType: "dossier" | "evidence";
@@ -146,12 +148,15 @@ export default function DeleteConfirmDialog({
             />
           </div>
 
-          {errorMessage && (
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
-              <FiAlertTriangle className="w-4 h-4 shrink-0" />
-              <span>{errorMessage}</span>
-            </div>
-          )}
+          <ErrorsBox
+            formData={{
+              success: !errorMessage,
+              message: errorMessage,
+              errors: null,
+            }}
+            isPending={isPending}
+            page="admin.deleteDialog"
+          />
 
           <DialogFooter className="gap-2 sm:gap-0">
             <Button

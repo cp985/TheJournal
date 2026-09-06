@@ -1,4 +1,3 @@
-import { no } from "zod/v4/locales";
 
 export const dictionary = {
   IT: {
@@ -785,7 +784,7 @@ evidenceDialog: {
        ["user-not-authenticated"]:
             "Amministratore non autenticato.",
         ["server-error"]:
-        "Errore interno del server.",
+        "Errore interno del server oppure controllare che non vi siano più prove al caso.",
         ["errors-deleting-evidence-catch"]:
         "Si è verificato un errore durante la cancellazione della prova.",
                 ["dossier-id-not-found"]:
@@ -1757,7 +1756,7 @@ boardComponent: {
        ["user-not-authenticated"]:
             "Administrator not authenticated.",
         ["server-error"]:
-        "Internal server error.",
+        "Internal server error or check if dossier still has any evidences.",
         ["errors-deleting-evidence-catch"]:
         "Error during evidence deletion.",
         ["dossier-id-not-found"]:
@@ -1774,6 +1773,7 @@ boardComponent: {
         "Dossier deleted successfully.",
         ["dossier-id-required"]:
         "ID Dossier required.",
+    
       }
   },
   mobileMenu: {

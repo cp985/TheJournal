@@ -1567,7 +1567,7 @@ dossierId: z
 type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
     message: "type-not-valid",
   }),
-  timelineId: z.string().optional(),
+  timelineId: z.string().optional().nullable(),
   notes: z.string().min(10, "notes-too-short").max(60, "notes-too-long"),
   notes_en: z.string().optional().nullable(),
   status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
