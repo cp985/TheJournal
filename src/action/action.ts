@@ -1047,7 +1047,7 @@ const evidenceSchema = z.object({
     .min(15, { message: "notes-too-short" })
     .max(60, { message: "notes-too-long" }),
       notes_en: z.string().optional().nullable(),
-  timelineId: z.string().optional(),
+  timelineId: z.string().optional().nullable(),
       fileName: z
     .string()
     .max(40, { message: "file-name-too-long" })
