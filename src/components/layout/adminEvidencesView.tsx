@@ -9,6 +9,7 @@ import { cn, formatDate } from "@/lib/utils";
 
 interface AdminEvidencesViewProps {
   q: string;
+    dossierCode?: string;
   status?: string;
   evidencesList: DbEvidence[];
   dossiersList: DbDossier[];
@@ -17,28 +18,42 @@ interface AdminEvidencesViewProps {
 export default function AdminEvidencesView({
   q,
   status = "",
+  dossierCode = "",
   evidencesList = [],
   dossiersList = [],
 }: AdminEvidencesViewProps) {
   const { t, lang } = useLanguage();
 
-  const filteredEvidences = evidencesList.filter((evidence) => {
-    const searchTerm = q.toLowerCase().trim();
+  // const filteredEvidences = evidencesList.filter((evidence) => {
+  //   const searchTerm = q.toLowerCase().trim();
 
-    const notesMatch =
-      evidence.notes?.toLowerCase().includes(searchTerm) ?? false;
-    const notesEnMatch =
-      evidence.notes_en?.toLowerCase().includes(searchTerm) ?? false;
-    const usernameMatch =
-      evidence.user?.username?.toLowerCase().includes(searchTerm) ?? false;
+  //   const notesMatch =
+  //     evidence.notes?.toLowerCase().includes(searchTerm) ?? false;
+  //   const notesEnMatch =
+  //     evidence.notes_en?.toLowerCase().includes(searchTerm) ?? false;
+  //   const usernameMatch =
+  //     evidence.user?.username?.toLowerCase().includes(searchTerm) ?? false;
+
+  //   const matchesQuery = !searchTerm || notesMatch || notesEnMatch || usernameMatch;
+
+  //   const matchesStatus = status ? evidence.status === status : true;
+
+  //   return matchesQuery && matchesStatus;
+  // });
+
+   const filteredEvidences = evidencesList.filter((evidence) => {
+    const searchTerm = q.toLowerCase().trim();
+    const notesMatch = evidence.notes?.toLowerCase().includes(searchTerm) ?? false;
+    const notesEnMatch = evidence.notes_en?.toLowerCase().includes(searchTerm) ?? false;
+    const usernameMatch = evidence.user?.username?.toLowerCase().includes(searchTerm) ?? false;
 
     const matchesQuery = !searchTerm || notesMatch || notesEnMatch || usernameMatch;
-
     const matchesStatus = status ? evidence.status === status : true;
+    // evidence.dossierId contiene il CODE (FK su Dossier.code), non uno UUID
+    const matchesDossierCode = dossierCode ? evidence.dossierId === dossierCode : true; // nuovo
 
-    return matchesQuery && matchesStatus;
+    return matchesQuery && matchesStatus && matchesDossierCode;
   });
-
   const sortedFilteredEvidences= [...filteredEvidences].sort(
     (a, b) =>
       new Date(b.createdAt || (b as any).created_at).getTime() -

@@ -4,13 +4,7 @@
 
 import { useLanguage } from "@/context/maincontext";
 import {
-  FiUsers,
-  FiFolder,
-  FiFileText,
-  FiMapPin,
-  FiPieChart,
-  FiShield,
-  FiLoader,
+  FiUsers, FiFolder, FiFileText, FiMapPin, FiPieChart, FiShield, FiLoader,
 } from "react-icons/fi";
 import AdminDossiersView from "@/components/layout/adminDossiersView";
 import AdminUsersView from "@/components/layout/adminUsersView";
@@ -28,6 +22,7 @@ interface AdminClientPageProps {
   currentTab: string;
   q: string;
   status?: string;
+  dossierCode?: string; // nuovo
   evidencesList: DbEvidence[];
   dossiersList: DbDossier[];
   usersList: DbUser[];
@@ -39,10 +34,7 @@ function ListSkeleton() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-mono">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div
-          key={i}
-          className="p-5 rounded-xl border border-zinc-800/80 bg-zinc-900/30 space-y-4 animate-pulse"
-        >
+        <div key={i} className="p-5 rounded-xl border border-zinc-800/80 bg-zinc-900/30 space-y-4 animate-pulse">
           <div className="flex justify-between items-start">
             <div className="h-4 bg-zinc-800 rounded w-2/3" />
             <div className="h-4 bg-zinc-800 rounded w-1/4" />
@@ -65,6 +57,7 @@ export default function AdminClientPage({
   currentTab,
   q,
   status = "",
+  dossierCode = "",
   evidencesList,
   dossiersList,
   usersList,
@@ -73,7 +66,6 @@ export default function AdminClientPage({
 }: AdminClientPageProps) {
   const { t } = useLanguage();
   const router = useRouter();
-
   const [isPending, startTransition] = useTransition();
 
   const NAV_ITEMS = [
@@ -90,6 +82,20 @@ export default function AdminClientPage({
     return undefined;
   };
 
+  // Ha senso solo su dossiers/evidences — su "users" resta undefined,
+  // così AdminSearch non renderizza affatto quella select.
+  const getDossierOptions = () => {
+    if (currentTab === "dossiers" || currentTab === "evidences") {
+      return dossiersList.map((dossier) => ({
+        id: dossier.id,
+        code: dossier.code,
+        title: dossier.title,
+        title_en: dossier.title_en,
+      }));
+    }
+    return undefined;
+  };
+
   const handleTabChange = (href: string) => {
     startTransition(() => {
       router.push(href);
@@ -98,7 +104,6 @@ export default function AdminClientPage({
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col md:flex-row">
-      {/* Sidebar Desktop */}
       <aside className="hidden md:flex w-64 flex-col border-r border-zinc-800/80 bg-zinc-950/50 p-4 shrink-0">
         <div className="flex items-center justify-between px-3 py-3 mb-6 border-b border-zinc-800/80">
           <div className="flex items-center gap-2.5">
@@ -107,9 +112,7 @@ export default function AdminClientPage({
               {t.admin.sidebar.panelTitle}
             </span>
           </div>
-          {isPending && (
-            <FiLoader className="w-4 h-4 text-amber-500 animate-spin" />
-          )}
+          {isPending && <FiLoader className="w-4 h-4 text-amber-500 animate-spin" />}
         </div>
 
         <nav className="space-y-1">
@@ -117,7 +120,6 @@ export default function AdminClientPage({
             const Icon = item.icon;
             const isActive = currentTab === item.id;
             const targetHref = `/admin?tab=${item.id}`;
-
             return (
               <button
                 key={item.id}
@@ -129,11 +131,7 @@ export default function AdminClientPage({
                     : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60"
                 }`}
               >
-                <Icon
-                  className={`w-4 h-4 ${
-                    isActive ? "text-amber-400" : "text-zinc-400"
-                  }`}
-                />
+                <Icon className={`w-4 h-4 ${isActive ? "text-amber-400" : "text-zinc-400"}`} />
                 {item.label}
               </button>
             );
@@ -141,25 +139,21 @@ export default function AdminClientPage({
         </nav>
       </aside>
 
-      {/* Header Mobile */}
       <MobileMenu currentTab={currentTab} />
 
-      {/* Main Content Area */}
       <main className="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl">
         {currentTab !== "overview" && currentTab !== "map" && (
           <Suspense
-            fallback={
-              <div className="h-10 w-full max-w-xl bg-zinc-900/50 animate-pulse rounded-lg mb-5" />
-            }
+            fallback={<div className="h-10 w-full max-w-xl bg-zinc-900/50 animate-pulse rounded-lg mb-5" />}
           >
             <AdminSearch
+              dossierOptions={getDossierOptions()}
               statusOptions={getStatusOptions()}
               startTransition={startTransition}
             />
           </Suspense>
         )}
 
-        {/* Mostra lo Skeleton automaticamente finché la transizione non è completata */}
         {isPending ? (
           <ListSkeleton />
         ) : (
@@ -173,22 +167,17 @@ export default function AdminClientPage({
               />
             )}
 
-            {currentTab === "users" && (
-              <AdminUsersView q={q} usersList={usersList} />
-            )}
+            {currentTab === "users" && <AdminUsersView q={q} usersList={usersList} />}
 
             {currentTab === "dossiers" && (
-              <AdminDossiersView
-                q={q}
-                status={status}
-                dossiersList={dossiersList}
-              />
+              <AdminDossiersView q={q} status={status} dossierCode={dossierCode} dossiersList={dossiersList} />
             )}
 
             {currentTab === "evidences" && (
               <AdminEvidencesView
                 q={q}
                 status={status}
+                dossierCode={dossierCode}
                 evidencesList={evidencesList}
                 dossiersList={dossiersList}
               />

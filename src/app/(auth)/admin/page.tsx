@@ -8,7 +8,7 @@ import AdminClientPage from "@/components/layout/adminClientPage";
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tab?: string; q?: string; status?: string }>;
+  searchParams: Promise<{ tab?: string; q?: string; status?: string; dossierCode?: string }>;
 }) {
   const session = await auth();
 
@@ -16,22 +16,20 @@ export default async function AdminPage({
     redirect("/");
   }
 
-  const { tab = "overview", q = "", status = "" } = await searchParams;
+  const { tab = "overview", q = "", status = "", dossierCode = "" } = await searchParams;
 
   const evidencesList = (await getEvidences()) || [];
   const dossiersList = (await getDossiers()) || [];
   const usersList = (await getUsers()) || [];
-  const pendingEvidencesCount = evidencesList.filter(
-    (e) => e.status === "PENDING"
-  ).length;
-
+  const pendingEvidencesCount = evidencesList.filter((e) => e.status === "PENDING").length;
   const health = (await getHealth()) || { online: false };
 
   return (
     <AdminClientPage
       currentTab={tab}
       q={q}
-      status={status} 
+      status={status}
+      dossierCode={dossierCode}
       evidencesList={evidencesList}
       dossiersList={dossiersList}
       usersList={usersList}

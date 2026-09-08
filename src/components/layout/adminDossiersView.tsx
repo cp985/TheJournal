@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 interface AdminDossiersViewProps {
   q: string;
+   dossierCode?: string;
   status?: string;
   dossiersList: DbDossier[];
 }
@@ -19,12 +20,28 @@ interface AdminDossiersViewProps {
 export default function AdminDossiersView({
   q,
   status = "",
+   dossierCode = "",
   dossiersList,
 }: AdminDossiersViewProps) {
   const { t, lang } = useLanguage();
   const safeDossiersList = Array.isArray(dossiersList) ? dossiersList : [];
 
-  const filteredDossiers = safeDossiersList.filter((dossier) => {
+  // const filteredDossiers = safeDossiersList.filter((dossier) => {
+  //   const query = q.toLowerCase().trim();
+
+  //   const matchesQuery =
+  //     !query ||
+  //     dossier.title.toLowerCase().includes(query) ||
+  //     (dossier.title_en && dossier.title_en.toLowerCase().includes(query)) ||
+  //     dossier.id.toLowerCase().includes(query) ||
+  //     (dossier.code && dossier.code.toLowerCase().includes(query));
+
+  //   const matchesStatus = status ? dossier.status === status : true;
+
+  //   return matchesQuery && matchesStatus;
+  // });
+
+   const filteredDossiers = safeDossiersList.filter((dossier) => {
     const query = q.toLowerCase().trim();
 
     const matchesQuery =
@@ -35,10 +52,10 @@ export default function AdminDossiersView({
       (dossier.code && dossier.code.toLowerCase().includes(query));
 
     const matchesStatus = status ? dossier.status === status : true;
+    const matchesDossierCode = dossierCode ? dossier.code === dossierCode : true; // nuovo
 
-    return matchesQuery && matchesStatus;
+    return matchesQuery && matchesStatus && matchesDossierCode;
   });
-
   const sortedFilteredDossiersList = [...filteredDossiers].sort(
     (a, b) =>
       new Date(b.createdAt || (b as any).created_at).getTime() -
