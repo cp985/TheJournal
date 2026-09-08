@@ -320,8 +320,8 @@ const buildDossierGraph = useCallback(
         status: currentDossier.status, 
         code: currentDossier.code || currentDossier.id,
         date: currentDossier.createdAt,
-        coverUrl:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
-      },
+coverUrl:  currentDossier.coverUrl || "",
+ },
     });
 
     let previousMainNodeId = folderNodeId;
@@ -364,75 +364,81 @@ const buildDossierGraph = useCallback(
         "https://rtzwljhzxmafrnrdvfdc.supabase.co/storage/v1/object/public";
 
       // 3. Iterazione Evidenze
+   
+
       evidences.forEach((ev: any, evIndex: number) => {
-        const evidenceNodeId = `ev-${eventNodeId}-${ev.id || evIndex}`;
-        const isAbove = (index + evIndex) % 2 === 0;
-        const yOffset = isAbove ? -(220 + evIndex * 180) : 220 + evIndex * 180;
-        const xOffset = (evIndex - (evidences.length - 1) / 2) * 30;
+  const evidenceNodeId = `ev-${eventNodeId}-${ev.id || evIndex}`;
+  const isAbove = (index + evIndex) % 2 === 0;
+  const yOffset = isAbove ? -(220 + evIndex * 180) : 220 + evIndex * 180;
+  const xOffset = (evIndex - (evidences.length - 1) / 2) * 30;
 
-        const rawUrl = ev.fileUrl || ev.imageUrl || ev.url || "";
-        let finalUrl = "";
+  const rawUrl = ev.fileUrl || ev.imageUrl || ev.url || "";
+  let finalUrl = "";
 
-        if (rawUrl && (rawUrl.includes("/") || rawUrl.startsWith("http"))) {
-          if (rawUrl.startsWith("http")) {
-            finalUrl = rawUrl.replace(
-              "/public/evidences/",
-              "/public/pending-storage/"
-            );
-          } else {
-            const cleanPath = rawUrl.replace(/^\/+/, "");
-            const pathWithoutBucket = cleanPath
-              .replace(/^evidences\//, "")
-              .replace(/^pending-storage\//, "");
-            finalUrl = `${STORAGE_BASE_URL}/pending-storage/${pathWithoutBucket}`;
-          }
-        }
+  if (rawUrl && (rawUrl.includes("/") || rawUrl.startsWith("http"))) {
+    if (rawUrl.startsWith("http")) {
+      finalUrl = rawUrl.replace(
+        "/public/evidences/",
+        "/public/pending-storage/"
+      );
+    } else {
+      const cleanPath = rawUrl.replace(/^\/+/, "");
+      const pathWithoutBucket = cleanPath
+        .replace(/^evidences\//, "")
+        .replace(/^pending-storage\//, "");
+      finalUrl = `${STORAGE_BASE_URL}/pending-storage/${pathWithoutBucket}`;
+    }
+  }
 
-        const isPdf =
-          ev.type === "PDF" ||
-          ev.type === "pdf" ||
-          ev.mimeType === "application/pdf" ||
-          finalUrl.toLowerCase().endsWith(".pdf");
+  // 1. Legge il tipo dal DB in minuscolo
+  const dbType = (ev.type || "").toLowerCase();
+  const isPhotoFile = /\.(jpg|jpeg|png|webp|gif|svg)($|\?)/i.test(finalUrl);
 
-        const isPhoto =
-          ev.type === "PHOTO" ||
-          ev.type === "polaroid" ||
-          (!isPdf && /\.(jpg|jpeg|png|webp|gif|svg)($|\?)/i.test(finalUrl));
+  let targetType = "document";
 
-        let targetType = "document";
-        if (isPdf) {
-          targetType = "pdf";
-        } else if (isPhoto) {
-          targetType = "polaroid";
-        }
+  // 2. Priorità al tipo salvato a Database
+  if (dbType === "document" || dbType === "documento") {
+    targetType = "document";
+  } else if (dbType === "pdf") {
+    targetType = "pdf";
+  } else if (dbType === "photo" || dbType === "polaroid") {
+    targetType = "polaroid";
+  } else {
+    // Fallback se ev.type non è definito
+    if (finalUrl.toLowerCase().endsWith(".pdf")) {
+      targetType = "pdf";
+    } else if (isPhotoFile) {
+      targetType = "polaroid";
+    }
+  }
 
-        newNodes.push({
-          id: evidenceNodeId,
-          type: targetType,
-          position: { x: eventXPos + xOffset, y: BASE_Y + yOffset },
-          data: {
-            type: ev.type,
-            title: ev.title || ev.fileName,
-            title_en: ev.title_en,
-            fileName: ev.fileName,
-            notes: ev.notes || ev.content,
-            notes_en: ev.notes_en,
-            description: ev.description || ev.content,
-            description_en: ev.description_en,
-            fileUrl: finalUrl,
-            imageUrl: isPhoto ? finalUrl : undefined,
-          },
-        });
+  newNodes.push({
+    id: evidenceNodeId,
+    type: targetType,
+    position: { x: eventXPos + xOffset, y: BASE_Y + yOffset },
+    data: {
+      type: ev.type,
+      title: ev.title || ev.fileName,
+      title_en: ev.title_en,
+      fileName: ev.fileName,
+      notes: ev.notes || ev.content,
+      notes_en: ev.notes_en,
+      description: ev.description || ev.content,
+      description_en: ev.description_en,
+      fileUrl: finalUrl,
+      imageUrl: targetType === "polaroid" || isPhotoFile ? finalUrl : undefined,
+    },
+  });
 
-        newEdges.push({
-          id: `edge-ev-${eventNodeId}-${evidenceNodeId}`,
-          source: eventNodeId,
-          target: evidenceNodeId,
-          sourceHandle: isAbove ? "top" : "bottom",
-          targetHandle: isAbove ? "bottom" : undefined,
-          style: { stroke: "#b91c1c", strokeWidth: 2, strokeDasharray: "4 4" },
-        });
-      });
+  newEdges.push({
+    id: `edge-ev-${eventNodeId}-${evidenceNodeId}`,
+    source: eventNodeId,
+    target: evidenceNodeId,
+    sourceHandle: isAbove ? "top" : "bottom",
+    targetHandle: isAbove ? "bottom" : undefined,
+    style: { stroke: "#b91c1c", strokeWidth: 2, strokeDasharray: "4 4" },
+  });
+});
     });
 
     return { nodes: newNodes, edges: newEdges };
