@@ -82,6 +82,25 @@ export default function AddEvidenceDialog({
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedDossierId, setSelectedDossierId] = useState<string>("");
+const [fileSizeError, setFileSizeError] = useState<string | null>(null);
+const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0] || null;
+
+  if (file && file.size > MAX_FILE_SIZE) {
+    const sizeMb = (file.size / 1024 / 1024).toFixed(1);
+    const maxMb = (MAX_FILE_SIZE / 1024 / 1024).toFixed(0);
+    setFileSizeError(lang === "IT"  ? `File troppo grande (${sizeMb} MB). Massimo: ${maxMb} MB.` : `File too large (${sizeMb} MB). Maximum: ${maxMb} MB.`);
+    setSelectedFile(null);
+    e.target.value = ""; 
+    return;
+  }
+
+  setFileSizeError(null);
+  setSelectedFile(file);
+};
+
 
   // Gestione Action + Reset
 
@@ -135,6 +154,7 @@ export default function AddEvidenceDialog({
       });
       setSelectedFile(null);
       setSelectedDossierId("");
+      setFileSizeError(null);
     }
   };
 
@@ -283,37 +303,39 @@ export default function AddEvidenceDialog({
                 </div>
 
                 {/* File Dropzone */}
+      
+
                 <div className="space-y-2 flex flex-col flex-1">
-                  <label className="text-sm font-mono text-zinc-200 font-medium">
-                    {t.labels.attachedFile}
-                  </label>
-                  <div className="relative border-2 border-dashed border-zinc-800 hover:border-amber-500/40 bg-zinc-900/60 rounded-lg p-4 text-center transition-colors flex-1 flex flex-col items-center justify-center min-h-[140px]">
-                    <Input
-                      required
-                      accept="image/png, image/jpeg, image/webp, application/pdf, text/plain, .txt, .doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                      type="file"
-                      name="file"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0] || null;
-                        setSelectedFile(file);
-                      }}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <div className="flex flex-col items-center gap-1.5">
-                      <FiUpload className="w-6 h-6 text-amber-500/80" />
-                      <span className="text-xs text-zinc-200 font-mono font-medium">
-                        {selectedFile
-                          ? selectedFile.name
-                          : t.placeholders.dropzoneDefault}
-                      </span>
-                      <span className="text-[11px] text-zinc-400">
-                        {selectedFile
-                          ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`
-                          : t.placeholders.dropzoneHint}
-                      </span>
-                    </div>
-                  </div>
-                </div>
+  <label className="text-sm font-mono text-zinc-200 font-medium">
+    {t.labels.attachedFile}
+  </label>
+  <div className="relative border-2 border-dashed border-zinc-800 hover:border-amber-500/40 bg-zinc-900/60 rounded-lg p-4 text-center transition-colors flex-1 flex flex-col items-center justify-center min-h-[140px]">
+    <Input
+      required
+      accept="image/png, image/jpeg, image/webp, application/pdf, text/plain, .txt, .doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      type="file"
+      name="file"
+      onChange={handleFileChange}
+      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+    />
+    <div className="flex flex-col items-center gap-1.5">
+      <FiUpload className="w-6 h-6 text-amber-500/80" />
+      <span className="text-xs text-zinc-200 font-mono font-medium">
+        {selectedFile ? selectedFile.name : t.placeholders.dropzoneDefault}
+      </span>
+      <span className="text-[11px] text-zinc-400">
+        {selectedFile
+          ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`
+          : t.placeholders.dropzoneHint}
+      </span>
+        {fileSizeError && (
+    <p className="text-xs text-rose-400 mt-1">{fileSizeError}</p>
+  )}
+    </div>
+  </div>
+
+
+</div>
               </div>
 
               {/* Colonna Destra (Note IT ed EN) */}
@@ -358,14 +380,14 @@ export default function AddEvidenceDialog({
               type="button"
               variant="outline"
               onClick={() => handleOpenChange(false)}
-              disabled={isPending}
+              disabled={isPending }
               className="bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800 text-sm font-mono px-4 py-2"
             >
               {t.buttons.cancel}
             </Button>
             <Button
               type="submit"
-              disabled={isPending || safeDossiers[0].code === ""}
+              disabled={isPending || safeDossiers[0].code === "" || !!fileSizeError}
               className="bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold text-sm font-mono flex items-center gap-2 px-5 py-2 disabled:opacity-50"
             >
               {isPending ? (

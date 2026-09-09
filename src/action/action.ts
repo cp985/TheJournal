@@ -1052,16 +1052,18 @@ const evidenceSchema = z.object({
     .string()
     .max(40, { message: "file-name-too-long" })
     .min(10, { message: "file-name-too-short" }),
-  file: z
-    .custom<File>((val) => val instanceof File && val.size > 0, {
-      message: "file-missing",
-    })
-    .refine((file) => file.size <= MAX_FILE_SIZE, {
-      message: "file-too-large",
-    })
-    .refine((file) => ALLOWED_MIME_TYPES.includes(file.type), {
-      message: "invalid-file-format",
-    }),
+ file: z.any().superRefine((val, ctx) => {
+  if (!(val instanceof File) || val.size === 0) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "file-missing" });
+    return; 
+  }
+  if (val.size > MAX_FILE_SIZE) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "file-too-large" });
+  }
+  if (!ALLOWED_MIME_TYPES.includes(val.type)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "invalid-file-format" });
+  }
+}),
 });
 
 
@@ -1571,16 +1573,18 @@ type: z.enum(["PHOTO", "PDF", "DOCUMENT"], {
   notes: z.string().min(10, "notes-too-short").max(60, "notes-too-long"),
   notes_en: z.string().optional().nullable(),
   status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
-  file: z
-    .custom<File>((val) => val instanceof File && val.size > 0, {
-      message: "file-missing",
-    })
-    .refine((file) => file.size <= MAX_FILE_SIZE, {
-      message: "file-too-large",
-    })
-    .refine((file) => ALLOWED_MIME_TYPES.includes(file.type), {
-      message: "invalid-file-format",
-    }),
+ file: z.any().superRefine((val, ctx) => {
+  if (!(val instanceof File) || val.size === 0) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "file-missing" });
+    return; 
+  }
+  if (val.size > MAX_FILE_SIZE) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "file-too-large" });
+  }
+  if (!ALLOWED_MIME_TYPES.includes(val.type)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "invalid-file-format" });
+  }
+}),
 
 
 });
