@@ -248,8 +248,8 @@ const userLogInZodSchema = z
     password: z
       .string()
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        { message: "password-too-weak-8-Aa-@$!%*?&" },
+/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.\-_])[A-Za-z\d@$!%*?&.\-_]{8,}$/,      
+  { message: "password-too-weak-8-Aa-@$!%*?&" },
       ),
   })
 
