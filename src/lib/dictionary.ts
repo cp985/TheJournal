@@ -349,7 +349,10 @@ export const dictionary = {
         ["invalid-email"]: "Formato email non valido.",
         ["password-too-weak-8-Aa-@$!%*?&"]:
           "La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola, un numero e un carattere speciale @$!%*?&.",
-        ["passwords-do-not-match"]: "Le password non coincidono.",
+                  ["username-no-symbols"]:
+          "Lo username non può contenere simboli.",
+
+          ["passwords-do-not-match"]: "Le password non coincidono.",
         ["server-error"]: "Errore durante la registrazione. Riprova.",
         ["connection-error"]: "Impossibile connettersi al server.",
         ["no-user-found"]: "Nessun utente trovato.",
@@ -1316,6 +1319,9 @@ boardComponent: {
         ["username-too-long"]: "Username must be at most 20 characters long.",
         ["username-too-short"]: "Username must be at least 4 characters long.",
         ["invalid-email"]: "Please enter a valid email address.",
+                 ["username-no-symbols"]:
+            "Username must not contain special characters.",
+
         ["password-too-weak-8-Aa-@$!%*?&"]:
           "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character @$!%*?&.",
         ["passwords-do-not-match"]: "Passwords do not match.",
